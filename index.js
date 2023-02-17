@@ -15,10 +15,13 @@ const sdb = new sqlite.Database('data.db');
 
 //
 const databaseMongo = 'nodeMongo';
-const cMongoDB = new MongoClient('mongodb://localhost:27017');
-cMongoDB.connect();
-const db = cMongoDB.db(databaseMongo);
-
+const cMongoDB = new MongoClient(`mongodb://127.0.0.1:27017/${databaseMongo}`);
+try{
+    cMongoDB.connect();
+    const db = cMongoDB.db();
+}catch(e){
+    console.log(e);
+}
 
 //
 const port = 3000;
