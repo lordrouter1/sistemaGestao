@@ -16,6 +16,7 @@
     "express-session": "^1.17.3",
     "helmet": "^6.0.1",
     "https": "^1.0.0",
+    "mongodb": "^5.0.1",
     "morgan": "^1.10.0",
     "sqlite3": "^5.1.4"
   }

@@ -5,18 +5,31 @@ const logger = require('morgan');
 const https = require('https');
 const ejs = require('ejs');
 const sqlite = require('sqlite3');
+const { MongoClient } = require('mongodb');
 
+//
 const routers = require('./router/router');
 
-const db = new sqlite.Database('data.db');
+//
+const sdb = new sqlite.Database('data.db');
 
+//
+const databaseMongo = 'nodeMongo';
+const cMongoDB = new MongoClient('mongodb://localhost:27017');
+cMongoDB.connect();
+const db = cMongoDB.db(databaseMongo);
+
+
+//
 const port = 3000;
 const app = express();
 
+//
 app.set('view engine','ejs');
 app.set('views','./views');
 app.set('trust proxy',1);
 
+//
 app.use(routers);
 app.use(helmet());
 app.use(logger('dev'));
@@ -34,6 +47,7 @@ app.use(session({
     }
 }));
 
+//
 app.listen(port);
 console.log(`Sistema funcionando na porta ${port}`);
 
