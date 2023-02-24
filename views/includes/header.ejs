@@ -10,4 +10,11 @@
     <link rel="stylesheet" href="/public/css/fontawesome-all.min.css">
 
     <script src="/public/js/jquery.js"></script>
+    <script src="/public/js/socket.js"></script>
+    
+    <script>
+        var socket = io();
+
+        socket.emit('ping');
+    </script>
 </head>
