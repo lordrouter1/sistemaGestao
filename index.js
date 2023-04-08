@@ -5,20 +5,48 @@ const logger = require('morgan');
 const https = require('https');
 const http = require('http');
 const ejs = require('ejs');
-const sqlite = require('sqlite3');
-const { MongoClient } = require('mongodb');
+// --- BANCO DE DADOS --- //
+// const sqlite = require('sqlite3'); // SQLITE
+// const { MongoClient } = require('mongodb'); // MONGODB
+const mysql = require('mysql'); // MYSQL
+// --- FIM BANCO DE DADOS --- //
 const {Server} = require('socket.io');
 
-//
+// --- BANCO DE DADOS --- //
+
+// SQLITE
+// const sdb = new sqlite.Database('data.db');
+
+// MONGO DB
+/*
+const databaseMongo = 'nodeMongo';
+const cMongoDB = new MongoClient(`mongodb://127.0.0.1:27017/${databaseMongo}`);
+
+try{
+    cMongoDB.connect();
+    const db = cMongoDB.db();
+
+    
+}catch(e){
+    console.log(e);
+}
+*/
+
+// MYSQL
+const con = mysql.createConnection({
+    host: 'localhost',
+    user: 'nodeMaster',
+    password: 'nodeMast&r*',
+    database: 'nodeInit',
+});
+
+con.connect();
+
+// --- FIM BANCO DE DADOS --- //
+
+// --- FUNÇÕES LOCAIS --- //
 const routers = require('./router/router');
 const socketEvents = require('./socket/socket');
-
-//
-const sdb = new sqlite.Database('data.db');
-
-//
-const databaseMongo = 'nodeMongo';
-//const cMongoDB = new MongoClient(`mongodb://127.0.0.1:27017/${databaseMongo}`);
 
 //
 const port = 3000;
@@ -31,7 +59,7 @@ const server = (false)?https.createServer(app):http.createServer(app);
 const io = new Server(server);
 
 // Socket.IO Middleware
-io.on('connection',(socket)=>{socketEvents(io,socket)});
+io.on('connection',(socket)=>{socketEvents(io,socket,con)});
 
 //
 app.set('view engine','ejs');
@@ -55,18 +83,6 @@ app.use(session({
         expires: false
     }
 }));
-
-//
-/*
-try{
-    cMongoDB.connect();
-    const db = cMongoDB.db();
-
-    
-}catch(e){
-    console.log(e);
-}
-*/
 
 //
 server.listen(port);

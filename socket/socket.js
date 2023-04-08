@@ -1,3 +1,3 @@
-module.exports = (io,socket) => {
-    socket.on('ping',()=>{console.log('pong')});
+module.exports = (io,socket,con) => {
+    socket.on('ping',()=>{console.log('pong!')});
 }
