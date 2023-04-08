@@ -18,7 +18,7 @@ const sdb = new sqlite.Database('data.db');
 
 //
 const databaseMongo = 'nodeMongo';
-const cMongoDB = new MongoClient(`mongodb://127.0.0.1:27017/${databaseMongo}`);
+//const cMongoDB = new MongoClient(`mongodb://127.0.0.1:27017/${databaseMongo}`);
 
 //
 const port = 3000;
@@ -57,6 +57,7 @@ app.use(session({
 }));
 
 //
+/*
 try{
     cMongoDB.connect();
     const db = cMongoDB.db();
@@ -65,6 +66,7 @@ try{
 }catch(e){
     console.log(e);
 }
+*/
 
 //
 server.listen(port);
