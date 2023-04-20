@@ -45,7 +45,7 @@ con.connect();
 // --- FIM BANCO DE DADOS --- //
 
 // --- FUNÇÕES LOCAIS --- //
-const routers = require('./router/router');
+const routers = require('./router/router')(con);
 const socketEvents = require('./socket/socket');
 
 //

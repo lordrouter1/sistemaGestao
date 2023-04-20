@@ -6,6 +6,21 @@ body{
     overflow-y: scroll;
 }
 
+#menuPrincipal{
+    font-size: 0.8rem!important;
+}
+
+.accordion [data-parent="#accordion"] .navbar-nav{
+    background-color: var(--light);
+    border-radius: 0.25rem!important;
+}
+.accordion [data-parent="#accordion"] .navbar-nav .nav-link{
+    color: var(--dark) !important;
+    text-align: center !important;
+    border-bottom: 1px solid #dee2e6 !important;
+    margin-bottom: 0.25rem!important;
+}
+
 .navbar-item .disabled{
     border-color: rgba(255,255,255,0.5) !important;
     color: rgba(255,255,255,0.5);
