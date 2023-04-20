@@ -13,8 +13,21 @@ module.exports = function(con){
             title:'Clientes',
             clienteData: `[
                 ["PJ","Julio Cesar Benin Kronhardt","54999994316",gridjs.html('<a class="btn btn-secondary mr-2 text-light"><i class="fa-solid fa-pen"></i></a><a class="btn btn-danger text-light"><i class="fa-solid fa-trash-can"></i></a>')],
+                ["PJ","Julio Cesar Benin Kronhardt","54999994316",gridjs.html('<a class="btn btn-secondary mr-2 text-light"><i class="fa-solid fa-pen"></i></a><a class="btn btn-danger text-light"><i class="fa-solid fa-trash-can"></i></a>')],
+                ["PJ","Julio Cesar Benin Kronhardt","54999994316",gridjs.html('<a class="btn btn-secondary mr-2 text-light"><i class="fa-solid fa-pen"></i></a><a class="btn btn-danger text-light"><i class="fa-solid fa-trash-can"></i></a>')],
+                ["PJ","Julio Cesar Benin Kronhardt","54999994316",gridjs.html('<a class="btn btn-secondary mr-2 text-light"><i class="fa-solid fa-pen"></i></a><a class="btn btn-danger text-light"><i class="fa-solid fa-trash-can"></i></a>')],
+                ["PJ","Julio Cesar Benin Kronhardt","54999994316",gridjs.html('<a class="btn btn-secondary mr-2 text-light"><i class="fa-solid fa-pen"></i></a><a class="btn btn-danger text-light"><i class="fa-solid fa-trash-can"></i></a>')],
+                ["PJ","Julio Cesar Benin Kronhardt","54999994316",gridjs.html('<a class="btn btn-secondary mr-2 text-light"><i class="fa-solid fa-pen"></i></a><a class="btn btn-danger text-light"><i class="fa-solid fa-trash-can"></i></a>')],
+                ["PJ","Julio Cesar Benin Kronhardt","54999994316",gridjs.html('<a class="btn btn-secondary mr-2 text-light"><i class="fa-solid fa-pen"></i></a><a class="btn btn-danger text-light"><i class="fa-solid fa-trash-can"></i></a>')],
+                ["PJ","Julio Cesar Benin Kronhardt","54999994316",gridjs.html('<a class="btn btn-secondary mr-2 text-light"><i class="fa-solid fa-pen"></i></a><a class="btn btn-danger text-light"><i class="fa-solid fa-trash-can"></i></a>')],
+                ["PJ","Julio Cesar Benin Kronhardt","54999994316",gridjs.html('<a class="btn btn-secondary mr-2 text-light"><i class="fa-solid fa-pen"></i></a><a class="btn btn-danger text-light"><i class="fa-solid fa-trash-can"></i></a>')],
+                ["PJ","Julio Cesar Benin Kronhardt","54999994316",gridjs.html('<a class="btn btn-secondary mr-2 text-light"><i class="fa-solid fa-pen"></i></a><a class="btn btn-danger text-light"><i class="fa-solid fa-trash-can"></i></a>')],
             ]`
         });
+    });
+
+    routers.get('/clientes/novo',(req,res)=>{
+        res.render('clientes/novo',{title:'Novo Cliente'});
     });
 
     return routers;
