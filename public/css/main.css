@@ -2,6 +2,10 @@ body{
     font-family: sans-serif;
 }
 
+textarea{
+    resize: none;
+}
+
 .sectionMain{
     overflow-y: scroll;
 }
