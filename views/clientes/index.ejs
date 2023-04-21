@@ -1,0 +1,41 @@
+<%- include("../includes/header.ejs",{title:title}); %>
+
+<table id="principal"></table>
+
+<a class="btn btn-primary text-light" href="/clientes/novo">Adicionar</a>
+
+<script>
+    new gridjs.Grid({
+        columns: [
+            {
+                name: "Tipo",
+                with: '5%'
+            },
+            {
+                name: "Nome",
+                with: '60%'
+            },
+            {
+                name: "Contato",
+                with: '30%'
+            },
+            {
+                name: "",
+                with: '5%'
+            },
+        ],
+        data:<%-clienteData-%>,
+        search: true,
+        language:{
+            'search':{
+                'placeholder': 'Pesquisar',
+            },
+        },
+        pagination: {
+            limit: 10,
+            summary: false,
+        },
+    }).render(document.getElementById("principal"));
+</script>
+
+<%- include("../includes/footer.ejs"); %>
