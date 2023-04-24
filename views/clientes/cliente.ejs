@@ -1,5 +1,12 @@
-<%- include("../includes/header.ejs",{title:title}); %>
-<% cliente = JSON.parse(cliente) %>
+<%- include("../includes/header.ejs",{title:title});%>
+
+<%
+let PJ = (cliente['inp_pessoa']=='2')?'disabled':'';
+let PF = (cliente['inp_pessoa']=='2')?'':'disabled';
+let MEI = (cliente['inp_mei']=='1')?'disabled':'';
+%>
+
+<input type="hidden" id="inp_id" value="<%- cliente['_id'] -%>">
 
 <form id="form_cadastro">
     <div class="card">
@@ -17,17 +24,17 @@
                 </div>
                 <div class="col">
                     <label for="inp_mei">MEI</label>
-                    <select name="inp_mei" id="inp_mei" class="form-control">
-                        <option value="0" selected>Não</option>
-                        <option value="1">Sim</option>
+                    <select name="inp_mei" id="inp_mei" class="form-control" <%-PJ-%>>
+                        <option value="0" <%- (cliente['inp_mei'] != '1')?'selected':'' -%>>Não</option>
+                        <option value="1" <%- (cliente['inp_mei'] == '1')?'selected':'' -%>>Sim</option>
                     </select>
                 </div>
                 <div class="col">
                     <label for="inp_enquadramento">Enquadramento Fiscal</label>
-                    <select name="inp_enquadramento" id="inp_enquadramento" class="form-control">
-                        <option value="1" selected>Simples Nacional</option>
-                        <option value="2">Lucro Presumido</option>
-                        <option value="3">Lucro Real</option>
+                    <select name="inp_enquadramento" id="inp_enquadramento" class="form-control" <%-PJ-%><%-MEI-%>>
+                        <option value="1" <%- (cliente['inp_enquadramento'] != '2' && cliente['inp_enquadramento'] != '3')?'selected':'' -%>>Simples Nacional</option>
+                        <option value="2" <%- (cliente['inp_enquadramento'] == '2')?'selected':'' -%>>Lucro Presumido</option>
+                        <option value="3" <%- (cliente['inp_enquadramento'] == '3')?'selected':'' -%>>Lucro Real</option>
                     </select>
                 </div>
             </div>
@@ -42,25 +49,25 @@
             <div class="row mt-3">
                 <div class="col">
                     <label for="inp_razaoSocial">Nome/Razão Social <small class="text-danger">*</small></label>
-                    <input type="text" class="form-control" id="inp_razaoSocial" name="inp_razaoSocial" required>
+                    <input type="text" class="form-control" id="inp_razaoSocial" name="inp_razaoSocial" value="<%- cliente['inp_razaoSocial'] -%>" required>
                 </div>
                 <div class="col">
                     <label for="inp_nomeFantasia">Nome Fantasia <small class="text-danger">*</small></label>
-                    <input type="text" class="form-control" id="inp_nomeFantasia" name="inp_nomeFantasia" required>
+                    <input type="text" class="form-control" id="inp_nomeFantasia" name="inp_nomeFantasia" value="<%- cliente['inp_nomeFantasia'] -%>" <%-PJ-%> required>
                 </div>
             </div>
             <div class="row mt-3">
                 <div class="col">
                     <label for="inp_cpf">CPF <small class="text-danger">*</small></label>
-                    <input type="text" name="inp_cpf" id="inp_cpf" class="form-control" disabled required>
+                    <input type="text" name="inp_cpf" id="inp_cpf" class="form-control" value="<%- cliente['inp_cpf'] -%>" <%-PF-%> required>
                 </div>
                 <div class="col">
                     <label for="inp_cnpj">CNPJ <small class="text-danger">*</small></label>
-                    <input type="text" name="inp_cnpj" id="inp_cnpj" class="form-control" required>
+                    <input type="text" name="inp_cnpj" id="inp_cnpj" class="form-control" value="<%- cliente['inp_cnpj'] -%>" <%-PJ-%> required>
                 </div>
                 <div class="col">
                     <label for="inp_ie">Inscrição Estadual <small class="text-danger">*</small></label>
-                    <input type="text" name="inp_ie" id="inp_ie" class="form-control" required>
+                    <input type="text" name="inp_ie" id="inp_ie" class="form-control" value="<%- cliente['inp_ie'] -%>" <%-PJ-%><%-MEI-%> required>
                 </div>
             </div>
         </div>
@@ -74,58 +81,58 @@
             <div class="row">
                 <div class="col">
                     <label for="inp_cidade">Cidade <small class="text-danger">*</small></label>
-                    <input type="text" name="inp_cidade" id="inp_cidade" class="form-control" required>
+                    <input type="text" name="inp_cidade" id="inp_cidade" class="form-control" value="<%- cliente['inp_cidade'] -%>" required>
                 </div>
                 <div class="col">
                     <label for="inp_cep">CEP <small class="text-danger">*</small></label>
-                    <input type="text" name="inp_cep" id="inp_cep" class="form-control" required>
+                    <input type="text" name="inp_cep" id="inp_cep" class="form-control" value="<%- cliente['inp_cep'] -%>" required>
                 </div>
                 <div class="col-2">
                     <label for="inp_estado">Estado <small class="text-danger">*</small></label>
                     <select name="inp_estado" id="inp_estado" class="form-control" required>
-                        <option value="AC">Acre</option>
-                        <option value="AL">Alagoas</option>
-                        <option value="AP">Amapá</option>
-                        <option value="AM">Amazonas</option>
-                        <option value="BA">Bahia</option>
-                        <option value="CE">Ceará</option>
-                        <option value="DF">Distrito Federal</option>
-                        <option value="ES">Espírito Santo</option>
-                        <option value="GO">Goiás</option>
-                        <option value="MA">Maranhão</option>
-                        <option value="MT">Mato Grosso</option>
-                        <option value="MS">Mato Grosso do Sul</option>
-                        <option value="MG">Minas Gerais</option>
-                        <option value="PA">Pará</option>
-                        <option value="PB">Paraíba</option>
-                        <option value="PR">Paraná</option>
-                        <option value="PE">Pernambuco</option>
-                        <option value="PI">Piauí</option>
-                        <option value="RJ">Rio de Janeiro</option>
-                        <option value="RN">Rio Grande do Norte</option>
-                        <option value="RS">Rio Grande do Sul</option>
-                        <option value="RO">Rondônia</option>
-                        <option value="RR">Roraima</option>
-                        <option value="SC">Santa Catarina</option>
-                        <option value="SP">São Paulo</option>
-                        <option value="SE">Sergipe</option>
-                        <option value="TO">Tocantins</option>
-                        <option value="EX">Estrangeiro</option>
+                        <option value="AC" <%- (cliente['inp_estado']=='AC' || cliente['inp_estado']==undefined)?'selected':'' -%>>Acre</option>
+                        <option value="AL" <%- (cliente['inp_estado']=='AL')?'selected':'' -%>>Alagoas</option>
+                        <option value="AP" <%- (cliente['inp_estado']=='AP')?'selected':'' -%>>Amapá</option>
+                        <option value="AM" <%- (cliente['inp_estado']=='AM')?'selected':'' -%>>Amazonas</option>
+                        <option value="BA" <%- (cliente['inp_estado']=='BA')?'selected':'' -%>>Bahia</option>
+                        <option value="CE" <%- (cliente['inp_estado']=='CE')?'selected':'' -%>>Ceará</option>
+                        <option value="DF" <%- (cliente['inp_estado']=='DF')?'selected':'' -%>>Distrito Federal</option>
+                        <option value="ES" <%- (cliente['inp_estado']=='ES')?'selected':'' -%>>Espírito Santo</option>
+                        <option value="GO" <%- (cliente['inp_estado']=='GO')?'selected':'' -%>>Goiás</option>
+                        <option value="MA" <%- (cliente['inp_estado']=='MA')?'selected':'' -%>>Maranhão</option>
+                        <option value="MT" <%- (cliente['inp_estado']=='MT')?'selected':'' -%>>Mato Grosso</option>
+                        <option value="MS" <%- (cliente['inp_estado']=='MS')?'selected':'' -%>>Mato Grosso do Sul</option>
+                        <option value="MG" <%- (cliente['inp_estado']=='MG')?'selected':'' -%>>Minas Gerais</option>
+                        <option value="PA" <%- (cliente['inp_estado']=='PA')?'selected':'' -%>>Pará</option>
+                        <option value="PB" <%- (cliente['inp_estado']=='PB')?'selected':'' -%>>Paraíba</option>
+                        <option value="PR" <%- (cliente['inp_estado']=='PR')?'selected':'' -%>>Paraná</option>
+                        <option value="PE" <%- (cliente['inp_estado']=='PE')?'selected':'' -%>>Pernambuco</option>
+                        <option value="PI" <%- (cliente['inp_estado']=='PI')?'selected':'' -%>>Piauí</option>
+                        <option value="RJ" <%- (cliente['inp_estado']=='RJ')?'selected':'' -%>>Rio de Janeiro</option>
+                        <option value="RN" <%- (cliente['inp_estado']=='RN')?'selected':'' -%>>Rio Grande do Norte</option>
+                        <option value="RS" <%- (cliente['inp_estado']=='RS')?'selected':'' -%>>Rio Grande do Sul</option>
+                        <option value="RO" <%- (cliente['inp_estado']=='RO')?'selected':'' -%>>Rondônia</option>
+                        <option value="RR" <%- (cliente['inp_estado']=='RR')?'selected':'' -%>>Roraima</option>
+                        <option value="SC" <%- (cliente['inp_estado']=='SC')?'selected':'' -%>>Santa Catarina</option>
+                        <option value="SP" <%- (cliente['inp_estado']=='SP')?'selected':'' -%>>São Paulo</option>
+                        <option value="SE" <%- (cliente['inp_estado']=='SE')?'selected':'' -%>>Sergipe</option>
+                        <option value="TO" <%- (cliente['inp_estado']=='TO')?'selected':'' -%>>Tocantins</option>
+                        <option value="EX" <%- (cliente['inp_estado']=='EX')?'selected':'' -%>>Estrangeiro</option>
                     </select>
                 </div>
             </div>
             <div class="row mt-3">
                 <div class="col">
                     <label for="inp_bairro">Bairro <small class="text-danger">*</small></label>
-                    <input type="text" name="inp_bairro" id="inp_bairro" class="form-control" required>
+                    <input type="text" name="inp_bairro" id="inp_bairro" class="form-control" value="<%- cliente['inp_bairro'] -%>" required>
                 </div>
                 <div class="col">
                     <label for="inp_logradouro">Logradouro <small class="text-danger">*</small></label>
-                    <input type="text" name="inp_logradouro" id="inp_logradouro" class="form-control" required>
+                    <input type="text" name="inp_logradouro" id="inp_logradouro" class="form-control" value="<%- cliente['inp_logradouro'] -%>" required>
                 </div>
                 <div class="col">
                     <label for="inp_complemento">Complemento</label>
-                    <input type="text" name="inp_complemento" id="inp_complemento" class="form-control">
+                    <input type="text" name="inp_complemento" id="inp_complemento" class="form-control" value="<%- cliente['inp_complemento'] -%>">
                 </div>
             </div>
         </div>
@@ -139,25 +146,25 @@
             <div class="row">
                 <div class="col">
                     <label for="inp_telefone">Telefone <small class="text-danger">*</small></label>
-                    <input type="tel" name="inp_telefone" id="inp_telefone" class="form-control" required>
+                    <input type="tel" name="inp_telefone" id="inp_telefone" class="form-control" value="<%- cliente['inp_telefone'] -%>" required>
                 </div>
                 <div class="col">
                     <label for="inp_cel">Celular</label>
-                    <input type="tel" name="inp_cel" id="inp_cel" class="form-control">
+                    <input type="tel" name="inp_cel" id="inp_cel" class="form-control" value="<%- cliente['inp_cel'] -%>">
                 </div>
                 <div class="col">
                     <label for="inp_cel2">Celular 2</label>
-                    <input type="tel" name="inp_cel2" id="inp_cel2" class="form-control">
+                    <input type="tel" name="inp_cel2" id="inp_cel2" class="form-control" value="<%- cliente['inp_cel2'] -%>">
                 </div>
             </div>
             <div class="row mt-3">
                 <div class="col">
                     <label for="inp_email">Email</label>
-                    <input type="email" name="inp_email" id="inp_email" class="form-control">
+                    <input type="email" name="inp_email" id="inp_email" class="form-control" value="<%- cliente['inp_email'] -%>">
                 </div>
                 <div class="col">
                     <label for="inp_site">Site</label>
-                    <input type="text" name="inp_site" id="inp_site" class="form-control">
+                    <input type="text" name="inp_site" id="inp_site" class="form-control" value="<%- cliente['inp_site'] -%>">
                 </div>
             </div>
         </div>
@@ -178,13 +185,17 @@
             <strong>Observações</strong>
         </div>
         <div class="card-body">
-            <textarea name="inp_obs" id="inp_obs" class="form-control" rows="10"></textarea>
+            <textarea name="inp_obs" id="inp_obs" class="form-control" rows="10"><%- cliente['inp_obs'] -%></textarea>
         </div>
     </div>
 
     <div class="mt-3">
         <a href="/clientes" class="btn btn-secondary text-light">Voltar</a>
-        <button type="submit" class="btn btn-primary text-light">Salvar</button>
+        <%- 
+            (cliente['_id']!=undefined)?
+            '<button class="btn btn-danger text-light mr-1">Excluir</button><button type="submit" class="btn btn-primary text-light">Editar</button>':
+            '<button type="submit" class="btn btn-primary text-light">Salvar</button>' 
+        -%>
     </div>
 </form>
 
@@ -246,6 +257,23 @@
             $('#inp_enquadramento').removeAttr('disabled');
             $('#inp_ie').removeAttr('disabled');
         }
+    });
+
+    socket.on('addUser-resp',(resp)=>{
+        Swal.fire({
+            icon:(resp['success'])?'success':'error',
+            showConfirmButton: false,
+            title:(resp['success'])?'Cliente salvo':resp['err'],
+            timer: 1500
+        }).then(()=>{if(resp['success']){location.href='/clientes'}});
+    });
+    socket.on('editUser-resp',(resp)=>{
+        Swal.fire({
+            icon:(resp['success'])?'success':'error',
+            showConfirmButton: false,
+            title:(resp['success'])?'Cliente salvo':resp['err'],
+            timer: 1500
+        }).then(()=>{if(resp['success']){location.href='/clientes'}});
     });
 </script>
 
