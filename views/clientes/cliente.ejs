@@ -16,10 +16,10 @@ let MEI = (cliente['inp_mei']=='1')?'disabled':'';
         <div class="card-body">
             <div class="row">
                 <div class="col">
-                    <label for="Classificação">Tipo</label>
-                    <select name="inp_pessoa" id="inp_pessoa" class="form-control">
-                        <option value="1">Pessoa Jurídica</option>
-                        <option value="2">Pessoa Física</option>
+                    <label for="inp_pessoa">Tipo</label>
+                    <select name="inp_pessoa" class="form-control">
+                        <option value="1" <%- (cliente['inp_pessoa'] != '2')?'selected':'' -%>>Pessoa Jurídica</option>
+                        <option value="2" <%- (cliente['inp_pessoa'] == '2')?'selected':'' -%>>Pessoa Física</option>
                     </select>
                 </div>
                 <div class="col">
@@ -193,7 +193,7 @@ let MEI = (cliente['inp_mei']=='1')?'disabled':'';
         <a href="/clientes" class="btn btn-secondary text-light">Voltar</a>
         <%- 
             (cliente['_id']!=undefined)?
-            '<button class="btn btn-danger text-light mr-1">Excluir</button><button type="submit" class="btn btn-primary text-light">Editar</button>':
+            '<div id="btn_excluir" class="btn btn-danger text-light mr-1">Excluir</div><button type="submit" class="btn btn-primary text-light">Editar</button>':
             '<button type="submit" class="btn btn-primary text-light">Salvar</button>' 
         -%>
     </div>
@@ -210,19 +210,38 @@ let MEI = (cliente['inp_mei']=='1')?'disabled':'';
 
     $('#form_cadastro').submit((e)=>{
         e.preventDefault();
-        console.log(JSON.stringify($(e.target).serializeArray()));
-        /*
-        console.log('enviando');
-        socket.emit('addUsr',JSON.stringify($(e.target).serializeArray()));
-        socket.on('addUser-resp',(resp)=>{
+        if($('#inp_id').val() == ""){
+            socket.emit('addUsr',JSON.stringify($(e.target).serializeArray()));
+        }
+        else{
             Swal.fire({
-                icon:(resp['success'])?'success':'error',
-                showConfirmButton: false,
-                title:(resp['success'])?'Cliente salvo':resp['err'],
-                timer: 1500
-            }).then(()=>{if(resp['success']){location.href='/clientes'}});
+                title:'Deseja salvar a edição?',
+                showCancelButton: true,
+                confirmButtonText: 'Salvar',
+                cancelButtonText: 'Cancelar',
+            }).then((resp)=>{
+                if(resp.isConfirmed){
+                    socket.emit('editUsr',{form:JSON.stringify($(e.target).serializeArray()),id:$('#inp_id').val()});
+                };
+            });
+        }
+    });
+
+    $("#btn_excluir").click(()=>{
+        Swal.fire({
+            icon:'warning',
+            title: $('#inp_razaoSocial').val(),
+            text:'Deseja Excluir?',
+            showCancelButton: true,
+            showConfirmButton: false,
+            showDenyButton: true,
+            denyButtonText: 'Excluir',
+            cancelButtonText: 'Cancelar',
+        }).then((resp)=>{
+           if(resp.isDenied){
+                socket.emit('delUsr',$('#inp_id').val());
+            };
         });
-        */
     });
 
     $('#inp_pessoa').change(()=>{
@@ -271,7 +290,15 @@ let MEI = (cliente['inp_mei']=='1')?'disabled':'';
         Swal.fire({
             icon:(resp['success'])?'success':'error',
             showConfirmButton: false,
-            title:(resp['success'])?'Cliente salvo':resp['err'],
+            title:(resp['success'])?'Edição salva':resp['err'],
+            timer: 1500
+        }).then(()=>{if(resp['success']){location.href='/clientes'}});
+    });
+    socket.on('delUser-resp',(resp)=>{
+        Swal.fire({
+            icon:(resp['success'])?'success':'error',
+            showConfirmButton: false,
+            title:(resp['success'])?'Cliente excluido':resp['err'],
             timer: 1500
         }).then(()=>{if(resp['success']){location.href='/clientes'}});
     });
