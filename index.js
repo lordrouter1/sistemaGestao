@@ -7,7 +7,7 @@ const http = require('http');
 const ejs = require('ejs');
 // --- BANCO DE DADOS --- //
 // const sqlite = require('sqlite3'); // SQLITE
-// const { MongoClient } = require('mongodb'); // MONGODB
+const { MongoClient } = require('mongodb'); // MONGODB
 const mysql = require('mysql'); // MYSQL
 // --- FIM BANCO DE DADOS --- //
 const {Server} = require('socket.io');
@@ -18,20 +18,13 @@ const {Server} = require('socket.io');
 // const sdb = new sqlite.Database('data.db');
 
 // MONGO DB
+
+const cMongoDB = new MongoClient('mongodb+srv://juliobenin:vM7U9js1zuXazT5E@cluster0.l7zkjlq.mongodb.net/?retryWrites=true&w=majority');
+
+cMongoDB.connect();
+const con = cMongoDB.db('SystemaGestao');
+
 /*
-const databaseMongo = 'nodeMongo';
-const cMongoDB = new MongoClient(`mongodb://127.0.0.1:27017/${databaseMongo}`);
-
-try{
-    cMongoDB.connect();
-    const db = cMongoDB.db();
-
-    
-}catch(e){
-    console.log(e);
-}
-*/
-
 // MYSQL
 const con = mysql.createConnection({
     host: 'localhost',
@@ -41,6 +34,7 @@ const con = mysql.createConnection({
 });
 
 con.connect();
+*/
 
 // --- FIM BANCO DE DADOS --- //
 

@@ -8,20 +8,24 @@
     new gridjs.Grid({
         columns: [
             {
+                id:'inp_pessoa',
                 name: "Tipo",
                 with: '5%'
             },
             {
+                id:'inp_razaoSocial',
                 name: "Nome",
                 with: '60%'
             },
             {
+                id:'inp_telefone',
                 name: "Contato",
                 with: '30%'
             },
             {
-                name: "",
-                with: '5%'
+                id:'_id',
+                name:'',
+                formatter:(cell) => gridjs.html(`<a href="/clientes/editar/${cell}" class="btn btn-primary"><i class="fa-solid fa-pen"></i></a>`),
             },
         ],
         data:<%-clienteData-%>,

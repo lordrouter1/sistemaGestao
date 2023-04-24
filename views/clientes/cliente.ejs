@@ -1,4 +1,6 @@
 <%- include("../includes/header.ejs",{title:title}); %>
+<% cliente = JSON.parse(cliente) %>
+
 <form id="form_cadastro">
     <div class="card">
         <div class="card-header">
@@ -9,8 +11,8 @@
                 <div class="col">
                     <label for="inp_pessoa">Tipo</label>
                     <select name="inp_pessoa" id="inp_pessoa" class="form-control">
-                        <option value="1" selected>Pessoa Jurídica</option>
-                        <option value="2">Pessoa Física</option>
+                        <option value="1" <%- (cliente['inp_pessoa'] != '2')?'selected':'' -%>>Pessoa Jurídica</option>
+                        <option value="2" <%- (cliente['inp_pessoa'] == '2')?'selected':'' -%>>Pessoa Física</option>
                     </select>
                 </div>
                 <div class="col">
@@ -39,26 +41,26 @@
         <div class="card-body">
             <div class="row mt-3">
                 <div class="col">
-                    <label for="inp_razaoSocial">Nome/Razão Social:</label>
-                    <input type="text" class="form-control" id="inp_razaoSocial" name="inp_razaoSocial">
+                    <label for="inp_razaoSocial">Nome/Razão Social <small class="text-danger">*</small></label>
+                    <input type="text" class="form-control" id="inp_razaoSocial" name="inp_razaoSocial" required>
                 </div>
                 <div class="col">
-                    <label for="inp_nomeFantasia">Nome Fantasia:</label>
-                    <input type="text" class="form-control" id="inp_nomeFantasia" name="inp_nomeFantasia">
+                    <label for="inp_nomeFantasia">Nome Fantasia <small class="text-danger">*</small></label>
+                    <input type="text" class="form-control" id="inp_nomeFantasia" name="inp_nomeFantasia" required>
                 </div>
             </div>
             <div class="row mt-3">
                 <div class="col">
-                    <label for="inp_cpf">CPF</label>
-                    <input type="text" name="inp_cpf" id="inp_cpf" class="form-control" disabled>
+                    <label for="inp_cpf">CPF <small class="text-danger">*</small></label>
+                    <input type="text" name="inp_cpf" id="inp_cpf" class="form-control" disabled required>
                 </div>
                 <div class="col">
-                    <label for="inp_cnpj">CNPJ</label>
-                    <input type="text" name="inp_cnpj" id="inp_cnpj" class="form-control">
+                    <label for="inp_cnpj">CNPJ <small class="text-danger">*</small></label>
+                    <input type="text" name="inp_cnpj" id="inp_cnpj" class="form-control" required>
                 </div>
                 <div class="col">
-                    <label for="inp_ie">Inscrição Estadual</label>
-                    <input type="text" name="inp_ie" id="inp_ie" class="form-control">
+                    <label for="inp_ie">Inscrição Estadual <small class="text-danger">*</small></label>
+                    <input type="text" name="inp_ie" id="inp_ie" class="form-control" required>
                 </div>
             </div>
         </div>
@@ -71,16 +73,16 @@
         <div class="card-body">
             <div class="row">
                 <div class="col">
-                    <label for="inp_cidade">Cidade</label>
-                    <input type="text" name="inp_cidade" id="inp_cidade" class="form-control">
+                    <label for="inp_cidade">Cidade <small class="text-danger">*</small></label>
+                    <input type="text" name="inp_cidade" id="inp_cidade" class="form-control" required>
                 </div>
                 <div class="col">
-                    <label for="inp_cep">CEP</label>
-                    <input type="text" name="inp_cep" id="inp_cep" class="form-control">
+                    <label for="inp_cep">CEP <small class="text-danger">*</small></label>
+                    <input type="text" name="inp_cep" id="inp_cep" class="form-control" required>
                 </div>
                 <div class="col-2">
-                    <label for="inp_estado">Estado</label>
-                    <select name="inp_estado" id="inp_estado" class="form-control">
+                    <label for="inp_estado">Estado <small class="text-danger">*</small></label>
+                    <select name="inp_estado" id="inp_estado" class="form-control" required>
                         <option value="AC">Acre</option>
                         <option value="AL">Alagoas</option>
                         <option value="AP">Amapá</option>
@@ -114,12 +116,12 @@
             </div>
             <div class="row mt-3">
                 <div class="col">
-                    <label for="inp_bairro">Bairro</label>
-                    <input type="text" name="inp_bairro" id="inp_bairro" class="form-control">
+                    <label for="inp_bairro">Bairro <small class="text-danger">*</small></label>
+                    <input type="text" name="inp_bairro" id="inp_bairro" class="form-control" required>
                 </div>
                 <div class="col">
-                    <label for="inp_logradouro">Logradouro</label>
-                    <input type="text" name="inp_logradouro" id="inp_logradouro" class="form-control">
+                    <label for="inp_logradouro">Logradouro <small class="text-danger">*</small></label>
+                    <input type="text" name="inp_logradouro" id="inp_logradouro" class="form-control" required>
                 </div>
                 <div class="col">
                     <label for="inp_complemento">Complemento</label>
@@ -136,8 +138,8 @@
         <div class="card-body">
             <div class="row">
                 <div class="col">
-                    <label for="inp_telefone">Telefone</label>
-                    <input type="tel" name="inp_telefone" id="inp_telefone" class="form-control">
+                    <label for="inp_telefone">Telefone <small class="text-danger">*</small></label>
+                    <input type="tel" name="inp_telefone" id="inp_telefone" class="form-control" required>
                 </div>
                 <div class="col">
                     <label for="inp_cel">Celular</label>
@@ -187,9 +189,26 @@
 </form>
 
 <script>
+    $('#inp_cpf').mask('999.999.999-99');
+    $('#inp_cnpj').mask('99.999.999/9999-99');
+    $("#inp_cep").mask('99.999-999');
+    $("#inp_telefone").mask('(99) 99999-9999');
+    $("#inp_cel").mask('(99) 99999-9999');
+    $("#inp_cel2").mask('(99) 99999-9999');
+    $("#inp_razaoSocial").focus();
+
     $('#form_cadastro').submit((e)=>{
         e.preventDefault();
-        console.log(JSON.stringify($(e.target).serializeArray()));
+        console.log('enviando');
+        socket.emit('addUsr',JSON.stringify($(e.target).serializeArray()));
+        socket.on('addUser-resp',(resp)=>{
+            Swal.fire({
+                icon:(resp['success'])?'success':'error',
+                showConfirmButton: false,
+                title:(resp['success'])?'Cliente salvo':resp['err'],
+                timer: 1500
+            }).then(()=>{if(resp['success']){location.href='/clientes'}});
+        });
     });
 
     $('#inp_pessoa').change(()=>{
