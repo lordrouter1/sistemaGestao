@@ -26,4 +26,10 @@ module.exports = (io,socket,con) => {
             socket.emit('addUser-resp',{success:false,err:'Erro interno ao salvar!'});
         }
     });
+
+    socket.on('editUsr',(_data)=>{
+        let data = convertToObj(JSON.parse(_data['form']));
+        console.log(data,_data['id']);
+        socket.emit('editUser-resp',{success:true});
+    });
 }

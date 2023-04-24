@@ -12,12 +12,12 @@ module.exports = function(con){
     routers.get('/clientes',async (req,res)=>{
         res.render('clientes/index',{
             title:'Clientes',
-            clienteData: JSON.stringify(await con.collection('usuarios').find({},{projection:{_id:1,inp_pessoa:1,inp_razaoSocial:1,inp_telefone:1}}).toArray()).replace('"1"','"PJ"').replace('"2"','"PF"')
+            clienteData: JSON.stringify(await con.collection('usuarios').find({},{projection:{_id:1,inp_pessoa:1,inp_razaoSocial:1,inp_telefone:1}}).toArray()).replaceAll('"1"','"PJ"').replaceAll('"2"','"PF"')
         });
     });
 
     routers.get('/clientes/novo',(req,res)=>{
-        res.render('clientes/cliente',{title:'Novo Cliente'});
+        res.render('clientes/cliente',{title:'Novo Cliente',cliente:{}});
     });
 
     routers.get('/clientes/editar/:id',async (req,res)=>{
