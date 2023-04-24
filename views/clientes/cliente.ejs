@@ -199,6 +199,8 @@
 
     $('#form_cadastro').submit((e)=>{
         e.preventDefault();
+        console.log(JSON.stringify($(e.target).serializeArray()));
+        /*
         console.log('enviando');
         socket.emit('addUsr',JSON.stringify($(e.target).serializeArray()));
         socket.on('addUser-resp',(resp)=>{
@@ -209,6 +211,7 @@
                 timer: 1500
             }).then(()=>{if(resp['success']){location.href='/clientes'}});
         });
+        */
     });
 
     $('#inp_pessoa').change(()=>{
