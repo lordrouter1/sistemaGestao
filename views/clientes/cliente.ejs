@@ -17,7 +17,7 @@ let MEI = (cliente['inp_mei']=='1')?'disabled':'';
             <div class="row">
                 <div class="col">
                     <label for="inp_pessoa">Tipo</label>
-                    <select name="inp_pessoa" class="form-control">
+                    <select id="inp_pessoa" name="inp_pessoa" class="form-control">
                         <option value="1" <%- (cliente['inp_pessoa'] != '2')?'selected':'' -%>>Pessoa Jurídica</option>
                         <option value="2" <%- (cliente['inp_pessoa'] == '2')?'selected':'' -%>>Pessoa Física</option>
                     </select>

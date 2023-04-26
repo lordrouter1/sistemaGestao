@@ -9,6 +9,7 @@ module.exports = function(con){
         res.render('index',{title:'Dashboard'});
     });
 
+    // --- CLIENTES ---
     routers.get('/clientes',async (req,res)=>{
         res.render('clientes/index',{
             title:'Clientes',
@@ -27,6 +28,18 @@ module.exports = function(con){
                 cliente: r,
             });
         });
+    });
+
+    // --- ESTOQUE ---
+    routers.get('/produtos',async (req,res)=>{
+        res.render('estoque/index',{
+            title:'Produtos',
+            produtoData: JSON.stringify(await con.collection('produtos').find({},{projection:{_id:1,inp_descricao:1}}).toArray())
+        });
+    });
+
+    routers.get('/produtos/novo',(req,res)=>{
+        res.render('estoque/produto',{title:'Novo Produto',produto:{}});
     });
 
     return routers;

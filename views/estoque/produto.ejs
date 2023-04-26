@@ -1,0 +1,144 @@
+<%- include("../includes/header.ejs",{title:title});%>
+
+<%
+%>
+
+<input type="hidden" id="inp_id" value="">
+
+<form id="form_cadastro">
+   
+    <div class="card">
+        <div class="card-header">
+            <strong>Dados Gerais</strong>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col">
+                    <label for="inp_descricao">Descricao</label>
+                    <input type="text" name="inp_descricao" id="inp_descricao" class="form-control">
+                </div>
+                <div class="col-4">
+                    <label for="inp_ativo">Ativo</label>
+                    <select name="inp_ativo" id="inp_ativo" class="form-control">
+                        <option value="1">Sim</option>
+                        <option value="0">Não</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col">
+                    <label for="inp_altura">Altura(cm)</label>
+                    <input type="number" name="inp_altura" id="inp_altura" class="form-control">
+                </div>
+                <div class="col">
+                    <label for="inp_largura">Largura(cm)</label>
+                    <input type="number" name="inp_largura" id="largura" class="form-control">
+                </div>
+                <div class="col">
+                    <label for="inp_profundidade">Profundidade(cm)</label>
+                    <input type="number" name="inp_profundidade" id="inp_profundidade" class="form-control">
+                </div>
+                <div class="col">
+                    <label for="inp_peso">Peso(g)</label>
+                    <input type="number" name="inp_peso" id="inp_peso" class="form-control">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card mt-3">
+        <div class="card-header">
+            <strong>Imagens</strong>
+        </div>
+        <div class="card-body">
+            
+        </div>
+    </div>
+    
+    <div class="card mt-3">
+        <div class="card-header">
+            <strong>Estoque</strong>
+        </div>
+        <div class="card-body">
+
+        </div>
+    </div>
+    
+    <div class="card mt-3">
+        <div class="card-header">
+            <strong>Fiscal</strong>
+        </div>
+        <div class="card-body">
+
+        </div>
+    </div>
+
+    <div class="card mt-3">
+        <div class="card-header">
+            <strong>Observações</strong>
+        </div>
+        <div class="card-body">
+            <textarea name="inp_obs" id="inp_obs" class="form-control" rows="10"></textarea>
+        </div>
+    </div>
+
+    <div class="mt-3">
+        <a href="/produtos" class="btn btn-secondary text-light">Voltar</a>
+        <%- 
+            (produto['_id']!=undefined)?
+            '<div id="btn_excluir" class="btn btn-danger text-light mr-1">Excluir</div><button type="submit" class="btn btn-primary text-light">Editar</button>':
+            '<button type="submit" class="btn btn-primary text-light">Salvar</button>' 
+        -%>
+    </div>
+
+</form>
+
+<script>
+
+    $('#form_cadastro').submit((e)=>{
+        e.preventDefault();
+        if($('#inp_id').val() == ""){
+            socket.emit('addUsr',JSON.stringify($(e.target).serializeArray()));
+        }
+        else{
+            Swal.fire({
+                title:'Deseja salvar a edição?',
+                showCancelButton: true,
+                confirmButtonText: 'Salvar',
+                cancelButtonText: 'Cancelar',
+            }).then((resp)=>{
+                if(resp.isConfirmed){
+                    socket.emit('editUsr',{form:JSON.stringify($(e.target).serializeArray()),id:$('#inp_id').val()});
+                };
+            });
+        }
+    });
+
+    $("#btn_excluir").click(()=>{
+        Swal.fire({
+            icon:'warning',
+            title: $('#inp_razaoSocial').val(),
+            text:'Deseja Excluir?',
+            showCancelButton: true,
+            showConfirmButton: false,
+            showDenyButton: true,
+            denyButtonText: 'Excluir',
+            cancelButtonText: 'Cancelar',
+        }).then((resp)=>{
+           if(resp.isDenied){
+                socket.emit('delUsr',$('#inp_id').val());
+            };
+        });
+    });
+
+    socket.on('addUser-resp',(resp)=>{
+        Swal.fire({
+            icon:(resp['success'])?'success':'error',
+            showConfirmButton: false,
+            title:(resp['success'])?'Cliente salvo':resp['err'],
+            timer: 1500
+        }).then(()=>{if(resp['success']){location.href='/clientes'}});
+    });
+</script>
+
+<%- include("../includes/footer.ejs"); %>

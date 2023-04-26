@@ -1,0 +1,35 @@
+<%- include("../includes/header.ejs",{title:title}); %>
+
+<table id="principal"></table>
+
+<a class="btn btn-primary text-light" href="/produtos/novo">Adicionar</a>
+
+<script>
+    new gridjs.Grid({
+        columns: [
+            {
+                id:'inp_descricao',
+                name: "Descricao",
+                with: '5%'
+            },
+            {
+                id:'_id',
+                name:'',
+                formatter:(cell) => gridjs.html(`<a href="/clientes/editar/${cell}" class="btn btn-primary"><i class="fa-solid fa-pen"></i></a>`),
+            },
+        ],
+        data:<%-produtoData-%>,
+        search: true,
+        language:{
+            'search':{
+                'placeholder': 'Pesquisar',
+            },
+        },
+        pagination: {
+            limit: 10,
+            summary: false,
+        },
+    }).render(document.getElementById("principal"));
+</script>
+
+<%- include("../includes/footer.ejs"); %>
