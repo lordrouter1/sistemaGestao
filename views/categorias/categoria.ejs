@@ -1,0 +1,167 @@
+<%- include("../includes/header.ejs",{title:title});%>
+
+<%
+%>
+
+<input type="hidden" id="inp_id" value="<%- categoria['_id'] -%>">
+
+<form id="form_cadastro">
+   
+    <div class="card">
+        <div class="card-header">
+            <strong>Dados Gerais</strong>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col">
+                    <label for="inp_descricao">Nome</label>
+                    <input type="text" name="inp_nome" id="inp_nome" class="form-control" value="<%- categoria['nome'] -%>">
+                </div>
+                <div class="col-4">
+                    <label for="inp_ativo">Ativo</label>
+                    <select name="inp_ativo" id="inp_ativo" class="form-control">
+                        <option value="1" <%- (categoria['ativo'] != '0')?'selected':'' -%>>Sim</option>
+                        <option value="0" <%- (categoria['ativo'] == '0')?'selected':'' -%>>Não</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col">
+                    <label for="inp_descricao">Descrição</label>
+                    <input type="text" name="inp_descricao" id="inp_descricao" class="form-control" value="<%- categoria['descricao'] -%>">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card mt-3">
+        <div class="card-header">
+            <strong>Subcategoria</strong>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col">
+                    <div class="input-group">
+                        <input type="text" id="inp_subNome" class="form-control" placeholder="Nome">
+                        <div class="input-group-append">
+                            <button type="button" class="btn" id="btn_addSub">Adicionar</button>
+                        </div>
+                    </div> 
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>Ativo</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbl_sub">
+                            <% if(categoria['subcategoria'])for(let i = 0; i < categoria['subcategoria'].length;i++){ %>
+                                <tr>
+                                    <td><input type="text" class="form-control" value="<%- categoria['subcategoria'][i]['nome'] -%>"></td>
+                                    <td>
+                                        <select class="form-control">
+                                            <option value="1" <%- (categoria['subcategoria'][i]['ativo'] != 0)?'selected':''; -%>>Sim</option>
+                                            <option value="0" <%- (categoria['subcategoria'][i]['ativo'] == 0)?'selected':''; -%>>Não</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                            <% } %>
+                        </tbody>
+                    </table>
+                </div>
+            </div>           
+        </div>
+    </div>
+
+    <div class="mt-3">
+        <a href="/categorias" class="btn btn-secondary text-light">Voltar</a>
+        <%- 
+            (categoria['_id']!=undefined)?
+            '<div id="btn_excluir" class="btn btn-danger text-light mr-1">Excluir</div><button type="submit" class="btn btn-primary text-light">Editar</button>':
+            '<button type="submit" class="btn btn-primary text-light">Salvar</button>' 
+        -%>
+    </div>
+
+</form>
+
+<script>
+    function toJson(){
+        let subs = $("#tbl_sub tr");
+        let resp = {
+            nome:$('#inp_nome').val(),
+            descricao:$('#inp_descricao').val(),
+            ativo:$('#inp_ativo').val(),
+            subcategoria:[]
+        };
+        for(let i = 0;i < subs.length;i++){
+            resp.subcategoria.push({
+                nome: $(subs[i]).find('input').val(),
+                ativo: $(subs[i]).find('select').val()
+            });
+        }
+        
+        return JSON.stringify(resp);
+    }
+
+    $('#form_cadastro').submit((e)=>{
+        e.preventDefault();
+        if($('#inp_id').val() == ""){
+            socket.emit('addCategoria',toJson());
+        }
+        else{
+            Swal.fire({
+                title:'Deseja salvar a edição?',
+                showCancelButton: true,
+                confirmButtonText: 'Salvar',
+                cancelButtonText: 'Cancelar',
+            }).then((resp)=>{
+                if(resp.isConfirmed){
+                    socket.emit('editCategoria',{form:toJson(),id:$('#inp_id').val()});
+                };
+            });
+        }
+    });
+
+    $("#btn_excluir").click(()=>{
+        Swal.fire({
+            icon:'warning',
+            title: $('#inp_razaoSocial').val(),
+            text:'Deseja Excluir?',
+            showCancelButton: true,
+            showConfirmButton: false,
+            showDenyButton: true,
+            denyButtonText: 'Excluir',
+            cancelButtonText: 'Cancelar',
+        }).then((resp)=>{
+           if(resp.isDenied){
+                socket.emit('delCategoria',$('#inp_id').val());
+            };
+        });
+    });
+
+    $('#btn_addSub').click(function(){
+        $("#tbl_sub").append(`
+        <tr>
+            <td><input type="text" value="`+$("#inp_subNome").val()+`" class="form-control"></td>
+            <td><select class="form-control"><option value="1">Sim</option><option value="0">Nao</option></select></td>
+        </tr>
+        `);
+        $("#inp_subNome").val('');
+        $("#inp_subNome").focus();
+    });
+
+    socket.on('categoria-resp',(resp)=>{
+        Swal.fire({
+            icon:(resp['success'])?'success':'error',
+            showConfirmButton: false,
+            title:(resp['success'])?'Transação sucedida':resp['err'],
+            timer: 1500
+        }).then(()=>{if(resp['success']){location.href='/categorias'}});
+    });
+</script>
+
+<%- include("../includes/footer.ejs"); %>

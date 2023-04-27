@@ -2,30 +2,20 @@
 
 <table id="principal"></table>
 
-<a class="btn btn-primary text-light" href="/clientes/novo">Adicionar</a>
+<a class="btn btn-primary text-light" href="/categorias/novo">Adicionar</a>
 
 <script>
     new gridjs.Grid({
         columns: [
             {
-                data:(row) => row.classificacao.pessoa,
-                name: "Tipo",
-                with: '5%'
-            },
-            {
-                id:'razaoSocial',
+                id:'nome',
                 name: "Nome",
-                with: '60%'
-            },
-            {
-                data:(row) => row.contato.telefone,
-                name: "Contato",
-                with: '30%'
+                with: '5%'
             },
             {
                 id:'_id',
                 name:'',
-                formatter:(cell) => gridjs.html(`<a href="/clientes/editar/${cell}" class="btn btn-primary"><i class="fa-solid fa-pen"></i></a>`),
+                formatter:(cell) => gridjs.html(`<a href="/categorias/editar/${cell}" class="btn btn-primary"><i class="fa-solid fa-pen"></i></a>`),
             },
         ],
         data:<%-data-%>,
