@@ -1,3 +1,9 @@
+:root{
+    --primary: #387d94;
+}
+.bg-primary{background-color: var(--primary) !important;}
+.btn-primary {color: #fff;background-color: var(--primary)!important;border-color: var(--primary)!important;}
+
 body{
     font-family: sans-serif;
 }

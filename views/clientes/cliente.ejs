@@ -22,7 +22,7 @@ if(cliente != undefined){
 
 <form id="form_cadastro">
     <div class="card">
-        <div class="card-header">
+        <div class="card-header bg-primary text-light">
             <strong>Classificação</strong>
         </div>
         <div class="card-body">
@@ -49,12 +49,19 @@ if(cliente != undefined){
                         <option value="3" <%- (cliente['classificacao']['enquadramento'] == '3')?'selected':'' -%>>Lucro Real</option>
                     </select>
                 </div>
+                <div class="col-2">
+                    <label for="inp_fornecedor">Fornecedor</label>
+                    <select name="inp_fornecedor" id="inp_fornecedor" class="form-control">
+                        <option value="0" <%- (cliente['classificacao']['fornecedor'] != '1')?'selected':'' -%>>Não</option>
+                        <option value="1" <%- (cliente['classificacao']['fornecedor'] == '1')?'selected':'' -%>>Sim</option>
+                    </select>
+                </div>
             </div>
         </div>
     </div>
 
     <div class="card mt-3">
-        <div class="card-header">
+        <div class="card-header bg-primary text-light">
             <strong>Dados Gerais</strong>
         </div>
         <div class="card-body">
@@ -86,97 +93,97 @@ if(cliente != undefined){
     </div>
 
     <div class="card mt-3">
-        <div class="card-header">
+        <div class="card-header bg-primary text-light">
             <strong>Endereço</strong>
         </div>
         <div class="card-body">
             <div class="row">
                 <div class="col">
-                    <label for="inp_cidade">Cidade <small class="text-danger">*</small></label>
-                    <input type="text" name="inp_cidade" id="inp_cidade" class="form-control" value="<%- cliente['endereco']['cidade'] -%>" required>
-                </div>
-                <div class="col">
-                    <label for="inp_cep">CEP <small class="text-danger">*</small></label>
-                    <input type="text" name="inp_cep" id="inp_cep" class="form-control" value="<%- cliente['endereco']['cep'] -%>" required>
-                </div>
-                <div class="col-2">
-                    <label for="inp_estado">Estado <small class="text-danger">*</small></label>
-                    <select name="inp_estado" id="inp_estado" class="form-control" required>
-                        <option value="AC" <%- (cliente['endereco']['estado']=='AC' || cliente['endereco']['estado']==undefined)?'selected':'' -%>>Acre</option>
-                        <option value="AL" <%- (cliente['endereco']['estado']=='AL')?'selected':'' -%>>Alagoas</option>
-                        <option value="AP" <%- (cliente['endereco']['estado']=='AP')?'selected':'' -%>>Amapá</option>
-                        <option value="AM" <%- (cliente['endereco']['estado']=='AM')?'selected':'' -%>>Amazonas</option>
-                        <option value="BA" <%- (cliente['endereco']['estado']=='BA')?'selected':'' -%>>Bahia</option>
-                        <option value="CE" <%- (cliente['endereco']['estado']=='CE')?'selected':'' -%>>Ceará</option>
-                        <option value="DF" <%- (cliente['endereco']['estado']=='DF')?'selected':'' -%>>Distrito Federal</option>
-                        <option value="ES" <%- (cliente['endereco']['estado']=='ES')?'selected':'' -%>>Espírito Santo</option>
-                        <option value="GO" <%- (cliente['endereco']['estado']=='GO')?'selected':'' -%>>Goiás</option>
-                        <option value="MA" <%- (cliente['endereco']['estado']=='MA')?'selected':'' -%>>Maranhão</option>
-                        <option value="MT" <%- (cliente['endereco']['estado']=='MT')?'selected':'' -%>>Mato Grosso</option>
-                        <option value="MS" <%- (cliente['endereco']['estado']=='MS')?'selected':'' -%>>Mato Grosso do Sul</option>
-                        <option value="MG" <%- (cliente['endereco']['estado']=='MG')?'selected':'' -%>>Minas Gerais</option>
-                        <option value="PA" <%- (cliente['endereco']['estado']=='PA')?'selected':'' -%>>Pará</option>
-                        <option value="PB" <%- (cliente['endereco']['estado']=='PB')?'selected':'' -%>>Paraíba</option>
-                        <option value="PR" <%- (cliente['endereco']['estado']=='PR')?'selected':'' -%>>Paraná</option>
-                        <option value="PE" <%- (cliente['endereco']['estado']=='PE')?'selected':'' -%>>Pernambuco</option>
-                        <option value="PI" <%- (cliente['endereco']['estado']=='PI')?'selected':'' -%>>Piauí</option>
-                        <option value="RJ" <%- (cliente['endereco']['estado']=='RJ')?'selected':'' -%>>Rio de Janeiro</option>
-                        <option value="RN" <%- (cliente['endereco']['estado']=='RN')?'selected':'' -%>>Rio Grande do Norte</option>
-                        <option value="RS" <%- (cliente['endereco']['estado']=='RS')?'selected':'' -%>>Rio Grande do Sul</option>
-                        <option value="RO" <%- (cliente['endereco']['estado']=='RO')?'selected':'' -%>>Rondônia</option>
-                        <option value="RR" <%- (cliente['endereco']['estado']=='RR')?'selected':'' -%>>Roraima</option>
-                        <option value="SC" <%- (cliente['endereco']['estado']=='SC')?'selected':'' -%>>Santa Catarina</option>
-                        <option value="SP" <%- (cliente['endereco']['estado']=='SP')?'selected':'' -%>>São Paulo</option>
-                        <option value="SE" <%- (cliente['endereco']['estado']=='SE')?'selected':'' -%>>Sergipe</option>
-                        <option value="TO" <%- (cliente['endereco']['estado']=='TO')?'selected':'' -%>>Tocantins</option>
-                        <option value="EX" <%- (cliente['endereco']['estado']=='EX')?'selected':'' -%>>Estrangeiro</option>
-                    </select>
+                    <div class="input-group">
+                        <input type="text" id="inp_cep" class="form-control" placeholder="CEP">
+                        <input type="text" id="inp_endereco" class="form-control w-25" placeholder="Endereço">
+                        <input type="text" id="inp_complemento" class="form-control w-25" placeholder="Complemento">
+                        <div class="input-group-append">
+                            <button type="button" class="btn btn-primary" id="btn_addEndereco">Adicionar</button>
+                        </div>
+                    </div> 
                 </div>
             </div>
             <div class="row mt-3">
                 <div class="col">
-                    <label for="inp_bairro">Bairro <small class="text-danger">*</small></label>
-                    <input type="text" name="inp_bairro" id="inp_bairro" class="form-control" value="<%- cliente['endereco']['bairro'] -%>" required>
-                </div>
-                <div class="col">
-                    <label for="inp_logradouro">Logradouro <small class="text-danger">*</small></label>
-                    <input type="text" name="inp_logradouro" id="inp_logradouro" class="form-control" value="<%- cliente['endereco']['logradouro'] -%>" required>
-                </div>
-                <div class="col">
-                    <label for="inp_complemento">Complemento</label>
-                    <input type="text" name="inp_complemento" id="inp_complemento" class="form-control" value="<%- cliente['endereco']['complemento'] -%>">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>CEP</th>
+                                <th>Endereco</th>
+                                <th>Complemento</th>
+                                <th>Padrão</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbl_endereco">
+                            <% if(cliente['endereco'])for(let i = 0; i < cliente['endereco'].length;i++){ %>
+                                <tr>
+                                    <td><input class="form-control" value="<%- cliente['endereco'][i]['cep'] -%>" disabled></td>
+                                    <td><input class="form-control" value="<%- cliente['endereco'][i]['endereco'] -%>" disabled></td>
+                                    <td><input class="form-control" value="<%- cliente['endereco'][i]['complemento'] -%>" disabled></td>
+                                    <td><select class="form-control"><option value="0" <%- (cliente['endereco'][i]['padrao'] == '2')?'selected':'' -%>>Nao</option><option value="1" <%- (cliente['endereco'][i]['padrao'] == '1')?'selected':'' -%>>Sim</option></select></td>
+                                    <td><button type="button" class="btn btn-danger" onclick="delThis(this)"><i class="fa-solid fa-trash-can"></i></button></td>
+                                </tr>
+                            <% } %>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
     </div>
 
     <div class="card mt-3">
-        <div class="card-header">
+        <div class="card-header bg-primary text-light">
             <strong>Contato</strong>
         </div>
         <div class="card-body">
             <div class="row">
                 <div class="col">
-                    <label for="inp_telefone">Telefone <small class="text-danger">*</small></label>
-                    <input type="tel" name="inp_telefone" id="inp_telefone" class="form-control" value="<%- cliente['contato']['telefone'] -%>" required>
-                </div>
-                <div class="col">
-                    <label for="inp_cel">Celular</label>
-                    <input type="tel" name="inp_cel" id="inp_cel" class="form-control" value="<%- cliente['contato']['cel'] -%>">
-                </div>
-                <div class="col">
-                    <label for="inp_cel2">Celular 2</label>
-                    <input type="tel" name="inp_cel2" id="inp_cel2" class="form-control" value="<%- cliente['contato']['cel2'] -%>">
+                    <div class="input-group">
+                        <select id="inp_tipoContato" class="form-control">
+                            <option value="celular">Celular</option>
+                            <option value="telefone">Telefone</option>
+                            <option value="email">Email</option>
+                            <option value="site">Site</option>
+                        </select>
+                        <input type="text" id="inp_contato" class="form-control w-75" placeholder="Contato">
+                        <div class="input-group-append">
+                            <button type="button" class="btn btn-primary" id="btn_addContato">Adicionar</button>
+                        </div>
+                    </div> 
                 </div>
             </div>
             <div class="row mt-3">
                 <div class="col">
-                    <label for="inp_email">Email</label>
-                    <input type="email" name="inp_email" id="inp_email" class="form-control" value="<%- cliente['contato']['email'] -%>">
-                </div>
-                <div class="col">
-                    <label for="inp_site">Site</label>
-                    <input type="text" name="inp_site" id="inp_site" class="form-control" value="<%- cliente['contato']['site'] -%>">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Tipo</th>
+                                <th>Contato</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbl_contato">
+                            <% if(cliente['contato'])for(let i = 0; i < cliente['contato'].length;i++){ %>
+                                <tr>
+                                    <td><select class="form-control" disabled>
+                                        <option value="celular" <%- (cliente['contato'][i]['tipo'] =='celular')?'selected':'' -%>>Celular</option>
+                                        <option value="telefone" <%- (cliente['contato'][i]['tipo'] =='telefone')?'selected':'' -%>>Telefone</option>
+                                        <option value="email" <%- (cliente['contato'][i]['tipo'] =='email')?'selected':'' -%>>Email</option>
+                                        <option value="site" <%- (cliente['contato'][i]['tipo'] =='site')?'selected':'' -%>>Site</option>
+                                    </select></td>
+                                    <td><input type="text" value="<%- cliente['contato'][i]['contato']-%>" class="form-control" disabled></td>
+                                    <td><button type="button" class="btn btn-danger" onclick="delThis(this)"><i class="fa-solid fa-trash-can"></i></button></td>
+                                </tr>
+                            <% } %>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
@@ -193,7 +200,7 @@ if(cliente != undefined){
     -->
 
     <div class="card mt-3">
-        <div class="card-header">
+        <div class="card-header bg-primary text-light">
             <strong>Observações</strong>
         </div>
         <div class="card-body">
@@ -215,13 +222,13 @@ if(cliente != undefined){
     $('#inp_cpf').mask('999.999.999-99');
     $('#inp_cnpj').mask('99.999.999/9999-99');
     $("#inp_cep").mask('99.999-999');
-    $("#inp_telefone").mask('(99) 99999-9999');
-    $("#inp_cel").mask('(99) 99999-9999');
-    $("#inp_cel2").mask('(99) 99999-9999');
+    $('#inp_contato').mask('(54) 99999-9999');
     $("#inp_razaoSocial").focus();
 
     function toJson(){
-        return JSON.stringify({
+        let contato = $("#tbl_contato tr");
+        let endereco = $("#tbl_endereco tr");
+        let resp = {
             razaoSocial:$('#inp_razaoSocial').val(),
             nomeFantasia:$('#inp_nomeFantasia').val(),
             cpf:$('#inp_cpf').val(),
@@ -232,23 +239,34 @@ if(cliente != undefined){
                 pessoa:$('#inp_pessoa').val(),
                 mei:$('#inp_mei').val(),
                 enquadramento:$('#inp_enquadramento').val(),
+                fornecedor: $('#inp_fornecedor').val(),
             },
-            endereco:{
-                cidade:$('#inp_cidade').val(),
-                cep:$('#inp_cep').val(),
-                estado:$('#inp_estado').val(),
-                bairro:$('#inp_bairro').val(),
-                logradouro:$('#inp_logradouro').val(),
-                complemento:$('#inp_complemento').val(),
-            },
-            contato:{
-                telefone:$('#inp_telefone').val(),
-                cel:$('#inp_cel').val(),
-                cel2:$('#inp_cel2').val(),
-                email:$('#inp_email').val(),
-                site:$('#inp_site').val(),
-            },
-        });
+            endereco:[],
+            contato:[],
+        };
+
+        for(let i = 0;i < endereco.length;i++){
+            let end = $(endereco[i]).find('input');
+            resp.endereco.push({
+                cep: $(end[0]).val(),
+                endereco: $(end[1]).val(),
+                complemento: $(end[2]).val(),
+                padrao: $(endereco[i]).find('select').val()
+            });
+        }
+
+        for(let i = 0;i < contato.length;i++){
+            resp.contato.push({
+                tipo: $(contato[i]).find('select').val(),
+                contato: $(contato[i]).find('input').val()
+            });
+        }
+
+        return JSON.stringify(resp);
+    }
+
+    function delThis(self){
+        $(self).parent().parent().remove();
     }
 
     $('#form_cadastro').submit((e)=>{
@@ -319,6 +337,48 @@ if(cliente != undefined){
             $('#inp_enquadramento').removeAttr('disabled');
             $('#inp_ie').removeAttr('disabled');
         }
+    });
+
+    $('#inp_tipoContato').change(()=>{
+        let val = $("#inp_tipoContato :selected").val();
+        if(val == 'telefone' || val == 'celular'){
+            $('#inp_contato').mask('(54) 99999-9999');
+        }else{
+            $('#inp_contato').unmask();
+        }
+    });
+
+    $('#btn_addContato').click(()=>{
+        $("#tbl_contato").append(`
+        <tr>
+            <td><select class="form-control" disabled>
+                <option value="celular" `+(($('#inp_tipoContato').val()=='celular')?'selected':'')+`>Celular</option>
+                <option value="telefone" `+(($('#inp_tipoContato').val()=='telefone')?'selected':'')+`>Telefone</option>
+                <option value="email" `+(($('#inp_tipoContato').val()=='email')?'selected':'')+`>Email</option>
+                <option value="site" `+(($('#inp_tipoContato').val()=='site')?'selected':'')+`>Site</option>
+            </select></td>
+            <td><input type="text" value="`+$("#inp_contato").val()+`" class="form-control" disabled></td>
+            <td><button type="button" class="btn btn-danger" onclick="delThis(this)"><i class="fa-solid fa-trash-can"></i></button></td>
+        </tr>
+        `);
+        $("#inp_contato").val('');
+        $("#inp_contato").focus();
+    });
+
+    $('#btn_addEndereco').click(()=>{
+        $("#tbl_endereco").append(`
+        <tr>
+            <td><input class="form-control" value="`+$('#inp_cep').val()+`" disabled></td>
+            <td><input class="form-control" value="`+$('#inp_endereco').val()+`" disabled></td>
+            <td><input class="form-control" value="`+$('#inp_complemento').val()+`" disabled></td>
+            <td><select class="form-control"><option value="0">Nao</option><option value="1">Sim</option></select></td>
+            <td><button type="button" class="btn btn-danger" onclick="delThis(this)"><i class="fa-solid fa-trash-can"></i></button></td>
+        </tr>
+        `);
+        $("#inp_cep").val('');
+        $("#inp_endereco").val('');
+        $("#inp_complemento").val('');
+        $("#inp_cep").focus();
     });
 
     socket.on('addUser-resp',(resp)=>{

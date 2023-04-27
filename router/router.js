@@ -14,7 +14,7 @@ module.exports = function(con){
     routers.get('/clientes',async (req,res)=>{
         res.render('clientes/index',{
             title:'Clientes',
-            data: JSON.stringify(await con.collection('usuarios').find({},{projection:{_id:1,classificacao:{pessoa:1},razaoSocial:1,contato:{telefone:1}}}).toArray()).replaceAll('"1"','"PJ"').replaceAll('"2"','"PF"')
+            data: JSON.stringify(await con.collection('usuarios').find({},{projection:{_id:1,classificacao:{pessoa:1},razaoSocial:1,contato:1}}).toArray()).replaceAll('"1"','"PJ"').replaceAll('"2"','"PF"')
         });
     });
 
