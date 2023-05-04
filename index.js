@@ -57,7 +57,7 @@ io.on('connection',(socket)=>{socketEvents(io,socket,con)});
 
 //
 app.set('view engine','ejs');
-app.set('views','./views');
+app.set('views',__dirname+'/views');
 app.set('trust proxy',1);
 
 //
