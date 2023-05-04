@@ -64,7 +64,7 @@ app.set('trust proxy',1);
 app.use(routers);
 app.use(helmet());
 app.use(logger('dev'));
-app.use('/public/',express.static('./public'));
+app.use('/public/',express.static(__dirname+'/public'));
 app.use(session({
     secret: '123456789',
     name: 'sessão',
