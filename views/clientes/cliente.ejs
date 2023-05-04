@@ -92,119 +92,240 @@ if(cliente != undefined){
         </div>
     </div>
 
-    <div class="card mt-3">
-        <div class="card-header bg-primary text-light">
-            <strong>Endereço</strong>
-        </div>
-        <div class="card-body">
-            <div class="row">
-                <div class="col">
-                    <div class="input-group">
-                        <input type="text" id="inp_cep" class="form-control" placeholder="CEP">
-                        <input type="text" id="inp_endereco" class="form-control w-25" placeholder="Endereço">
-                        <input type="text" id="inp_complemento" class="form-control w-25" placeholder="Complemento">
-                        <div class="input-group-append">
-                            <button type="button" class="btn btn-primary" id="btn_addEndereco">Adicionar</button>
+    <ul class="nav nav-tabs mt-3">
+        <li class="nav-item">
+            <a class="nav-link active" data-toggle="tab" href="#tab_endereco"><strong>Endereço</strong></a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#tab_contato"><strong>Contato</strong></a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#tab_financeiro"><strong>Financeiro</strong></a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#tab_obs"><strong>Observações</strong></a>
+        </li>
+    </ul>
+
+    <div class="tab-content bg-primary p-2">
+        <div class="tab-pane active" id="tab_endereco">
+            <div class="card mt-3">
+                <div class="card-header text-primary">
+                    <strong>Endereço</strong>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col">
+                            <div class="input-group">
+                                <input type="text" id="inp_cep" class="form-control" placeholder="CEP">
+                                <input type="text" id="inp_endereco" class="form-control w-25" placeholder="Endereço">
+                                <input type="text" id="inp_complemento" class="form-control w-25" placeholder="Complemento">
+                                <div class="input-group-append">
+                                    <button type="button" class="btn btn-primary" id="btn_addEndereco">Adicionar</button>
+                                </div>
+                            </div> 
                         </div>
-                    </div> 
-                </div>
-            </div>
-            <div class="row mt-3">
-                <div class="col">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>CEP</th>
-                                <th>Endereco</th>
-                                <th>Complemento</th>
-                                <th>Padrão</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody id="tbl_endereco">
-                            <% if(cliente['endereco'])for(let i = 0; i < cliente['endereco'].length;i++){ %>
-                                <tr>
-                                    <td><input class="form-control" value="<%- cliente['endereco'][i]['cep'] -%>" disabled></td>
-                                    <td><input class="form-control" value="<%- cliente['endereco'][i]['endereco'] -%>" disabled></td>
-                                    <td><input class="form-control" value="<%- cliente['endereco'][i]['complemento'] -%>" disabled></td>
-                                    <td><select class="form-control"><option value="0" <%- (cliente['endereco'][i]['padrao'] == '2')?'selected':'' -%>>Nao</option><option value="1" <%- (cliente['endereco'][i]['padrao'] == '1')?'selected':'' -%>>Sim</option></select></td>
-                                    <td><button type="button" class="btn btn-danger" onclick="delThis(this)"><i class="fa-solid fa-trash-can"></i></button></td>
-                                </tr>
-                            <% } %>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="card mt-3">
-        <div class="card-header bg-primary text-light">
-            <strong>Contato</strong>
-        </div>
-        <div class="card-body">
-            <div class="row">
-                <div class="col">
-                    <div class="input-group">
-                        <select id="inp_tipoContato" class="form-control">
-                            <option value="celular">Celular</option>
-                            <option value="telefone">Telefone</option>
-                            <option value="email">Email</option>
-                            <option value="site">Site</option>
-                        </select>
-                        <input type="text" id="inp_contato" class="form-control w-75" placeholder="Contato">
-                        <div class="input-group-append">
-                            <button type="button" class="btn btn-primary" id="btn_addContato">Adicionar</button>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>CEP</th>
+                                        <th>Endereco</th>
+                                        <th>Complemento</th>
+                                        <th>Padrão</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tbl_endereco">
+                                    <% if(cliente['endereco'])for(let i = 0; i < cliente['endereco'].length;i++){ %>
+                                        <tr>
+                                            <td><input class="form-control" value="<%- cliente['endereco'][i]['cep'] -%>" disabled></td>
+                                            <td><input class="form-control" value="<%- cliente['endereco'][i]['endereco'] -%>" disabled></td>
+                                            <td><input class="form-control" value="<%- cliente['endereco'][i]['complemento'] -%>" disabled></td>
+                                            <td><select class="form-control"><option value="0" <%- (cliente['endereco'][i]['padrao'] == '2')?'selected':'' -%>>Nao</option><option value="1" <%- (cliente['endereco'][i]['padrao'] == '1')?'selected':'' -%>>Sim</option></select></td>
+                                            <td><button type="button" class="btn btn-danger" onclick="delThis(this)"><i class="fa-solid fa-trash-can"></i></button></td>
+                                        </tr>
+                                    <% } %>
+                                </tbody>
+                            </table>
                         </div>
-                    </div> 
+                    </div>
                 </div>
             </div>
-            <div class="row mt-3">
-                <div class="col">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>Tipo</th>
-                                <th>Contato</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody id="tbl_contato">
-                            <% if(cliente['contato'])for(let i = 0; i < cliente['contato'].length;i++){ %>
+        </div>
+        <div class="tab-pane fade" id="tab_contato">
+            <div class="card mt-3">
+                <div class="card-header text-primary">
+                    <strong>Contato</strong>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col">
+                            <div class="input-group">
+                                <select id="inp_tipoContato" class="form-control">
+                                    <option value="celular" class="tellMask">Celular</option>
+                                    <option value="whatsapp" class="tellMask">Whatsapp</option>
+                                    <option value="telefone" class="tellMask">Telefone</option>
+                                    <option value="particular" class="tellMask">Particular</option>
+                                    <option value="email">Email</option>
+                                    <option value="site">Site</option>
+                                </select>
+                                <input type="text" id="inp_contato" class="form-control w-75" placeholder="Contato">
+                                <div class="input-group-append">
+                                    <button type="button" class="btn btn-primary" id="btn_addContato">Adicionar</button>
+                                </div>
+                            </div> 
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Tipo</th>
+                                        <th>Contato</th>
+                                        <th>Padrão</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tbl_contato">
+                                    <% if(cliente['contato'])for(let i = 0; i < cliente['contato'].length;i++){ %>
+                                        <tr class="w-25">
+                                            <td><input type="text" class="form-control" value="<%- cliente['contato'][i]['tipo'] -%>" disabled></td>
+                                            <td><input type="text" value="<%- cliente['contato'][i]['contato']-%>" class="form-control" disabled></td>
+                                            <td><select class="form-control"><option value="0" <%- (cliente['contato'][i]['padrao'] == '0')?'selected':'' -%>>Nao</option><option value="1" <%- (cliente['contato'][i]['padrao'] == '1')?'selected':'' -%>>Sim</option></select></td>
+                                            <td><button type="button" class="btn btn-danger" onclick="delThis(this)"><i class="fa-solid fa-trash-can"></i></button></td>
+                                        </tr>
+                                    <% } %>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="tab_financeiro">
+            <div class="card mt-3">
+                <div class="card-header text-primary">
+                    <strong>Conta bancária</strong>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col">
+                            <div class="input-group">
+                                <input type="text" id="inp_bancoCodigo" list="lst_banco" class="form-control" placeholder="Instituição" onClick="this.select();">
+                                <datalist id="lst_banco">
+                                    <option value='104 - Caixa Econômica Federal'>
+                                    <option value='260 - Nubank'>
+                                    <option value='654 - Banco AJ Renner'>
+                                    <option value='218 - Banco Bonsucesso'>
+                                    <option value='237 - Banco Bradesco'>
+                                    <option value='208 - Banco BTG Pactual'>
+                                    <option value='044 - Banco BVA'>
+                                    <option value='241 - Banco Clássico'>
+                                    <option value='229 - Banco Cruzeiro do Sul'>
+                                    <option value='003 - Banco da Amazônia'>
+                                    <option value='707 - Banco Daycoval'>
+                                    <option value='250 - Banco de Crédito e Varejo (BCV)'>
+                                    <option value='024 - Banco de Pernambuco'>
+                                    <option value='001 - Banco do Brasil'>
+                                    <option value='037 - Banco do Estado do Pará'>
+                                    <option value='029 - Banco do Estado do Rio de Janeiro'>
+                                    <option value='041 - Banco do Estado do Rio Grande do Sul'>
+                                    <option value='004 - Banco do Nordeste do Brasil'>
+                                    <option value='734 - Banco Gerdau'>
+                                    <option value='604 - Banco Industrial do Brasil'>
+                                    <option value='077 - Banco Inter'>
+                                    <option value='074 - Banco J. Safra'>
+                                    <option value='079 - Banco JBS'>
+                                    <option value='065 - Banco Lemon'>
+                                    <option value='600 - Banco Luso Brasileiro'>
+                                    <option value='746 - Banco Modal'>
+                                    <option value='066 - Banco Morgan Stanley'>
+                                    <option value='735 - Banco Neon'>
+                                    <option value='212 - Banco Original'>
+                                    <option value='072 - Banco Rural Mais'>
+                                    <option value='422 - Banco Safra'>
+                                    <option value='033 - Banco Santander'>
+                                    <option value='749 - Banco Simples'>
+                                    <option value='464 - Banco Sumitomo Mitsui Brasileiro'>
+                                    <option value='082 - Banco Topázio'>
+                                    <option value='634 - Banco Triângulo'>
+                                    <option value='655 - Banco Votorantim'>
+                                    <option value='610 - Banco VR'>
+                                    <option value='119 - Banco Western Union do Brasil'>
+                                    <option value='336 - C6 Bank'>
+                                    <option value='477 - Citibank'>
+                                    <option value='062 - Hipercard Banco Múltiplo'>
+                                    <option value='341 - Itaú Unibanco'>
+                                    <option value='197 - Stone Pagamentos'>
+                                    <option value='290 - PagBank'>
+                                    <option value='380 - PicPay'>
+                                    <option value='184 - Banco Itaú BBA S.A.'>
+                                    <option value='748 - Banco Cooperativo Sicredi S.A.'>
+                                    <option value='102 - XP Investimentos CCTVM S.A.'>
+                                    <option value='376 - Banco JPMorgan S.A.'>
+                                    <option value="756 - Banco Sicoob">
+                                </datalist>
+                                <select id="inp_bancoTipoConta" class="form-control">
+                                    <option selected disabled>Tipo de conta</option>
+                                    <option value="1">Conta Corrente</option>
+                                    <option value="2">Conta Poupança</option>
+                                </select>
+                                <input type="text" id="inp_bancoAgencia" class="form-control" placeholder="Agência">
+                                <input type="text" id="inp_bancoConta" class="form-control" placeholder="Conta">
+                                <div class="input-group-append">
+                                    <button type="button" class="btn btn-primary" id="btn_addBanco">Adicionar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <table class="table">
+                            <thead>
                                 <tr>
-                                    <td><select class="form-control" disabled>
-                                        <option value="celular" <%- (cliente['contato'][i]['tipo'] =='celular')?'selected':'' -%>>Celular</option>
-                                        <option value="telefone" <%- (cliente['contato'][i]['tipo'] =='telefone')?'selected':'' -%>>Telefone</option>
-                                        <option value="email" <%- (cliente['contato'][i]['tipo'] =='email')?'selected':'' -%>>Email</option>
-                                        <option value="site" <%- (cliente['contato'][i]['tipo'] =='site')?'selected':'' -%>>Site</option>
-                                    </select></td>
-                                    <td><input type="text" value="<%- cliente['contato'][i]['contato']-%>" class="form-control" disabled></td>
-                                    <td><button type="button" class="btn btn-danger" onclick="delThis(this)"><i class="fa-solid fa-trash-can"></i></button></td>
+                                    <th>Banco</th>
+                                    <th>Conta</th>
+                                    <th>Agencia</th>
+                                    <th>Numero</th>
+                                    <th>Padrão</th>
+                                    <th></th>
                                 </tr>
-                            <% } %>
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody id="tbl_banco">
+                                <% /*if(cliente['contato'])for(let i = 0; i < cliente['contato'].length;i++){ %>
+                                    <tr class="w-25">
+                                        <td><input type="text" class="form-control" value="<%- cliente['contato'][i]['tipo'] -%>" disabled></td>
+                                        <td><input type="text" value="<%- cliente['contato'][i]['contato']-%>" class="form-control" disabled></td>
+                                        <td><select class="form-control"><option value="0" <%- (cliente['contato'][i]['padrao'] == '0')?'selected':'' -%>>Nao</option><option value="1" <%- (cliente['contato'][i]['padrao'] == '1')?'selected':'' -%>>Sim</option></select></td>
+                                        <td><button type="button" class="btn btn-danger" onclick="delThis(this)"><i class="fa-solid fa-trash-can"></i></button></td>
+                                    </tr>
+                                <% }*/ %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="card mt-3">
+                <div class="card-header text-primary">
+                    <strong>PIX</strong>
+                </div>
+                <div class="card-body">
+
                 </div>
             </div>
         </div>
-    </div>
-
-    <!--
-    <div class="card mt-3">
-        <div class="card-header">
-            <strong>Fiscal</strong>
-        </div>
-        <div class="card-body">
-        </div>
-    </div>
-    -->
-
-    <div class="card mt-3">
-        <div class="card-header bg-primary text-light">
-            <strong>Observações</strong>
-        </div>
-        <div class="card-body">
-            <textarea name="inp_obs" id="inp_obs" class="form-control" rows="10"><%- cliente['obs'] -%></textarea>
+        <div class="tab-pane fade" id="tab_obs">
+            <div class="card mt-3">
+                <div class="card-header text-primary">
+                    <strong>Observações</strong>
+                </div>
+                <div class="card-body">
+                    <textarea name="inp_obs" id="inp_obs" class="form-control" rows="10"><%- cliente['obs'] -%></textarea>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -223,6 +344,8 @@ if(cliente != undefined){
     $('#inp_cnpj').mask('99.999.999/9999-99');
     $("#inp_cep").mask('99.999-999');
     $('#inp_contato').mask('(54) 99999-9999');
+    $('#inp_bancoAgencia').mask('9999');
+    $('#inp_bancoConta').mask('9999999-9');
     $("#inp_razaoSocial").focus();
 
     function toJson(){
@@ -256,9 +379,11 @@ if(cliente != undefined){
         }
 
         for(let i = 0;i < contato.length;i++){
+            let cont = $(contato[i]).find('input');
             resp.contato.push({
-                tipo: $(contato[i]).find('select').val(),
-                contato: $(contato[i]).find('input').val()
+                tipo: $(cont[0]).val(),
+                contato: $(cont[1]).val(),
+                padrao: $(contato[i]).find('select').val()
             });
         }
 
@@ -271,6 +396,8 @@ if(cliente != undefined){
 
     $('#form_cadastro').submit((e)=>{
         e.preventDefault();
+        console.log(toJson());
+        /*
         if($('#inp_id').val() == ""){
             socket.emit('addUsr',toJson());
         }
@@ -286,6 +413,7 @@ if(cliente != undefined){
                 };
             });
         }
+        */
     });
 
     $("#btn_excluir").click(()=>{
@@ -340,9 +468,8 @@ if(cliente != undefined){
     });
 
     $('#inp_tipoContato').change(()=>{
-        let val = $("#inp_tipoContato :selected").val();
-        if(val == 'telefone' || val == 'celular'){
-            $('#inp_contato').mask('(54) 99999-9999');
+        if($("#inp_tipoContato :selected").hasClass('tellMask')){
+            $('#inp_contato').mask('(99) 99999-9999');
         }else{
             $('#inp_contato').unmask();
         }
@@ -351,13 +478,9 @@ if(cliente != undefined){
     $('#btn_addContato').click(()=>{
         $("#tbl_contato").append(`
         <tr>
-            <td><select class="form-control" disabled>
-                <option value="celular" `+(($('#inp_tipoContato').val()=='celular')?'selected':'')+`>Celular</option>
-                <option value="telefone" `+(($('#inp_tipoContato').val()=='telefone')?'selected':'')+`>Telefone</option>
-                <option value="email" `+(($('#inp_tipoContato').val()=='email')?'selected':'')+`>Email</option>
-                <option value="site" `+(($('#inp_tipoContato').val()=='site')?'selected':'')+`>Site</option>
-            </select></td>
+            <td class="w-25"><input type="text" value="`+$('#inp_tipoContato').val()+`" class="form-control" disabled></td>
             <td><input type="text" value="`+$("#inp_contato").val()+`" class="form-control" disabled></td>
+            <td><select class="form-control"><option value="0">Nao</option><option value="1">Sim</option></select></td>
             <td><button type="button" class="btn btn-danger" onclick="delThis(this)"><i class="fa-solid fa-trash-can"></i></button></td>
         </tr>
         `);
@@ -379,6 +502,19 @@ if(cliente != undefined){
         $("#inp_endereco").val('');
         $("#inp_complemento").val('');
         $("#inp_cep").focus();
+    });
+
+    $('#btn_addBanco').click(()=>{
+        $("#tbl_contato").append(`
+        <tr>
+            <td class="w-25"><input type="text" value="`+$('#inp_tipoContato').val()+`" class="form-control" disabled></td>
+            <td><input type="text" value="`+$("#inp_contato").val()+`" class="form-control" disabled></td>
+            <td><select class="form-control"><option value="0">Nao</option><option value="1">Sim</option></select></td>
+            <td><button type="button" class="btn btn-danger" onclick="delThis(this)"><i class="fa-solid fa-trash-can"></i></button></td>
+        </tr>
+        `);
+        $("#inp_contato").val('');
+        $("#inp_contato").focus();
     });
 
     socket.on('addUser-resp',(resp)=>{

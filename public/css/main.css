@@ -2,6 +2,7 @@
     --primary: #387d94;
 }
 .bg-primary{background-color: var(--primary) !important;}
+.text-primary{color: var(--primary) !important;}
 .btn-primary {color: #fff;background-color: var(--primary)!important;border-color: var(--primary)!important;}
 
 body{
@@ -35,4 +36,10 @@ textarea{
     border-color: rgba(255,255,255,0.5) !important;
     color: rgba(255,255,255,0.5);
     font-weight: 500;
+}
+
+.nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
+    color: #fff;
+    background-color: var(--primary);
+    border-color: var(--primary);
 }
