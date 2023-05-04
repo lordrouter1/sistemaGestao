@@ -9,7 +9,7 @@ if(cliente != undefined){
     PF = (cliente['classificacao']['pessoa']=='2')?'':'disabled';
     MEI = (cliente['classificacao']['mei']=='1')?'disabled':'';
 }else{
-    cliente = {classificacao:{},endereco:{},contato:{}};
+    cliente = {classificacao:{},endereco:{},contato:{},responsavel:{}};
     PJ = "";
     PF = "disabled";
     MEI = "";
@@ -37,14 +37,14 @@ if(cliente != undefined){
                 <div class="col">
                     <label for="inp_mei">MEI</label>
                     <select name="inp_mei" id="inp_mei" class="form-control" <%-PJ-%>>
-                        <option value="0" <%- (cliente['classificacao']['mei'] != '1')?'selected':'' -%>>Não</option>
+                        <option value="0" <%- (cliente['classificacao']['mei'] == '0')?'selected':'' -%>>Não</option>
                         <option value="1" <%- (cliente['classificacao']['mei'] == '1')?'selected':'' -%>>Sim</option>
                     </select>
                 </div>
                 <div class="col">
                     <label for="inp_enquadramento">Enquadramento Fiscal</label>
                     <select name="inp_enquadramento" id="inp_enquadramento" class="form-control" <%-PJ-%> <%-MEI-%>>
-                        <option value="1" <%- (cliente['classificacao']['enquadramento'] != '2' && cliente['classificacao']['enquadramento'] != '3')?'selected':'' -%>>Simples Nacional</option>
+                        <option value="1" <%- (cliente['classificacao']['enquadramento'] == '1')?'selected':'' -%>>Simples Nacional</option>
                         <option value="2" <%- (cliente['classificacao']['enquadramento'] == '2')?'selected':'' -%>>Lucro Presumido</option>
                         <option value="3" <%- (cliente['classificacao']['enquadramento'] == '3')?'selected':'' -%>>Lucro Real</option>
                     </select>
@@ -87,6 +87,31 @@ if(cliente != undefined){
                 <div class="col">
                     <label for="inp_ie">Inscrição Estadual <small class="text-danger">*</small></label>
                     <input type="text" name="inp_ie" id="inp_ie" class="form-control" value="<%- cliente['ie'] -%>" <%-PJ-%> <%-MEI-%> required>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card mt-3">
+        <div class="card-header bg-primary text-light">
+            <strong>Responsável</strong>
+        </div>
+        <div class="card-body">
+            <div class="row mt-3">
+                <div class="col">
+                    <label for="inp_respNome">Nome <small class="text-danger">*</small></label>
+                    <input type="text" class="form-control" id="inp_respNome" name="inp_respNome" value="<%- cliente['responsavel']['nome'] -%>" required>
+                </div>
+                <div class="col">
+                    <label for="inp_respCargo">Cargo</label>
+                    <select name="inp_respCargo" id="inp_respCargo" class="form-control">
+                        <option value="funcionario" <%- (cliente['responsavel']['cargo'] == "funcionario" || cliente['responsavel']['cargo'] == undefined)?'selected':'' -%>>Funcionário</option>
+                        <option value="dono" <%- (cliente['responsavel']['cargo'] == "dono")?'selected':'' -%>>Dono</option>
+                    </select>
+                </div>
+                <div class="col">
+                    <label for="inp_respCpf">CPF</label>
+                    <input type="text" class="form-control" id="inp_respCpf" name="inp_respCpf" value="<%- cliente['responsavel']['cpf'] -%>" required>
                 </div>
             </div>
         </div>
@@ -220,6 +245,7 @@ if(cliente != undefined){
 
 <script>
     $('#inp_cpf').mask('999.999.999-99');
+    $('#inp_respCpf').mask('999.999.999-99');
     $('#inp_cnpj').mask('99.999.999/9999-99');
     $("#inp_cep").mask('99.999-999');
     $('#inp_contato').mask('(54) 99999-9999');
@@ -271,6 +297,20 @@ if(cliente != undefined){
 
     $('#form_cadastro').submit((e)=>{
         e.preventDefault();
+        if($("#tbl_endereco tr").length == 0){
+            Swal.fire({
+                icon:'warning',
+                text:'Informe ao menos um endereco!'
+            });
+            return;
+        }
+        if($("#tbl_contato tr").length == 0){
+            Swal.fire({
+                icon:'warning',
+                text:'Informe ao menos um contato!'
+            });
+            return;
+        }
         if($('#inp_id').val() == ""){
             socket.emit('addUsr',toJson());
         }
@@ -314,6 +354,9 @@ if(cliente != undefined){
             $("#inp_nomeFantasia").attr('disabled','');
             $("#inp_cnpj").attr('disabled','');
             $("#inp_ie").attr('disabled','');
+            $("#inp_respNome").attr('disabled','');
+            $("#inp_respCargo").attr('disabled','');
+            $("#inp_respCpf").attr('disabled','');
             $("#inp_cpf").removeAttr('disabled');
         }
         else{
@@ -321,7 +364,12 @@ if(cliente != undefined){
             $("#inp_enquadramento").removeAttr('disabled','');
             $("#inp_nomeFantasia").removeAttr('disabled','');
             $("#inp_cnpj").removeAttr('disabled','');
-            $("#inp_ie").removeAttr('disabled','');
+            if($('#inp_mei option:selected').val() != 1){
+                $("#inp_ie").removeAttr('disabled','');
+            }
+            $("#inp_respNome").removeAttr('disabled');
+            $("#inp_respCargo").removeAttr('disabled');
+            $("#inp_respCpf").removeAttr('disabled');
             $("#inp_cpf").attr('disabled','');
         }
     });

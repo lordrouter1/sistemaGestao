@@ -1,5 +1,5 @@
 :root{
-    --primary: #387d94;
+    --primary: #183a44;
 }
 .bg-primary{background-color: var(--primary) !important;}
 .btn-primary {color: #fff;background-color: var(--primary)!important;border-color: var(--primary)!important;}
