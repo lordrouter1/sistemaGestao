@@ -28,22 +28,31 @@ if(cliente != undefined){
         <div class="card-body">
             <div class="row">
                 <div class="col">
-                    <label for="inp_pessoa">Tipo</label>
+                    <label for="inp_pessoa">Pessoa</label>
                     <select id="inp_pessoa" name="inp_pessoa" class="form-control">
-                        <option value="1" <%- (cliente['classificacao']['pessoa'] != '2')?'selected':'' -%>>Pessoa Jurídica</option>
-                        <option value="2" <%- (cliente['classificacao']['pessoa'] == '2')?'selected':'' -%>>Pessoa Física</option>
+                        <option value="1" <%- (cliente['classificacao']['pessoa'] != '2')?'selected':'' -%>>Jurídica</option>
+                        <option value="2" <%- (cliente['classificacao']['pessoa'] == '2')?'selected':'' -%>>Física</option>
                     </select>
                 </div>
                 <div class="col">
                     <label for="inp_mei">MEI</label>
-                    <select name="inp_mei" id="inp_mei" class="form-control" <%-PJ-%>>
+                    <select pj name="inp_mei" id="inp_mei" class="form-control" <%-PJ-%>>
                         <option value="0" <%- (cliente['classificacao']['mei'] == '0')?'selected':'' -%>>Não</option>
                         <option value="1" <%- (cliente['classificacao']['mei'] == '1')?'selected':'' -%>>Sim</option>
                     </select>
                 </div>
                 <div class="col">
+                    <label for="inp_tipo">Tipo</label>
+                    <select pj name="inp_tipo" id="inp_tipo" class="form-control" <%-PJ-%>>
+                        <option value="0" <%- (cliente['classificacao']['tipo'] == '0')?'selected':'' -%>>Sociedade Limitada (LTDA)</option>
+                        <option value="1" <%- (cliente['classificacao']['tipo'] == '1')?'selected':'' -%>>Empresa individual (EI)</option>
+                        <option value="2" <%- (cliente['classificacao']['tipo'] == '2')?'selected':'' -%>>Empresa individual de responsabilidade limitada (EIRELI)</option>
+                        <option value="3" <%- (cliente['classificacao']['tipo'] == '3')?'selected':'' -%>>Sociedade anônima (SA)</option>
+                    </select>
+                </div>
+                <div class="col">
                     <label for="inp_enquadramento">Enquadramento Fiscal</label>
-                    <select name="inp_enquadramento" id="inp_enquadramento" class="form-control" <%-PJ-%> <%-MEI-%>>
+                    <select pj name="inp_enquadramento" id="inp_enquadramento" class="form-control" <%-PJ-%> <%-MEI-%>>
                         <option value="1" <%- (cliente['classificacao']['enquadramento'] == '1')?'selected':'' -%>>Simples Nacional</option>
                         <option value="2" <%- (cliente['classificacao']['enquadramento'] == '2')?'selected':'' -%>>Lucro Presumido</option>
                         <option value="3" <%- (cliente['classificacao']['enquadramento'] == '3')?'selected':'' -%>>Lucro Real</option>
@@ -72,21 +81,21 @@ if(cliente != undefined){
                 </div>
                 <div class="col">
                     <label for="inp_nomeFantasia">Nome Fantasia <small class="text-danger">*</small></label>
-                    <input type="text" class="form-control" id="inp_nomeFantasia" name="inp_nomeFantasia" value="<%- cliente['nomeFantasia'] -%>" <%-PJ-%> required>
+                    <input pj type="text" class="form-control" id="inp_nomeFantasia" name="inp_nomeFantasia" value="<%- cliente['nomeFantasia'] -%>" <%-PJ-%> required>
                 </div>
             </div>
             <div class="row mt-3">
                 <div class="col">
                     <label for="inp_cpf">CPF <small class="text-danger">*</small></label>
-                    <input type="text" name="inp_cpf" id="inp_cpf" class="form-control" value="<%- cliente['cpf'] -%>" <%-PF-%> required>
+                    <input pf type="text" name="inp_cpf" id="inp_cpf" class="form-control" value="<%- cliente['cpf'] -%>" <%-PF-%> required>
                 </div>
                 <div class="col">
                     <label for="inp_cnpj">CNPJ <small class="text-danger">*</small></label>
-                    <input type="text" name="inp_cnpj" id="inp_cnpj" class="form-control" value="<%- cliente['cnpj'] -%>" <%-PJ-%> required>
+                    <input pj type="text" name="inp_cnpj" id="inp_cnpj" class="form-control" value="<%- cliente['cnpj'] -%>" <%-PJ-%> required>
                 </div>
                 <div class="col">
                     <label for="inp_ie">Inscrição Estadual <small class="text-danger">*</small></label>
-                    <input type="text" name="inp_ie" id="inp_ie" class="form-control" value="<%- cliente['ie'] -%>" <%-PJ-%> <%-MEI-%> required>
+                    <input pj type="text" name="inp_ie" id="inp_ie" class="form-control" value="<%- cliente['ie'] -%>" <%-PJ-%> <%-MEI-%> required>
                 </div>
             </div>
         </div>
@@ -100,18 +109,18 @@ if(cliente != undefined){
             <div class="row mt-3">
                 <div class="col">
                     <label for="inp_respNome">Nome <small class="text-danger">*</small></label>
-                    <input type="text" class="form-control" id="inp_respNome" name="inp_respNome" value="<%- cliente['responsavel']['nome'] -%>" required>
+                    <input pj type="text" class="form-control" id="inp_respNome" name="inp_respNome" value="<%- cliente['responsavel']['nome'] -%>" required>
                 </div>
                 <div class="col">
                     <label for="inp_respCargo">Cargo</label>
-                    <select name="inp_respCargo" id="inp_respCargo" class="form-control">
+                    <select pj name="inp_respCargo" id="inp_respCargo" class="form-control">
                         <option value="funcionario" <%- (cliente['responsavel']['cargo'] == "funcionario" || cliente['responsavel']['cargo'] == undefined)?'selected':'' -%>>Funcionário</option>
                         <option value="dono" <%- (cliente['responsavel']['cargo'] == "dono")?'selected':'' -%>>Dono</option>
                     </select>
                 </div>
                 <div class="col">
                     <label for="inp_respCpf">CPF</label>
-                    <input type="text" class="form-control" id="inp_respCpf" name="inp_respCpf" value="<%- cliente['responsavel']['cpf'] -%>" required>
+                    <input pj type="text" class="form-control" id="inp_respCpf" name="inp_respCpf" value="<%- cliente['responsavel']['cpf'] -%>" required>
                 </div>
             </div>
         </div>
@@ -144,6 +153,7 @@ if(cliente != undefined){
                             <div class="input-group">
                                 <input type="text" id="inp_cep" class="form-control" placeholder="CEP">
                                 <input type="text" id="inp_endereco" class="form-control w-25" placeholder="Endereço">
+                                <input type="text" id="inp_numero" class="form-control" placeholder="Número">
                                 <input type="text" id="inp_complemento" class="form-control w-25" placeholder="Complemento">
                                 <div class="input-group-append">
                                     <button type="button" class="btn btn-primary" id="btn_addEndereco">Adicionar</button>
@@ -158,6 +168,7 @@ if(cliente != undefined){
                                     <tr>
                                         <th>CEP</th>
                                         <th>Endereco</th>
+                                        <th>Número</th>
                                         <th>Complemento</th>
                                         <th>Padrão</th>
                                         <th></th>
@@ -168,6 +179,7 @@ if(cliente != undefined){
                                         <tr>
                                             <td><input class="form-control" value="<%- cliente['endereco'][i]['cep'] -%>" disabled></td>
                                             <td><input class="form-control" value="<%- cliente['endereco'][i]['endereco'] -%>" disabled></td>
+                                            <td><input class="form-control" value="<%- cliente['endereco'][i]['numero'] -%>" disabled></td>
                                             <td><input class="form-control" value="<%- cliente['endereco'][i]['complemento'] -%>" disabled></td>
                                             <td><select class="form-control"><option value="0" <%- (cliente['endereco'][i]['padrao'] == '2')?'selected':'' -%>>Nao</option><option value="1" <%- (cliente['endereco'][i]['padrao'] == '1')?'selected':'' -%>>Sim</option></select></td>
                                             <td><button type="button" class="btn btn-danger" onclick="delThis(this)"><i class="fa-solid fa-trash-can"></i></button></td>
@@ -296,8 +308,8 @@ if(cliente != undefined){
                                 </datalist>
                                 <select id="inp_bancoTipoConta" class="form-control">
                                     <option selected disabled>Tipo de conta</option>
-                                    <option value="1">Conta Corrente</option>
-                                    <option value="2">Conta Poupança</option>
+                                    <option value="Corrente">Conta Corrente</option>
+                                    <option value="Poupança">Conta Poupança</option>
                                 </select>
                                 <input type="text" id="inp_bancoAgencia" class="form-control" placeholder="Agência">
                                 <input type="text" id="inp_bancoConta" class="form-control" placeholder="Conta">
@@ -320,14 +332,16 @@ if(cliente != undefined){
                                 </tr>
                             </thead>
                             <tbody id="tbl_banco">
-                                <% /*if(cliente['contato'])for(let i = 0; i < cliente['contato'].length;i++){ %>
+                                <% if(cliente['banco'])for(let i = 0; i < cliente['banco'].length;i++){ %>
                                     <tr class="w-25">
-                                        <td><input type="text" class="form-control" value="<%- cliente['contato'][i]['tipo'] -%>" disabled></td>
-                                        <td><input type="text" value="<%- cliente['contato'][i]['contato']-%>" class="form-control" disabled></td>
-                                        <td><select class="form-control"><option value="0" <%- (cliente['contato'][i]['padrao'] == '0')?'selected':'' -%>>Nao</option><option value="1" <%- (cliente['contato'][i]['padrao'] == '1')?'selected':'' -%>>Sim</option></select></td>
+                                        <td><input type="text" class="form-control" value="<%- cliente['banco'][i]['instituicao'] -%>" disabled></td>
+                                        <td><input type="text" value="<%- cliente['banco'][i]['conta']-%>" class="form-control" disabled></td>
+                                        <td><input type="text" value="<%- cliente['banco'][i]['agencia']-%>" class="form-control" disabled></td>
+                                        <td><input type="text" value="<%- cliente['banco'][i]['numero']-%>" class="form-control" disabled></td>
+                                        <td><select class="form-control"><option value="0" <%- (cliente['banco'][i]['padrao'] == '0')?'selected':'' -%>>Nao</option><option value="1" <%- (cliente['banco'][i]['padrao'] == '1')?'selected':'' -%>>Sim</option></select></td>
                                         <td><button type="button" class="btn btn-danger" onclick="delThis(this)"><i class="fa-solid fa-trash-can"></i></button></td>
                                     </tr>
-                                <% }*/ %>
+                                <% } %>
                             </tbody>
                         </table>
                     </div>
@@ -338,7 +352,45 @@ if(cliente != undefined){
                     <strong>PIX</strong>
                 </div>
                 <div class="card-body">
-
+                    <div class="row">
+                        <div class="col">
+                            <div class="input-group">
+                                <select id="inp_pixTipo" class="form-control w-25">
+                                    <option value="cpf">CPF</option>
+                                    <option value="cnpj">CNPJ</option>
+                                    <option value="email">Email</option>
+                                    <option value="celular">Celular</option>
+                                    <option value="aleatoria">Aleatória</option>
+                                </select>
+                                <input type="text" id="inp_pixChave" class="form-control w-50">
+                                <div class="input-group-append">
+                                    <button type="button" class="btn btn-primary" id="btn_addPix">Adicionar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>tipo</th>
+                                    <th>Chave</th>
+                                    <th>Padrão</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbl_pix">
+                                <% if(cliente['pix'])for(let i = 0; i < cliente['pix'].length;i++){ %>
+                                    <tr class="w-25">
+                                        <td><input type="text" class="form-control" value="<%- cliente['pix'][i]['tipo'] -%>" disabled></td>
+                                        <td><input type="text" value="<%- cliente['pix'][i]['chave']-%>" class="form-control" disabled></td>
+                                        <td><select class="form-control"><option value="0" <%- (cliente['pix'][i]['padrao'] == '0')?'selected':'' -%>>Nao</option><option value="1" <%- (cliente['pix'][i]['padrao'] == '1')?'selected':'' -%>>Sim</option></select></td>
+                                        <td><button type="button" class="btn btn-danger" onclick="delThis(this)"><i class="fa-solid fa-trash-can"></i></button></td>
+                                    </tr>
+                                <% } %>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
@@ -364,231 +416,9 @@ if(cliente != undefined){
     </div>
 </form>
 
-<script>
-    $('#inp_cpf').mask('999.999.999-99');
-    $('#inp_respCpf').mask('999.999.999-99');
-    $('#inp_cnpj').mask('99.999.999/9999-99');
-    $("#inp_cep").mask('99.999-999');
-    $('#inp_contato').mask('(54) 99999-9999');
-    $('#inp_bancoAgencia').mask('9999');
-    $('#inp_bancoConta').mask('9999999-9');
-    $("#inp_razaoSocial").focus();
-
-    function toJson(){
-        let contato = $("#tbl_contato tr");
-        let endereco = $("#tbl_endereco tr");
-        let resp = {
-            razaoSocial:$('#inp_razaoSocial').val(),
-            nomeFantasia:$('#inp_nomeFantasia').val(),
-            cpf:$('#inp_cpf').val(),
-            cnpj:$('#inp_cnpj').val(),
-            ie:$('#inp_ie').val(),
-            obs:$('#inp_obs').val(),
-            classificacao:{
-                pessoa:$('#inp_pessoa').val(),
-                mei:$('#inp_mei').val(),
-                enquadramento:$('#inp_enquadramento').val(),
-                fornecedor: $('#inp_fornecedor').val(),
-            },
-            endereco:[],
-            contato:[],
-        };
-
-        for(let i = 0;i < endereco.length;i++){
-            let end = $(endereco[i]).find('input');
-            resp.endereco.push({
-                cep: $(end[0]).val(),
-                endereco: $(end[1]).val(),
-                complemento: $(end[2]).val(),
-                padrao: $(endereco[i]).find('select').val()
-            });
-        }
-
-        for(let i = 0;i < contato.length;i++){
-            let cont = $(contato[i]).find('input');
-            resp.contato.push({
-                tipo: $(cont[0]).val(),
-                contato: $(cont[1]).val(),
-                padrao: $(contato[i]).find('select').val()
-            });
-        }
-
-        return JSON.stringify(resp);
-    }
-
-    function delThis(self){
-        $(self).parent().parent().remove();
-    }
-
-    $('#form_cadastro').submit((e)=>{
-        e.preventDefault();
-        console.log(toJson());
-        /*
-        if($("#tbl_endereco tr").length == 0){
-            Swal.fire({
-                icon:'warning',
-                text:'Informe ao menos um endereco!'
-            });
-            return;
-        }
-        if($("#tbl_contato tr").length == 0){
-            Swal.fire({
-                icon:'warning',
-                text:'Informe ao menos um contato!'
-            });
-            return;
-        }
-        if($('#inp_id').val() == ""){
-            socket.emit('addUsr',toJson());
-        }
-        else{
-            Swal.fire({
-                title:'Deseja salvar a edição?',
-                showCancelButton: true,
-                confirmButtonText: 'Salvar',
-                cancelButtonText: 'Cancelar',
-            }).then((resp)=>{
-                if(resp.isConfirmed){
-                    socket.emit('editUsr',{form:toJson(),id:$('#inp_id').val()});
-                };
-            });
-        }
-        */
-    });
-
-    $("#btn_excluir").click(()=>{
-        Swal.fire({
-            icon:'warning',
-            title: $('#inp_razaoSocial').val(),
-            text:'Deseja Excluir?',
-            showCancelButton: true,
-            showConfirmButton: false,
-            showDenyButton: true,
-            denyButtonText: 'Excluir',
-            cancelButtonText: 'Cancelar',
-        }).then((resp)=>{
-           if(resp.isDenied){
-                socket.emit('delUsr',$('#inp_id').val());
-            };
-        });
-    });
-
-    $('#inp_pessoa').change(()=>{
-        let val = $('#inp_pessoa option:selected').val();
-        
-        if(val == 2){
-            $("#inp_mei").attr('disabled','');
-            $("#inp_enquadramento").attr('disabled','');
-            $("#inp_nomeFantasia").attr('disabled','');
-            $("#inp_cnpj").attr('disabled','');
-            $("#inp_ie").attr('disabled','');
-            $("#inp_respNome").attr('disabled','');
-            $("#inp_respCargo").attr('disabled','');
-            $("#inp_respCpf").attr('disabled','');
-            $("#inp_cpf").removeAttr('disabled');
-        }
-        else{
-            $("#inp_mei").removeAttr('disabled','');
-            $("#inp_enquadramento").removeAttr('disabled','');
-            $("#inp_nomeFantasia").removeAttr('disabled','');
-            $("#inp_cnpj").removeAttr('disabled','');
-            if($('#inp_mei option:selected').val() != 1){
-                $("#inp_ie").removeAttr('disabled','');
-            }
-            $("#inp_respNome").removeAttr('disabled');
-            $("#inp_respCargo").removeAttr('disabled');
-            $("#inp_respCpf").removeAttr('disabled');
-            $("#inp_cpf").attr('disabled','');
-        }
-    });
-
-    $('#inp_mei').change(()=>{
-        let val = $('#inp_mei option:selected').val();
-
-        if(val == 1){
-            $('#inp_enquadramento').attr('disabled','');
-            $('#inp_ie').attr('disabled','');
-        }
-        else{
-            $('#inp_enquadramento').removeAttr('disabled');
-            $('#inp_ie').removeAttr('disabled');
-        }
-    });
-
-    $('#inp_tipoContato').change(()=>{
-        if($("#inp_tipoContato :selected").hasClass('tellMask')){
-            $('#inp_contato').mask('(99) 99999-9999');
-        }else{
-            $('#inp_contato').unmask();
-        }
-    });
-
-    $('#btn_addContato').click(()=>{
-        $("#tbl_contato").append(`
-        <tr>
-            <td class="w-25"><input type="text" value="`+$('#inp_tipoContato').val()+`" class="form-control" disabled></td>
-            <td><input type="text" value="`+$("#inp_contato").val()+`" class="form-control" disabled></td>
-            <td><select class="form-control"><option value="0">Nao</option><option value="1">Sim</option></select></td>
-            <td><button type="button" class="btn btn-danger" onclick="delThis(this)"><i class="fa-solid fa-trash-can"></i></button></td>
-        </tr>
-        `);
-        $("#inp_contato").val('');
-        $("#inp_contato").focus();
-    });
-
-    $('#btn_addEndereco').click(()=>{
-        $("#tbl_endereco").append(`
-        <tr>
-            <td><input class="form-control" value="`+$('#inp_cep').val()+`" disabled></td>
-            <td><input class="form-control" value="`+$('#inp_endereco').val()+`" disabled></td>
-            <td><input class="form-control" value="`+$('#inp_complemento').val()+`" disabled></td>
-            <td><select class="form-control"><option value="0">Nao</option><option value="1">Sim</option></select></td>
-            <td><button type="button" class="btn btn-danger" onclick="delThis(this)"><i class="fa-solid fa-trash-can"></i></button></td>
-        </tr>
-        `);
-        $("#inp_cep").val('');
-        $("#inp_endereco").val('');
-        $("#inp_complemento").val('');
-        $("#inp_cep").focus();
-    });
-
-    $('#btn_addBanco').click(()=>{
-        $("#tbl_contato").append(`
-        <tr>
-            <td class="w-25"><input type="text" value="`+$('#inp_tipoContato').val()+`" class="form-control" disabled></td>
-            <td><input type="text" value="`+$("#inp_contato").val()+`" class="form-control" disabled></td>
-            <td><select class="form-control"><option value="0">Nao</option><option value="1">Sim</option></select></td>
-            <td><button type="button" class="btn btn-danger" onclick="delThis(this)"><i class="fa-solid fa-trash-can"></i></button></td>
-        </tr>
-        `);
-        $("#inp_contato").val('');
-        $("#inp_contato").focus();
-    });
-
-    socket.on('addUser-resp',(resp)=>{
-        Swal.fire({
-            icon:(resp['success'])?'success':'error',
-            showConfirmButton: false,
-            title:(resp['success'])?'Cliente salvo':resp['err'],
-            timer: 1500
-        }).then(()=>{if(resp['success']){location.href='/clientes'}});
-    });
-    socket.on('editUser-resp',(resp)=>{
-        Swal.fire({
-            icon:(resp['success'])?'success':'error',
-            showConfirmButton: false,
-            title:(resp['success'])?'Edição salva':resp['err'],
-            timer: 1500
-        }).then(()=>{if(resp['success']){location.href='/clientes'}});
-    });
-    socket.on('delUser-resp',(resp)=>{
-        Swal.fire({
-            icon:(resp['success'])?'success':'error',
-            showConfirmButton: false,
-            title:(resp['success'])?'Cliente excluido':resp['err'],
-            timer: 1500
-        }).then(()=>{if(resp['success']){location.href='/clientes'}});
-    });
-</script>
+<script src="/public/js/views/clientes/cliente/functions.js"></script>
+<script src="/public/js/views/clientes/cliente/submit.js"></script>
+<script src="/public/js/views/clientes/cliente/events.js"></script>
+<script src="/public/js/views/clientes/cliente/sockets.js"></script>
 
 <%- include("../includes/footer.ejs"); %>
