@@ -8,19 +8,20 @@
     new gridjs.Grid({
         columns: [
             {
-                data:(row) => row.classificacao.pessoa,
-                name: "Tipo",
-                with: '5%'
+                data:(row) => row.razaoSocial,
+                name: "Nome/Razão Social",
             },
             {
-                id:'razaoSocial',
-                name: "Nome",
-                with: '60%'
+                data:(row) => row.nomeFantasia,
+                name: "Nome Fantasia",
             },
             {
-                data:(row) => row.contato[0].contato,
+                data:(row) => row.contato.find(x => x.padrao == '1')?row.contato.find(x => x.padrao == '1').contato:row.contato[0].contato,
                 name: "Contato",
-                with: '30%'
+            },
+            {
+                data:(row) => row.responsavel.nome,
+                name: "Responsável",
             },
             {
                 id:'_id',
