@@ -107,18 +107,18 @@ if(cliente != undefined){
             <div class="row mt-3">
                 <div class="col">
                     <label for="inp_respNome">Nome <small class="text-danger">*</small></label>
-                    <input pj type="text" class="form-control" id="inp_respNome" name="inp_respNome" value="<%- cliente['responsavel']['nome'] -%>" required>
+                    <input pj type="text" class="form-control" id="inp_respNome" name="inp_respNome" value="<%- cliente['responsavel']['nome'] -%>" <%-PJ-%> required>
                 </div>
                 <div class="col">
                     <label for="inp_respCargo">Cargo</label>
-                    <select pj name="inp_respCargo" id="inp_respCargo" class="form-control">
+                    <select pj name="inp_respCargo" id="inp_respCargo" class="form-control" <%-PJ-%>>
                         <option value="funcionario" <%- (cliente['responsavel']['cargo'] == "funcionario" || cliente['responsavel']['cargo'] == undefined)?'selected':'' -%>>Funcionário</option>
                         <option value="dono" <%- (cliente['responsavel']['cargo'] == "dono")?'selected':'' -%>>Dono</option>
                     </select>
                 </div>
                 <div class="col">
                     <label for="inp_respCpf">CPF</label>
-                    <input pj type="text" class="form-control" id="inp_respCpf" name="inp_respCpf" value="<%- cliente['responsavel']['cpf'] -%>" required>
+                    <input pj type="text" class="form-control" id="inp_respCpf" name="inp_respCpf" value="<%- cliente['responsavel']['cpf'] -%>" <%-PJ-%> required>
                 </div>
             </div>
         </div>

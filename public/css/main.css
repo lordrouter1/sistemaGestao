@@ -54,3 +54,11 @@ textarea{
     border-bottom-right-radius: 0.25rem;
     border-bottom-left-radius: 00.25rem;
 }
+
+.modal-xl{
+    max-width: 70%;
+}
+#mdl_cliente .modal-body{
+    height: 85vh;
+    overflow-y: scroll;
+}

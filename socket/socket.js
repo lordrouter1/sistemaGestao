@@ -100,13 +100,20 @@ module.exports = (io,socket,con) => {
     socket.on('delCategoria',(_data)=>{
         let data = _data;
         cat.deleteOne({_id:new ObjectId(data)}).then((err,obj)=>{
-            console.log(err,obj);
             if(err['deletedCount'] < 1){
                 socket.emit('categoria-resp',{success:false,err:'Erro ao excluir categoria!'});
             }
             else{
                 socket.emit('categoria-resp',{success:true});
             }
+        });
+    });
+
+    // --- GET ---
+    socket.on('getClienteModal',(_data)=>{
+        let data = _data;
+        usr.findOne({_id: new ObjectId(data)}).then((r)=>{
+            socket.emit('getClienteModal-resp',r);
         });
     });
 
