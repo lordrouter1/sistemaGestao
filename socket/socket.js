@@ -13,6 +13,7 @@ function convertToObj(data){
 module.exports = (io,socket,con) => {
     let usr = con.collection('usuarios');
     let cat = con.collection('categorias');
+    let mar = con.collection('marcas');
 
     socket.on('ping',()=>{console.log('pong!')});
 
@@ -46,6 +47,17 @@ module.exports = (io,socket,con) => {
         }
     });
 
+    socket.on('addMarca',(_data)=>{
+        let data = JSON.parse(_data);
+        try{
+            mar.insertOne(data);
+            socket.emit('marca-resp',{success:true});
+        }catch(e){
+            console.log(e);
+            socket.emit('marca-resp',{success:false,err:'Erro interno ao salvar!'});
+        }
+    });
+
     // --- EDIT ---
     socket.on('editUsr',(_data)=>{
         let data = JSON.parse(_data['form']);
@@ -55,7 +67,6 @@ module.exports = (io,socket,con) => {
             usr.findOne((data['cnpj']==undefined)?{cpf:data['cpf'],_id:{$ne:id}}:{cnpj:data['cnpj'],_id:{$ne:id}}).then((r)=>{
                 if(r == null){
                     usr.updateOne({_id:id},{$set:data}).then((err,res)=>{
-                        console.log(err,res);
                         socket.emit('editUser-resp',{success:true});
                     });
                 }else{
@@ -74,12 +85,25 @@ module.exports = (io,socket,con) => {
 
         try{
             cat.updateOne({_id:id},{$set:data}).then((err,res)=>{
-                console.log(err,res);
                 socket.emit('categoria-resp',{success:true});
             });
         }catch(e){
             console.log(e);
             socket.emit('categoria-resp',{success:false,err:'Erro interno ao editar!'})
+        }
+    });
+
+    socket.on('editMarca',(_data)=>{
+        let data = JSON.parse(_data['form']);
+        let id = new ObjectId(_data['id']);
+
+        try{
+            mar.updateOne({_id:id},{$set:data}).then((err,res)=>{
+               socket.emit('marca-resp',{success:true});
+            });
+        }catch(e){
+            console.log(e);
+            socket.emit('marca-resp',{success:false,err:'Erro interno ao editar!'});
         }
     });
 
@@ -114,6 +138,20 @@ module.exports = (io,socket,con) => {
         let data = _data;
         usr.findOne({_id: new ObjectId(data)}).then((r)=>{
             socket.emit('getClienteModal-resp',r);
+        });
+    });
+
+    socket.on('getCategoriaModal',(_data)=>{
+        let data = _data;
+        cat.findOne({_id:new ObjectId(data)}).then((r)=>{
+            socket.emit('getCategoriaModal-resp',r);
+        });
+    });
+
+    socket.on('getMarcaModal',(_data)=>{
+        let data = _data;
+        mar.findOne({_id:new ObjectId(data)}).then((r)=>{
+            socket.emit('getMarcaModal-resp',r);
         });
     });
 

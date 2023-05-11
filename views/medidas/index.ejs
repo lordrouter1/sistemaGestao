@@ -2,10 +2,10 @@
 
 <table id="principal"></table>
 
-<a class="btn btn-primary text-light" href="/categorias/novo">Adicionar</a>
+<a class="btn btn-primary text-light" href="/medidas/novo">Adicionar</a>
 
-<script src="/public/js/views/categorias/index/functions.js"></script>
-<script src="/public/js/views/categorias/index/sockets.js"></script>
+<script src="/public/js/views/medidas/index/sockets.js"></script>
+<script src="/public/js/views/medidas/index/functions.js"></script>
 <script>
     new gridjs.Grid({
         columns: [
@@ -17,8 +17,8 @@
                 name:'',
                 width: '15%',
                 formatter:(cell) => gridjs.html(`
-                    <a href="/categorias/editar/${cell}" class="btn btn-primary"><i class="fa-solid fa-pen"></i></a>
-                    <button onclick="modalCategoria('${cell}')" class="btn btn-secondary"><i class="fa-solid fa-eye"></i></button>
+                    <a href="/medidas/editar/${cell}" class="btn btn-primary"><i class="fa-solid fa-pen"></i></a>
+                    <button onclick="modalMedida('${cell}')" class="btn btn-secondary"><i class="fa-solid fa-eye"></i></button>
                 `),
             },
         ],
@@ -36,8 +36,8 @@
     }).render(document.getElementById("principal"));
 </script>
 
-<div class="modal fade" id="mdl_categoria">
-    <div class="modal-dialog modal-xl modal-dialog-scrollable">
+<div class="modal fade" id="mdl_medida">
+    <div class="modal-dialog modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
                 <h4><strong><span id="mdl_nome"></span></strong></h4>
@@ -50,13 +50,6 @@
                             <label for="">Descrição:</label>
                             <strong><span id="mdl_descricao"></span></strong>
                         </div>
-                    </div>
-                </div>
-                <div class="border p-2 rounded mt-2">
-                    <div class="col">
-                        <div id="mdl_sub">
-                            
-                        </div>                        
                     </div>
                 </div>
             </div>

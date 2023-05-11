@@ -28,14 +28,21 @@ module.exports = function(con){
     routers.get('/categorias',async (req,res)=>{
         res.render('categorias/index',{
             title:'Categorias',
-            data: JSON.stringify(await con.collection('categorias').find({},{projection:{_id:1,nome:1}}).toArray())
+            data: JSON.stringify(await con.collection('categorias').find({},{projection:{_id:1,nome:1,ativo:1}}).toArray())
         });
     });
 
     routers.get('/marcas',async (req,res)=>{
         res.render('marcas/index',{
             title:'Marcas',
-            data: JSON.stringify(await con.collection('marcas').find({},{projection:{_id:1,inp_nome:1}}).toArray())
+            data: JSON.stringify(await con.collection('marcas').find({},{projection:{_id:1,nome:1,ativo:1}}).toArray())
+        });
+    });
+
+    routers.get('/medidas',async (req,res)=>{
+        res.render('medidas/index',{
+            title:'Medidas',
+            data: JSON.stringify(await con.collection('medidas').find({},{projection:{_id:1,nome:1,ativo:1}}).toArray())
         });
     });
 
@@ -52,8 +59,12 @@ module.exports = function(con){
         res.render('categorias/categoria',{title:'Nova Categoria',categoria:{}});
     });
 
-    routers.get('/produtos/novo',(req,res)=>{
+    routers.get('/marcas/novo',(req,res)=>{
         res.render('marcas/marca',{title:'Nova Marca',marca:{}});
+    });
+
+    routers.get('/medidas/novo',(req,res)=>{
+        res.render('medidas/medida',{title:'Nova Medida',medida:{}});
     });
 
     // --- EDITAR ---
@@ -71,6 +82,24 @@ module.exports = function(con){
             res.render('categorias/categoria',{
                 title:'Editar Categoria',
                 categoria: r,
+            });
+        });
+    });
+
+    routers.get('/marcas/editar/:id',async (req,res)=>{
+        con.collection('marcas').findOne({_id:new ObjectId(req.params['id'])}).then((r)=>{
+            res.render('marcas/marca',{
+                title:'Editar Marcas',
+                marca: r,
+            });
+        });
+    });
+
+    routers.get('/marcas/medida/:id',async (req,res)=>{
+        con.collection('medidas').findOne({_id:new ObjectId(req.params['id'])}).then((r)=>{
+            res.render('medidas/medida',{
+                title:'Editar Medidas',
+                medida: r,
             });
         });
     });
