@@ -2,20 +2,24 @@
 
 <table id="principal"></table>
 
-<a class="btn btn-primary text-light" href="/produtos/novo">Adicionar</a>
+<a class="btn btn-primary text-light" href="/marcas/novo">Adicionar</a>
 
+<script src="/public/js/views/marca/index/sockets.js"></script>
+<script src="/public/js/views/marca/index/functions.js"></script>
 <script>
     new gridjs.Grid({
         columns: [
             {
-                id:'inp_descricao',
-                name: "Descricao",
-                with: '5%'
+                data: (row) => (row.ativo == 1)?row.nome:gridjs.html(row.nome+' <span class="badge bg-danger text-light">Inativo</span>'),
             },
             {
                 id:'_id',
                 name:'',
-                formatter:(cell) => gridjs.html(`<a href="/clientes/editar/${cell}" class="btn btn-primary"><i class="fa-solid fa-pen"></i></a>`),
+                width: '15%',
+                formatter:(cell) => gridjs.html(`
+                    <a href="/marcas/editar/${cell}" class="btn btn-primary"><i class="fa-solid fa-pen"></i></a>
+                    <button onclick="modalMarca('${cell}')" class="btn btn-secondary"><i class="fa-solid fa-eye"></i></button>
+                `),
             },
         ],
         data:<%-data-%>,
@@ -31,5 +35,26 @@
         },
     }).render(document.getElementById("principal"));
 </script>
+
+<div class="modal fade" id="mdl_marca">
+    <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4><strong><span id="mdl_nome"></span></strong></h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="border p-2 rounded">
+                    <div class="row">
+                        <div class="col">
+                            <label for="">Descrição:</label>
+                            <strong><span id="mdl_descricao"></span></strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 <%- include("../includes/footer.ejs"); %>

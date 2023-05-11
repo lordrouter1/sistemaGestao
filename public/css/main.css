@@ -5,6 +5,11 @@
 .text-primary{color: var(--primary) !important;}
 .btn-primary {color: #fff;background-color: var(--primary)!important;border-color: var(--primary)!important;}
 
+html{
+    font-size: 0.8rem!important;
+}
+
+
 body{
     font-family: sans-serif;
 }
@@ -15,10 +20,6 @@ textarea{
 
 .sectionMain{
     overflow-y: scroll;
-}
-
-#menuPrincipal{
-    font-size: 0.8rem!important;
 }
 
 .accordion [data-parent="#accordion"] .navbar-nav{
