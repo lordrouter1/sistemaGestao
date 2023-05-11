@@ -17,7 +17,8 @@ textarea{
     overflow-y: scroll;
 }
 
-#menuPrincipal{
+/*#menuPrincipal*/
+html{
     font-size: 0.8rem!important;
 }
 
