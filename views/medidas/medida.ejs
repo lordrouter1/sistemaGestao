@@ -17,7 +17,11 @@
                     <label for="inp_descricao">Nome</label>
                     <input type="text" name="inp_nome" id="inp_nome" class="form-control" value="<%- medida['nome'] -%>">
                 </div>
-                <div class="col-4">
+                <div class="col-2">
+                    <label for="inp_simbolo">Simbolo</label>
+                    <input type="text" name="inp_simbolo" id="inp_simbolo" class="form-control" value="<%- medida['simbolo'] -%>">
+                </div>
+                <div class="col-2">
                     <label for="inp_ativo">Ativo</label>
                     <select name="inp_ativo" id="inp_ativo" class="form-control">
                         <option value="1" <%- (medida['ativo'] != '0')?'selected':'' -%>>Sim</option>
@@ -25,10 +29,41 @@
                     </select>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <div class="card mt-3">
+        <div class="card-header bg-primary text-light">
+            <strong>Grandezas</strong>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col">
+                    <div class="input-group">
+                        <input type="text" id="inp_grandezaNome" class="form-control" placeholder="Nome">
+                        <input type="text" id="inp_grandezaSimbolo" class="form-control" placeholder="Símbolo">
+                        <input type="text" id="inp_grandezaProporcao" class="form-control" placeholder="Proporção(1:X)">
+                        <div class="input-group-append">
+                            <button type="button" class="btn btn-primary" id="btn_addGrandeza">Adicionar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="row mt-3">
                 <div class="col">
-                    <label for="inp_descricao">Descrição</label>
-                    <input type="text" name="inp_descricao" id="inp_descricao" class="form-control" value="<%- medida['descricao'] -%>">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>Simbolo</th>
+                                <th>Proporção</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbl_grandezas">
+
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
@@ -45,61 +80,9 @@
 
 </form>
 
-<script>
-    function toJson(){
-        let resp = {
-            nome:$('#inp_nome').val(),
-            descricao:$('#inp_descricao').val(),
-            ativo:$('#inp_ativo').val(),
-        };
-        
-        return JSON.stringify(resp);
-    }
-
-    $('#form_cadastro').submit((e)=>{
-        e.preventDefault();
-        if($('#inp_id').val() == ""){
-            socket.emit('addMedida',toJson());
-        }
-        else{
-            Swal.fire({
-                title:'Deseja salvar a edição?',
-                showCancelButton: true,
-                confirmButtonText: 'Salvar',
-                cancelButtonText: 'Cancelar',
-            }).then((resp)=>{
-                if(resp.isConfirmed){
-                    socket.emit('editMedida',{form:toJson(),id:$('#inp_id').val()});
-                };
-            });
-        }
-    });
-
-    $("#btn_excluir").click(()=>{
-        Swal.fire({
-            icon:'warning',
-            title: $('#inp_nome').val(),
-            text:'Deseja Excluir?',
-            showCancelButton: true,
-            showConfirmButton: false,
-            showDenyButton: true,
-            denyButtonText: 'Excluir',
-            cancelButtonText: 'Cancelar',
-        }).then((resp)=>{
-           if(resp.isDenied){
-                socket.emit('delMedida',$('#inp_id').val());
-            };
-        });
-    });
-
-    socket.on('medida-resp',(resp)=>{
-        Swal.fire({
-            icon:(resp['success'])?'success':'error',
-            showConfirmButton: false,
-            title:(resp['success'])?'Transação sucedida':resp['err'],
-            timer: 1500
-        }).then(()=>{if(resp['success']){location.href='/medidas'}});
-    });
-</script>
+<script src="/public/js/views/medidas/medida/functions.js"></script>
+<script src="/public/js/views/medidas/medida/sockets.js"></script>
+<script src="/public/js/views/medidas/medida/submit.js"></script>
+<script src="/public/js/views/medidas/medida/events.js"></script>
 
 <%- include("../includes/footer.ejs"); %>

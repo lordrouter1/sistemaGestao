@@ -133,6 +133,18 @@ module.exports = (io,socket,con) => {
         });
     });
 
+    socket.on('delMarca',(_data)=>{
+        let data = _data;
+        mar.deleteOne({_id:new ObjectId(data)}).then((err,obj)=>{
+            if(err['deletedCount'] < 1){
+                socket.emit('carca-resp',{success:false,err:'Erro ao excluir marca!'});
+            }
+            else{
+                socket.emit('marca-resp',{success:true});
+            }
+        });
+    });
+
     // --- GET ---
     socket.on('getClienteModal',(_data)=>{
         let data = _data;
