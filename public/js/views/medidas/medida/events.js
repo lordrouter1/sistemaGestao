@@ -16,7 +16,6 @@ $("#btn_excluir").click(()=>{
 });
 
 $('#btn_addGrandeza').click(()=>{
-    console.log('$');
     $("#tbl_grandezas").append(`
     <tr>
         <td><input type="text" value="`+$("#inp_grandezaNome").val()+`" class="form-control" disabled></td>

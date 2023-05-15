@@ -14,6 +14,7 @@ module.exports = (io,socket,con) => {
     let usr = con.collection('usuarios');
     let cat = con.collection('categorias');
     let mar = con.collection('marcas');
+    let med = con.collection('medidas');
 
     socket.on('ping',()=>{console.log('pong!')});
 
@@ -55,6 +56,17 @@ module.exports = (io,socket,con) => {
         }catch(e){
             console.log(e);
             socket.emit('marca-resp',{success:false,err:'Erro interno ao salvar!'});
+        }
+    });
+
+    socket.on('addMedida',(_data)=>{
+        let data = JSON.parse(_data);
+        try{
+            med.insertOne(data);
+            socket.emit('medida-resp',{success:true});
+        }catch(e){
+            console.log(e);
+            socket.emit('medida-resp',{success:false,err:'Erro interno ao salvar!'});
         }
     });
 
@@ -107,6 +119,20 @@ module.exports = (io,socket,con) => {
         }
     });
 
+    socket.on('editMedida',(_data)=>{
+        let data = JSON.parse(_data['form']);
+        let id = new ObjectId(_data['id']);
+
+        try{
+            med.updateOne({_id:id},{$set:data}).then((err,res)=>{
+                socket.emit('medida-resp',{success:true});
+            });
+        }catch(e){
+            console.log(e);
+            socket.emit('medida-resp',{success:false,err:'Erro interno ao editar!'});
+        }
+    });
+
     // --- DEL ---
     socket.on('delUsr',(_data)=>{
         let data = _data;
@@ -145,6 +171,18 @@ module.exports = (io,socket,con) => {
         });
     });
 
+    socket.on('delMedida',(_data)=>{
+        let data = _data;
+        med.deleteOne({_id:new ObjectId(data)}).then((err,obj)=>{
+            if(err['deletedCount'] < 1){
+                socket.emit('medida-resp',{success:false,err:'Erro ao excluir marca!'});
+            }
+            else{
+                socket.emit('medida-resp',{success:true});
+            }
+        });
+    });
+
     // --- GET ---
     socket.on('getClienteModal',(_data)=>{
         let data = _data;
@@ -164,6 +202,13 @@ module.exports = (io,socket,con) => {
         let data = _data;
         mar.findOne({_id:new ObjectId(data)}).then((r)=>{
             socket.emit('getMarcaModal-resp',r);
+        });
+    });
+
+    socket.on('getMedidaModal',(_data)=>{
+        let data = _data;
+        med.findOne({_id:new ObjectId(data)}).then((r)=>{
+            socket.emit('getMedidaModal-resp',r);
         });
     });
 

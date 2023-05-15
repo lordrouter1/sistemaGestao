@@ -95,7 +95,7 @@ module.exports = function(con){
         });
     });
 
-    routers.get('/marcas/medida/:id',async (req,res)=>{
+    routers.get('/medidas/editar/:id',async (req,res)=>{
         con.collection('medidas').findOne({_id:new ObjectId(req.params['id'])}).then((r)=>{
             res.render('medidas/medida',{
                 title:'Editar Medidas',

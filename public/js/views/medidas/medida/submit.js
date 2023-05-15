@@ -1,9 +1,21 @@
 function toJson(){
+    let grandeza = $('#tbl_grandezas tr');
+
     let resp = {
         nome:$('#inp_nome').val(),
-        descricao:$('#inp_descricao').val(),
+        simbolo:$('#inp_simbolo').val(),
         ativo:$('#inp_ativo').val(),
+        grandeza:[],
     };
+
+    for(let i = 0;i < grandeza.length;i++){
+        let grand = $(grandeza[i]).find('input');
+        resp.grandeza.push({
+            nome: $(grand[0]).val(),
+            simbolo: $(grand[1]).val(),
+            proporcao: $(grand[2]).val(),
+        });
+    }
     
     return JSON.stringify(resp);
 }
