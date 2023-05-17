@@ -1,9 +1,15 @@
 :root{
-    --primary: #183a44;
+    --primary: #295872;
+    --secondary: #357599;
 }
+
 .bg-primary{background-color: var(--primary) !important;}
 .text-primary{color: var(--primary) !important;}
 .btn-primary {color: #fff;background-color: var(--primary)!important;border-color: var(--primary)!important;}
+
+.bg-secondary{background-color: var(--secondary) !important;}
+.text-secondary{color: var(--secondary) !important;}
+.btn-secondary{color: #fff;background-color: var(--secondary) !important; border-color: var(--secondary) !important;}
 
 html{
     font-size: 0.8rem!important;
@@ -67,4 +73,25 @@ html{
 #mdl_cliente .modal-body{
     height: 85vh;
     overflow-y: scroll;
+}
+
+.container-foto{
+    position: relative;
+}
+.overlay {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    width: 100%;
+    transition: .3s ease;
+    color: rgba(255,255,255,0);
+    background-color: rgba(255,255,255,0);
+    font-size: 4rem;
+}
+.container-foto:hover .overlay {
+    color: rgba(0,0,0,1);
+    background-color: rgba(255,255,255,0.8);
 }

@@ -4,6 +4,7 @@ let qrCode = new QRCode(document.getElementById('inp_qrCode'),{
     height:128
 });
 JsBarcode('#inp_codigoDeBarras','1234567890123',{width:1,height:60});
+var base = new Image();
 
 $("#btn_excluir").click(()=>{
     Swal.fire({
@@ -38,7 +39,7 @@ $('#inp_foto').change(()=>{
     file.readAsDataURL($('#inp_foto').prop('files')[0]);
 });
 
-$('#inp_fotoSrc').click(()=>{
+$('#inp_fotoBotao').click(()=>{
     $('#inp_foto').click();
 });
 
