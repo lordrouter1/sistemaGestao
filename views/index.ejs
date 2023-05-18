@@ -1,32 +1,265 @@
 <%- include("includes/header-basic.ejs",{title:title}); %>
+
+<link rel="stylesheet" href="/public/css/dashboard/index.css">
+
 <script src="/public/js/chartjs.js"></script>
-<div class="container mt-3">
+
+<div class="container">
+
     <div class="row">
-        <div class="col">
-            <div class="card">
-                <div class="card-header">
-                    <strong>Teste</strong>
-                </div>
+        <div class="col-2">
+            <div class="card h-100">
                 <div class="card-body border-left-success">
-                    <canvas id="chart_1" class="w-100 h-100"></canvas>
+                    <div class="row">
+                        <div class="col text-primary">
+                            <strong>Pedidos</strong>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col">
+                            <canvas id="chart_1" class="w-100 h-100"></canvas>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="col">
+        <div class="col-4">
             <div class="card">
                 <div class="card-body">
-                    <canvas id="chart_2"></canvas>
+                    <div class="row">
+                        <div class="col text-primary">
+                            <strong>Lucro Real (R$)</strong>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col">
+                            <canvas id="chart_2"></canvas>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="col">
+        <div class="col-4">
             <div class="card">
                 <div class="card-body">
-                    <canvas id="chart_3"></canvas>
+                    <div class="row">
+                        <div class="col text-primary">
+                            <strong>Faturamento (R$)</strong>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col">
+                            <canvas id="chart_3"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-2">
+            <div class="card h-100">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col text-primary">
+                            <strong>Cobranças</strong>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col">
+                            <canvas id="chart_4"></canvas>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <div class="row mt-3">
+        <div class="col">
+            <div class="row">
+                <div class="col text-primary">
+                    <strong>Vendas (Pedidos)</strong>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <canvas id="chart_5"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-3">
+
+        <div class="col-3">
+            <div class="card h-100">
+                <div class="card-body">
+                    <ul class="list-group">
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <strong>Clientes</strong>
+                            <span>36</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <strong>Fornecedores</strong>
+                            <span>12</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <strong>Produtos</strong>
+                            <span>75</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <strong>Pedidos</strong>
+                            <span>230</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <strong>Orçamentos</strong>
+                            <span>14</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-6">
+
+            <div class="row">
+                <div class="col">
+                    <a href="#" class="btn btn-block btn-primary text-center p-3">
+                        <i class="fa-solid fa-user-plus" style="font-size: 3rem;"></i><br>
+                        Nova Pessoa
+                    </a>
+                </div>
+                <div class="col">
+                    <a href="#" class="btn btn-block btn-secondary text-center p-3">
+                        <i class="fa-solid fa-box" style="font-size: 3rem;"></i><br>
+                        Novo Produto
+                    </a>
+                </div>
+                <div class="col">
+                    <a href="#" class="btn btn-block btn-primary text-center p-3">
+                        <i class="fa-solid fa-cart-plus" style="font-size: 3rem;"></i><br>
+                        Novo Pedido
+                    </a>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-3">
+            <div class="card h-100">
+                <div class="card-body">
+                    <div class="row mb-3">
+                        <div class="col text-primary text-center">
+                            <strong>Notícias</strong>
+                        </div>
+                    </div>
+                    <div id="feed_noticias" class="p-2">
+                        
+                        <div class="row mt-3">
+                            <div class="col">
+                                <div class="card">
+                                    <div class="card-body bg-primary text-light rounded">
+                                        <strong>noticia de teste para teste</strong>
+                                        <p class="mt-2">Lorem ipsum dolor sit amet. Sed fuga illum et provident explicabo ut voluptatem impedit sed ipsa ipsam et adipisci iure...</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mt-3">
+                            <div class="col">
+                                <div class="card">
+                                    <div class="card-body bg-primary text-light rounded">
+                                        <strong>noticia de teste para teste</strong>
+                                        <p class="mt-2">Lorem ipsum dolor sit amet. Sed fuga illum et provident explicabo ut voluptatem impedit sed ipsa ipsam et adipisci iure...</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mt-3">
+                            <div class="col">
+                                <div class="card">
+                                    <div class="card-body bg-primary text-light rounded">
+                                        <strong>noticia de teste para teste</strong>
+                                        <p class="mt-2">Lorem ipsum dolor sit amet. Sed fuga illum et provident explicabo ut voluptatem impedit sed ipsa ipsam et adipisci iure...</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mt-3">
+                            <div class="col">
+                                <div class="card">
+                                    <div class="card-body bg-primary text-light rounded">
+                                        <strong>noticia de teste para teste</strong>
+                                        <p class="mt-2">Lorem ipsum dolor sit amet. Sed fuga illum et provident explicabo ut voluptatem impedit sed ipsa ipsam et adipisci iure...</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mt-3">
+                            <div class="col">
+                                <div class="card">
+                                    <div class="card-body bg-primary text-light rounded">
+                                        <strong>noticia de teste para teste</strong>
+                                        <p class="mt-2">Lorem ipsum dolor sit amet. Sed fuga illum et provident explicabo ut voluptatem impedit sed ipsa ipsam et adipisci iure...</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mt-3">
+                            <div class="col">
+                                <div class="card">
+                                    <div class="card-body bg-primary text-light rounded">
+                                        <strong>noticia de teste para teste</strong>
+                                        <p class="mt-2">Lorem ipsum dolor sit amet. Sed fuga illum et provident explicabo ut voluptatem impedit sed ipsa ipsam et adipisci iure...</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mt-3">
+                            <div class="col">
+                                <div class="card">
+                                    <div class="card-body bg-primary text-light rounded">
+                                        <strong>noticia de teste para teste</strong>
+                                        <p class="mt-2">Lorem ipsum dolor sit amet. Sed fuga illum et provident explicabo ut voluptatem impedit sed ipsa ipsam et adipisci iure...</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mt-3">
+                            <div class="col">
+                                <div class="card">
+                                    <div class="card-body bg-primary text-light rounded">
+                                        <strong>noticia de teste para teste</strong>
+                                        <p class="mt-2">Lorem ipsum dolor sit amet. Sed fuga illum et provident explicabo ut voluptatem impedit sed ipsa ipsam et adipisci iure...</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mt-3">
+                            <div class="col">
+                                <div class="card">
+                                    <div class="card-body bg-primary text-light rounded">
+                                        <strong>noticia de teste para teste</strong>
+                                        <p class="mt-2">Lorem ipsum dolor sit amet. Sed fuga illum et provident explicabo ut voluptatem impedit sed ipsa ipsam et adipisci iure...</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
 </div>
 
 <script src="/public/js/views/dashboard/sockets.js"></script>
