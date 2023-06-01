@@ -5,6 +5,14 @@
 
 <input type="hidden" id="inp_id" value="">
 
+<%-
+    marcas.map(marca => `<option value="${marca['_id']}">${marca['nome']}</option>`).join(' ');
+%>
+
+<%-
+    JSON.stringify(categorias);
+%>
+
 <form id="form_cadastro">
    
     <div class="card">
@@ -29,6 +37,26 @@
                 <div class="col">
                     <label for="inp_descricao">Descrição</label>
                     <input type="text" name="inp_descricao" id="inp_descricao" class="form-control">
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col">
+                    <label for="inp_marca">Marca</label>
+                    <select name="inp_marca" id="inp_marca" class="form-control">
+                        <option value="" selected disabled></option>
+                    </select>
+                </div>
+                <div class="col">
+                    <label for="inp_categoria">Categoria</label>
+                    <select name="inp_categoria" id="inp_categoria" class="form-control">
+                        <option value="" selected disabled></option>
+                    </select>
+                </div>
+                <div class="col">
+                    <label for="inp_subCategoria">Subcategoria</label>
+                    <select name="inp_subCategoria" id="inp_subCategoria" class="form-control">
+                        <option value="" selected disabled></option>
+                    </select>
                 </div>
             </div>
             <div class="row mt-3">

@@ -5,6 +5,7 @@ const logger = require('morgan');
 const https = require('https');
 const http = require('http');
 const ejs = require('ejs');
+const fs = require('fs');
 // --- BANCO DE DADOS --- //
 // const sqlite = require('sqlite3'); // SQLITE
 const { MongoClient } = require('mongodb'); // MONGODB
@@ -47,10 +48,35 @@ const port = 3000;
 const app = express();
 
 // Se HTTPS difinir como true
-const server = (false)?https.createServer(app):http.createServer(app);
+const server = (false)?https.createServer(app):http.createServer({/*key: fs.readFileSync("cert/key.pem"),cert: fs.readFileSync("cert/cert.pem")*/},app);
+
+// Session Config
+const confSession = session({
+    secret: '123456789',
+    name: 'sessao',
+    resave: false,
+    saveUninitialized: true,
+    cookie:{
+        secure: false,
+        httpOnly: true,
+        path:'/',
+        expires: false
+    }
+})
 
 //
 const io = new Server(server);
+const wrap = middleware => (socket,next) => middleware(socket.request,{},next);
+io.use(wrap(confSession));
+io.use((socket,next)=>{
+    console.log(socket.request.session);
+    if(socket.request.session.user){
+        next();
+    }
+    else{
+        next(new Error('Nao Autorizado'));
+    }
+});
 
 // Socket.IO Middleware
 io.on('connection',(socket)=>{socketEvents(io,socket,con)});
@@ -61,22 +87,12 @@ app.set('views',__dirname+'/views');
 app.set('trust proxy',1);
 
 //
-app.use(routers);
+app.use(express.json());
 app.use(helmet());
 app.use(logger('dev'));
 app.use('/public/',express.static(__dirname+'/public'));
-app.use(session({
-    secret: '123456789',
-    name: 'sessão',
-    resave: false,
-    saveUninitialized: true,
-    cookie:{
-        secure: false,
-        httpOnly: true,
-        path:'/',
-        expires: false
-    }
-}));
+app.use(confSession);
+app.use(routers);
 
 //
 server.listen(port);

@@ -16,7 +16,7 @@ module.exports = (io,socket,con) => {
     let mar = con.collection('marcas');
     let med = con.collection('medidas');
 
-    socket.on('ping',()=>{console.log('pong!')});
+    socket.on('ping',(_data)=>{console.log('@@',_data.request.session)});
 
     // --- ADD ---
     socket.on('addUsr',(_data)=>{
