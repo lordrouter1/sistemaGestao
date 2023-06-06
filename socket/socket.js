@@ -10,13 +10,13 @@ function convertToObj(data){
 }
 */
 
-module.exports = (io,socket,con) => {
-    let usr = con.collection('usuarios');
-    let cat = con.collection('categorias');
-    let mar = con.collection('marcas');
-    let med = con.collection('medidas');
+module.exports = (io,socket,cMongoDB) => {
+    let usr = cMongoDB.db(socket.request.session.user.database).collection('usuarios');
+    let cat = cMongoDB.db(socket.request.session.user.database).collection('categorias');
+    let mar = cMongoDB.db(socket.request.session.user.database).collection('marcas');
+    let med = cMongoDB.db(socket.request.session.user.database).collection('medidas');
 
-    socket.on('ping',(_data)=>{console.log('@@',_data.request.session)});
+    socket.on('ping',(_data)=>{console.log('pong',socket.request.session.user)});
 
     // --- ADD ---
     socket.on('addUsr',(_data)=>{

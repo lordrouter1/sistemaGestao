@@ -80,7 +80,7 @@ $('#btn_addContato').click(()=>{
         <td class="w-25"><input type="text" value="`+$('#inp_tipoContato').val()+`" class="form-control" disabled></td>
         <td><input type="text" value="`+$("#inp_contato").val()+`" class="form-control" disabled></td>
         <td><select class="form-control"><option value="0">Nao</option><option value="1">Sim</option></select></td>
-        <td><button type="button" class="btn btn-danger" onclick="delThis(this)"><i class="fa-solid fa-trash-can"></i></button></td>
+        <td><button type="button" class="btn btn-danger delButton"><i class="fa-solid fa-trash-can"></i></button></td>
     </tr>
     `);
     $("#inp_contato").val('');
@@ -95,7 +95,7 @@ $('#btn_addEndereco').click(()=>{
         <td><input class="form-control" value="`+$('#inp_numero').val()+`" disabled></td>
         <td><input class="form-control" value="`+$('#inp_complemento').val()+`" disabled></td>
         <td><select class="form-control"><option value="0">Nao</option><option value="1">Sim</option></select></td>
-        <td><button type="button" class="btn btn-danger" onclick="delThis(this)"><i class="fa-solid fa-trash-can"></i></button></td>
+        <td><button type="button" class="btn btn-danger delButton"><i class="fa-solid fa-trash-can"></i></button></td>
     </tr>
     `);
     $("#inp_cep").val('');
@@ -113,7 +113,7 @@ $('#btn_addBanco').click(()=>{
         <td><input type="text" value="`+$("#inp_bancoAgencia").val()+`" class="form-control" disabled></td>
         <td><input type="text" value="`+$("#inp_bancoConta").val()+`" class="form-control" disabled></td>
         <td><select class="form-control"><option value="0">Nao</option><option value="1">Sim</option></select></td>
-        <td><button type="button" class="btn btn-danger" onclick="delThis(this)"><i class="fa-solid fa-trash-can"></i></button></td>
+        <td><button type="button" class="btn btn-danger delButton"><i class="fa-solid fa-trash-can"></i></button></td>
     </tr>
     `);
     $("#inp_bancoCodigo").val('');
@@ -129,7 +129,7 @@ $('#btn_addPix').click(()=>{
         <td class="w-25"><input type="text" class="form-control" value="`+$('#inp_pixTipo').val()+`" disabled></td>
         <td><input type="text" value="`+$('#inp_pixChave').val()+`" class="form-control" disabled></td>
         <td><select class="form-control"><option value="0">Nao</option><option value="1">Sim</option></select></td>
-        <td><button type="button" class="btn btn-danger" onclick="delThis(this)"><i class="fa-solid fa-trash-can"></i></button></td>
+        <td><button type="button" class="btn btn-danger delButton"><i class="fa-solid fa-trash-can"></i></button></td>
     </tr>
     `);
     $("#inp_pixTipo").val('');

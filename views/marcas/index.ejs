@@ -4,37 +4,10 @@
 
 <a class="btn btn-primary text-light" href="/marcas/novo">Adicionar</a>
 
+<meta id="conData" val='<%-data-%>'>
+
 <script src="/public/js/views/marca/index/sockets.js"></script>
 <script src="/public/js/views/marca/index/functions.js"></script>
-<script>
-    new gridjs.Grid({
-        columns: [
-            {
-                data: (row) => (row.ativo == 1)?row.nome:gridjs.html(row.nome+' <span class="badge bg-danger text-light">Inativo</span>'),
-            },
-            {
-                id:'_id',
-                name:'',
-                width: '15%',
-                formatter:(cell) => gridjs.html(`
-                    <a href="/marcas/editar/${cell}" class="btn btn-primary"><i class="fa-solid fa-pen"></i></a>
-                    <button onclick="modalMarca('${cell}')" class="btn btn-secondary"><i class="fa-solid fa-eye"></i></button>
-                `),
-            },
-        ],
-        data:<%-data-%>,
-        search: true,
-        language:{
-            'search':{
-                'placeholder': 'Pesquisar',
-            },
-        },
-        pagination: {
-            limit: 10,
-            summary: false,
-        },
-    }).render(document.getElementById("principal"));
-</script>
 
 <div class="modal fade" id="mdl_marca">
     <div class="modal-dialog modal-dialog-scrollable">

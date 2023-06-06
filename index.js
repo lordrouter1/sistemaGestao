@@ -40,7 +40,7 @@ con.connect();
 // --- FIM BANCO DE DADOS --- //
 
 // --- FUNÇÕES LOCAIS --- //
-const routers = require('./router/router')(con);
+const routers = require('./router/router')(con,cMongoDB);
 const socketEvents = require('./socket/socket');
 
 //
@@ -69,7 +69,6 @@ const io = new Server(server);
 const wrap = middleware => (socket,next) => middleware(socket.request,{},next);
 io.use(wrap(confSession));
 io.use((socket,next)=>{
-    console.log(socket.request.session);
     if(socket.request.session.user){
         next();
     }
@@ -79,7 +78,7 @@ io.use((socket,next)=>{
 });
 
 // Socket.IO Middleware
-io.on('connection',(socket)=>{socketEvents(io,socket,con)});
+io.on('connection',(socket)=>{socketEvents(io,socket,cMongoDB)});
 
 //
 app.set('view engine','ejs');

@@ -11,3 +11,33 @@ $("#inp_razaoSocial").focus();
 function delThis(self){
     $(self).parent().parent().remove();
 }
+
+$(document).ready(function(){
+    $('#form_cadastro').submit((e)=>{
+        e.preventDefault();
+        if($('#inp_id').val() == ""){
+            socket.emit('addUsr',JSON.stringify($(e.target).serializeArray()));
+        }
+        else{
+            Swal.fire({
+                title:'Deseja salvar a edição?',
+                showCancelButton: true,
+                confirmButtonText: 'Salvar',
+                cancelButtonText: 'Cancelar',
+            }).then((resp)=>{
+                if(resp.isConfirmed){
+                    socket.emit('editUsr',{form:JSON.stringify($(e.target).serializeArray()),id:$('#inp_id').val()});
+                };
+            });
+        }
+    });
+
+    socket.on('addUser-resp',(resp)=>{
+        Swal.fire({
+            icon:(resp['success'])?'success':'error',
+            showConfirmButton: false,
+            title:(resp['success'])?'Cliente salvo':resp['err'],
+            timer: 1500
+        }).then(()=>{if(resp['success']){location.href='/clientes'}});
+    });
+});

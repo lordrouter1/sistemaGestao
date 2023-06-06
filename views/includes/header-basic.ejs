@@ -20,11 +20,7 @@
 
     <script src="/public/js/sweetalert2.all.min.js"></script>
     
-    <script>
-        var socket = io();
-
-        socket.emit('ping');
-    </script>
+    <script src="/public/js/views/header.js"></script>
 </head>
 <body class="h-100 d-flex">
     <nav id="menuPrincipal" class="navbar bg-primary navbar-primary text-light d-flex pt-3">
@@ -124,7 +120,9 @@
 
         </div>
 
-        <button class="btn btn-danger btn-block text-light mt-auto">Sair</button>
+        <form action="/logoff" method="post" class="w-100 mt-auto">
+            <button class="btn btn-danger btn-block text-light">Sair</button>
+        </form>
 
     </nav>
     <section class="w-100 h-100 bg-light sectionMain pt-3 pb-3">

@@ -66,7 +66,7 @@
                                     <td><input class="form-control" value="<%- medida['grandeza'][i]['nome'] -%>" disabled></td>
                                     <td><input class="form-control" value="<%- medida['grandeza'][i]['simbolo'] -%>" disabled></td>
                                     <td class="d-flex"><span class="m-auto">1 <%- medida['grandeza'][i]['simbolo'] -%> = </span> <input type="text" value="<%- medida['grandeza'][i]['proporcao'] -%>" class="form-control w-50" disabled><span class="m-auto"> <%- medida['simbolo'] -%></span></td>
-                                    <td><button type="button" class="btn btn-danger" onclick="delThis(this)"><i class="fa-solid fa-trash-can"></i></button></td>
+                                    <td><button type="button" class="btn btn-danger delButton"><i class="fa-solid fa-trash-can"></i></button></td>
                                 </tr>
                             <% } %>
                         </tbody>

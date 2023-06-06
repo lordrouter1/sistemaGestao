@@ -180,7 +180,7 @@ if(cliente != undefined){
                                             <td><input class="form-control" value="<%- cliente['endereco'][i]['numero'] -%>" disabled></td>
                                             <td><input class="form-control" value="<%- cliente['endereco'][i]['complemento'] -%>" disabled></td>
                                             <td><select class="form-control"><option value="0" <%- (cliente['endereco'][i]['padrao'] == '2')?'selected':'' -%>>Nao</option><option value="1" <%- (cliente['endereco'][i]['padrao'] == '1')?'selected':'' -%>>Sim</option></select></td>
-                                            <td><button type="button" class="btn btn-danger" onclick="delThis(this)"><i class="fa-solid fa-trash-can"></i></button></td>
+                                            <td><button type="button" class="btn btn-danger delButton"><i class="fa-solid fa-trash-can"></i></button></td>
                                         </tr>
                                     <% } %>
                                 </tbody>
@@ -231,7 +231,7 @@ if(cliente != undefined){
                                             <td><input type="text" class="form-control" value="<%- cliente['contato'][i]['tipo'] -%>" disabled></td>
                                             <td><input type="text" value="<%- cliente['contato'][i]['contato']-%>" class="form-control" disabled></td>
                                             <td><select class="form-control"><option value="0" <%- (cliente['contato'][i]['padrao'] == '0')?'selected':'' -%>>Nao</option><option value="1" <%- (cliente['contato'][i]['padrao'] == '1')?'selected':'' -%>>Sim</option></select></td>
-                                            <td><button type="button" class="btn btn-danger" onclick="delThis(this)"><i class="fa-solid fa-trash-can"></i></button></td>
+                                            <td><button type="button" class="btn btn-danger delButton"><i class="fa-solid fa-trash-can"></i></button></td>
                                         </tr>
                                     <% } %>
                                 </tbody>
@@ -337,7 +337,7 @@ if(cliente != undefined){
                                         <td><input type="text" value="<%- cliente['banco'][i]['agencia']-%>" class="form-control" disabled></td>
                                         <td><input type="text" value="<%- cliente['banco'][i]['numero']-%>" class="form-control" disabled></td>
                                         <td><select class="form-control"><option value="0" <%- (cliente['banco'][i]['padrao'] == '0')?'selected':'' -%>>Nao</option><option value="1" <%- (cliente['banco'][i]['padrao'] == '1')?'selected':'' -%>>Sim</option></select></td>
-                                        <td><button type="button" class="btn btn-danger" onclick="delThis(this)"><i class="fa-solid fa-trash-can"></i></button></td>
+                                        <td><button type="button" class="btn btn-danger delButton"><i class="fa-solid fa-trash-can"></i></button></td>
                                     </tr>
                                 <% } %>
                             </tbody>
@@ -383,7 +383,7 @@ if(cliente != undefined){
                                         <td><input type="text" class="form-control" value="<%- cliente['pix'][i]['tipo'] -%>" disabled></td>
                                         <td><input type="text" value="<%- cliente['pix'][i]['chave']-%>" class="form-control" disabled></td>
                                         <td><select class="form-control"><option value="0" <%- (cliente['pix'][i]['padrao'] == '0')?'selected':'' -%>>Nao</option><option value="1" <%- (cliente['pix'][i]['padrao'] == '1')?'selected':'' -%>>Sim</option></select></td>
-                                        <td><button type="button" class="btn btn-danger" onclick="delThis(this)"><i class="fa-solid fa-trash-can"></i></button></td>
+                                        <td><button type="button" class="btn btn-danger delButton"><i class="fa-solid fa-trash-can"></i></button></td>
                                     </tr>
                                 <% } %>
                             </tbody>
