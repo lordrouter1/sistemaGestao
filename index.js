@@ -6,7 +6,6 @@ const https = require('https');
 const http = require('http');
 const ejs = require('ejs');
 const fs = require('fs');
-const csurf = require(`csurf`);
 // --- BANCO DE DADOS --- //
 // const sqlite = require('sqlite3'); // SQLITE
 const { MongoClient } = require('mongodb'); // MONGODB
@@ -93,7 +92,6 @@ app.use(logger('dev'));
 app.use('/public/',express.static(__dirname+'/public'));
 app.use(confSession);
 app.use(routers);
-
 //
 server.listen(port);
 console.log(`Sistema funcionando na porta ${port}`);
