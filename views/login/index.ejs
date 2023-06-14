@@ -15,6 +15,7 @@
     <script src="/public/js/socket.js"></script>
 
     <script src="/public/js/sweetalert2.all.min.js"></script>
+    <script src="/public/js/jquery.mask.min.js"></script>
     <script src="/public/js/sha256.js"></script>
     <script src="/public/js/views/login/index.js"></script>
 </head>
@@ -26,12 +27,140 @@
                 <input type="text" id="256" name="245" class="form-control mt-3" placeholder="E-mail">
                 <input type="password" id="237" name="506" class="form-control mt-3" placeholder="Senha">
                 <button type="button" id="648" class="btn btn-secondary mt-3 btn-block">Entrar</button>
+                <span class="btn mt-3" data-toggle="modal" data-target="#mdl_cadastro">Nova empresa</span>
             
         </div>
     </nav>
     <section class="w-100 h-100 bg-light" style="background-image:url('/public/img/background/login.jpg');">
 
     </section>
+    <div class="modal" id="mdl_cadastro">
+        <div class="modal-dialog modal-lg h-75">
+            <div class="modal-content h-75">
+                <div class="modal-body h-75 bg-primary">
+
+                    <div id="cadastro" class="carousel slide h-100" data-interval="false" data-ride="carousel">
+                      
+                        <!-- The slideshow -->
+                        <div class="carousel-inner h-100 text-light">
+
+                            <div class="carousel-item active h-100">
+                                <div class="h-100 w-100 d-flex">
+                                    <div class="m-auto">
+                                        <h4>Seja bem-vindo ao nosso sistema de gestao</h4>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="carousel-item h-100">
+                                <div class="h-100 w-100 d-flex">
+                                    <div class="m-auto">
+                                        <h4>Vamos começar com um breve cadastro do seu usuário principal</h4>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="carousel-item h-100">
+                                <div class="h-100 w-100 d-flex">
+                                    <div class="m-auto">
+                                        <h4>Informe abaixo um email para o seu usuário</h4><br>
+                                        <input type="email" id="inp_email" class="form-control" placeholder="Insira seu email aqui" required>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="carousel-item h-100">
+                                <div class="h-100 w-100 d-flex">
+                                    <div class="m-auto">
+                                        <h4>Agora vamos precisar que você digite uma senha</h4><br>
+                                        <input type="password" id="inp_senha" class="form-control" placeholder="Insira sua senha aqui" required><br>
+                                        <input type="password" id="inp_senha2" class="form-control" placeholder="Repita a sua senha" required>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="carousel-item h-100">
+                                <div class="h-100 w-100 d-flex">
+                                    <div class="m-auto">
+                                        <h4>Também vamos precisar do seu nome completo e o número do seu CPF</h4><br>
+                                        <input type="text" id="inp_nome" class="form-control" placeholder="Seu nome completo" required><br>
+                                        <input type="text" id="inp_cpf" class="form-control" placeholder="Insira aqui o seu CPF" required>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="carousel-item h-100">
+                                <div class="h-100 w-100 d-flex">
+                                    <div class="m-auto">
+                                        <h4>Para terminar o seu cadastro vamos precisar de um número para contato</h4><br>
+                                        <input type="text" id="inp_cel" class="form-control" placeholder="Número para contato" required><br>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="carousel-item h-100">
+                                <div class="h-100 w-100 d-flex">
+                                    <div class="m-auto">
+                                        <h4>Agora vamos cadastrar sua empresa</h4>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="carousel-item h-100">
+                                <div class="h-100 w-100 d-flex">
+                                    <div class="m-auto">
+                                        <h4>Informe abaixo a razão social e o nome fantasia da sua empresa</h4><br>
+                                        <input type="text" id="inp_razaoSocial" class="form-control" placeholder="Digite a razão social aqui" require><br>
+                                        <input type="text" id="inp_nomeFantasia" class="form-control" placeholder="Insira aqui o nome fantasia" required>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="carousel-item h-100">
+                                <div class="h-100 w-100 d-flex">
+                                    <div class="m-auto">
+                                        <h4>Também precisaremos do CNPJ e do numero da Inscrição Estadual<br> e Inscrição Municipal se possuir</h4><br>
+                                        <input type="text" id="inp_cnpj" class="form-control" placeholder="Informe o seu CNPJ" required><br>
+                                        <input type="text" id="inp_ie" class="form-control" placeholder="(Opcional) Insira a Inscrição Estadual aqui"><br>
+                                        <input type="text" id="inp_im" class="form-control" placeholder="(Opcional) Digite aqui a Inscrição Municipal">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="carousel-item h-100">
+                                <div class="h-100 w-100 d-flex">
+                                    <div class="m-auto">
+                                        <h4>E para finalizar vamos precisar de um e-mail e um telefone para contato</h4><br>
+                                        <input type="text" id="inp_empEmail" class="form-control" placeholder="Informe o email da empresa" required><br>
+                                        <input type="text" id="inp_empTel" class="form-control" placeholder="Insira aqui o telefone para contato" required><br>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="carousel-item h-100">
+                                <div class="h-100 w-100 d-flex">
+                                    <div class="m-auto">
+                                        <button type="button" class="btn btn-block btn-secondary p-3" id="164">Vamos começar</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                      
+                        <!-- Left and right controls -->
+                        <a class="carousel-control-prev" href="#cadastro" data-slide="prev">
+                          <span class="carousel-control-prev-icon"></span>
+                        </a>
+                        <a class="carousel-control-next" href="#cadastro" data-slide="next">
+                          <span class="carousel-control-next-icon"></span>
+                        </a>
+                      
+                      </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
     <script src="/public/js/bootstrap.min.js"></script>
     <script src="/public/js/fontawesome-all.min.js"></script>
