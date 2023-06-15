@@ -1,6 +1,8 @@
-function modalMarca(id){
-    socket.emit('getMarcaModal',id);
-}
+$(document).ready(()=>{
+    $(`#principal`).on(`click`,`[cliente]`,(self)=>{
+        socket.emit('getMarcaModal',$(self.currentTarget).attr(`cliente`));
+    });
+});
 
 new gridjs.Grid({
     columns: [
@@ -13,7 +15,7 @@ new gridjs.Grid({
             width: '15%',
             formatter:(cell) => gridjs.html(`
                 <a href="/marcas/editar/${cell}" class="btn btn-primary"><i class="fa-solid fa-pen"></i></a>
-                <button onclick="modalMarca('${cell}')" class="btn btn-secondary"><i class="fa-solid fa-eye"></i></button>
+                <button cliente="${cell}" class="btn btn-secondary"><i class="fa-solid fa-eye"></i></button>
             `),
         },
     ],

@@ -1,6 +1,9 @@
-function modalCategoria(id){
-    socket.emit('getCategoriaModal',id);
-}
+$(document).ready(()=>{
+    $(`#principal`).on(`click`,`[cliente]`,(self)=>{
+        socket.emit('getCategoriaModal',$(self.currentTarget).attr(`cliente`));
+    });
+});
+
 
 new gridjs.Grid({
     columns: [
@@ -13,7 +16,7 @@ new gridjs.Grid({
             width: '15%',
             formatter:(cell) => gridjs.html(`
                 <a href="/categorias/editar/${cell}" class="btn btn-primary"><i class="fa-solid fa-pen"></i></a>
-                <button onclick="modalCategoria('${cell}')" class="btn btn-secondary"><i class="fa-solid fa-eye"></i></button>
+                <button cliente="${cell}" class="btn btn-secondary"><i class="fa-solid fa-eye"></i></button>
             `),
         },
     ],

@@ -20,7 +20,7 @@ socket.on('getMedidaModal-resp',(_data)=>{
                 </div>
                 <div class="col">
                     <label>Proporção:</label>
-                    <strong> 1 ${data['simbolo']} = ${r['proporcao']} ${r['simbolo']}</strong>
+                    <strong> 1 ${r['simbolo']} = ${r['proporcao']} ${data['simbolo']}</strong>
                 </div>
             </div>
         </div>

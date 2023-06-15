@@ -1,6 +1,8 @@
-function modalCliente(id){
-    socket.emit('getClienteModal',id);
-}
+$(document).ready(()=>{
+    $(`#principal`).on(`click`,`[cliente]`,(self)=>{
+        socket.emit('getClienteModal',$(self.currentTarget).attr(`cliente`));
+    });
+});
 
 new gridjs.Grid({
     columns: [
@@ -25,7 +27,7 @@ new gridjs.Grid({
             name:'',
             formatter:(cell) => gridjs.html(`
                 <a href="/clientes/editar/${cell}" class="btn btn-primary"><i class="fa-solid fa-pen"></i></a>
-                <button onclick="modalCliente('${cell}')" class="btn btn-secondary"><i class="fa-solid fa-eye"></i></button>
+                <button cliente="${cell}" class="btn btn-secondary"><i class="fa-solid fa-eye"></i></button>
             `),
         },
     ],

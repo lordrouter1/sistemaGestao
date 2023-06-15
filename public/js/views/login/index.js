@@ -52,7 +52,7 @@ $(document).ready(()=>{
                     cpf: $(`#inp_cpf`).val(),
                     contato: $(`#inp_cel`).val(),
                     database: ``,
-                    bloqueado: false,
+                    bloqueado: ``,
                     contBloqueio: 0,
                     ultimoAcesso: ``,
                     permissao: ``,

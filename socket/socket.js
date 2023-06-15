@@ -16,7 +16,7 @@ module.exports = (io,socket,cMongoDB) => {
     let mar = cMongoDB.db(socket.request.session.user.database).collection('marcas');
     let med = cMongoDB.db(socket.request.session.user.database).collection('medidas');
 
-    socket.on('ping',(_data)=>{console.log('pong',socket.request.session.user)});
+    socket.on('ping',(_data)=>{console.log('pong')});
 
     // --- ADD ---
     socket.on('addUsr',(_data)=>{

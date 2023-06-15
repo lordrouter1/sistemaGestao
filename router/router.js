@@ -122,7 +122,7 @@ module.exports = function(con,cMongoDB){
             title:'Novo Produto',
             produto:{},
             marcas: await cMongoDB.db(req.session.user.database).collection('marcas').find({ativo:'1'},{projection:{_id:1,nome:1}}).toArray(),
-            categorias: await cMongoDB.db(req.session.user.database).collection('categorias').find({ativo:'1'}).toArray()
+            categorias: await cMongoDB.db(req.session.user.database).collection('categorias').find({ativo:'1'},{projection:{_id:1,nome:1,subcategoria:1}}).toArray()
         });
     });
 

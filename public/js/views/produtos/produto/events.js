@@ -26,7 +26,6 @@ $("#btn_excluir").click(()=>{
 $('#inp_barcodeVal').change(()=>{
     JsBarcode('#inp_codigoDeBarras',$('#inp_barcodeVal').val(),{width:1,height:60});
     qrCode.makeCode($('#inp_barcodeVal').val());
-    //console.log(btoa(new XMLSerializer().serializeToString($('#inp_codigoDeBarras')[0])));
 });
 
 $('#inp_foto').change(()=>{
@@ -43,18 +42,8 @@ $('#inp_fotoBotao').click(()=>{
     $('#inp_foto').click();
 });
 
-/*
-$('#btn_addPix').click(()=>{
-    $("#tbl_pix").append(`
-    <tr>
-        <td class="w-25"><input type="text" class="form-control" value="`+$('#inp_pixTipo').val()+`" disabled></td>
-        <td><input type="text" value="`+$('#inp_pixChave').val()+`" class="form-control" disabled></td>
-        <td><select class="form-control"><option value="0">Nao</option><option value="1">Sim</option></select></td>
-        <td><button type="button" class="btn btn-danger" onclick="delThis(this)"><i class="fa-solid fa-trash-can"></i></button></td>
-    </tr>
-    `);
-    $("#inp_pixTipo").val('');
-    $("#inp_pixChave").val('');
-    $("#inp_pixChave").focus();
+$(`#inp_categoria`).change((r)=>{
+    let subs = JSON.parse($(r.currentTarget).find(`:selected`).attr(`sub`));
+    $(`.optionSub`).remove();
+    $(`#inp_subCategoria`).append(subs.map(sub => `<option class="optionSub" value="${sub}">${sub}</option>`).join(``));
 });
-*/
