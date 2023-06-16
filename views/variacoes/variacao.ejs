@@ -1,0 +1,97 @@
+<%- include("../includes/header.ejs",{title:title});%>
+
+<%
+    if(variacao[`inp_cor`] == undefined)
+        variacao = {inp_varCor:[],inp_varNome:[]}
+%>
+
+<input type="hidden" id="_id" value="<%- variacao['_id'] -%>">
+
+<form id="form_cadastro" method="post" action="/variacoes/ed/<%- variacao['_id'] || 0 -%>">
+   
+    <div class="card">
+        <div class="card-header bg-primary text-light">
+            <strong>Dados Gerais</strong>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col">
+                    <label for="inp_descricao">Nome</label>
+                    <input type="text" name="inp_nome" id="inp_nome" class="form-control" value="<%- variacao['inp_nome'] -%>">
+                </div>
+                <div class="col-3">
+                    <label for="inp_cor">Possui Cor</label>
+                    <select name="inp_cor" id="inp_cor" class="form-control">
+                        <option value="0" <%- variacao['inp_cor'] == `0`?`selected`:`` -%>>Não</option>
+                        <option value="1" <%- variacao['inp_cor'] == `1`?`selected`:`` -%>>Sim</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card mt-3">
+        <div class="card-header bg-primary text-light">
+            <strong>Variações</strong>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col">
+                    <input type="text" name="inp_varNome[]" class="form-control" placeholder="Nome da variação" value="<%- variacao['inp_varNome'][0] -%>">
+                </div>
+                <div class="col-1">
+                    <input type="color" name="inp_varCor" id="inp_varCor" class="btn border <%- variacao['inp_cor'] == 1?`"`:`d-none" disabled` %>>
+                </div>
+                <div class="col-1">
+                </div>
+            </div>
+            <div id="tbl_variacao">
+                <%
+                    if(variacao[`inp_varNome`].length > 1){
+                        for(let i = 1; i < variacao[`inp_varNome`].length;i++)
+                        {
+                            %>
+                            <div class="row mt-3">
+                                <div class="col">
+                                    <input type="text" name="inp_varNome[]" class="form-control" placeholder="Nome da variação" value="<%- variacao[`inp_varNome`][i] -%>">
+                                </div>
+                            <%
+                            if(variacao[`inp_cor`] == 1){
+                            %>
+                                <div class="col-1">
+                                    <input type="color" name="inp_varCor" class="btn border" value="<%- variacao[`inp_varCor`][i] -%>">
+                                </div>
+                            <%
+                            }else{
+                            %>
+                                <div class="col-1"></div>
+                            <% } %>
+                            <div class="col-1">
+                                    <button type="button" class="btn btn-danger delButton"><i class="fa-solid fa-trash-can"></i></button>
+                                </div>
+                            </div>
+                            <%
+                        }
+                    }
+                %>
+            </div>
+            <button type="button" class="btn btn-primary mt-3" id="btn_addVar">Adicionar</button>
+        </div>
+    </div>
+
+    <div class="mt-3">
+        <a href="/variacoes" class="btn btn-secondary text-light">Voltar</a>
+        <%- 
+            (variacao['_id']!=undefined)?
+            '<div id="btn_excluir" class="btn btn-danger text-light mr-1">Excluir</div><button type="submit" class="btn btn-primary text-light">Editar</button>':
+            '<button type="submit" class="btn btn-primary text-light">Salvar</button>' 
+        -%>
+    </div>
+
+</form>
+
+<script src="/public/js/views/variacoes/variacao/functions.js"></script>
+<script src="/public/js/views/variacoes/variacao/sockets.js"></script>
+<script src="/public/js/views/variacoes/variacao/events.js"></script>
+
+<%- include("../includes/footer.ejs"); %>
