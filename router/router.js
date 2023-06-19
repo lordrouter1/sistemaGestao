@@ -87,7 +87,7 @@ module.exports = function(con,cMongoDB){
     routers.get('/produtos',checkLogin,async (req,res)=>{
         res.render('estoque/index',{
             title:'Produtos',
-            data: JSON.stringify(await cMongoDB.db(req.session.user.database).collection('produtos').find({},{projection:{_id:1,inp_nome:1}}).toArray())
+            data: JSON.stringify(await cMongoDB.db(req.session.user.database).collection('produtos').find({},{projection:{_id:1,nome:1}}).toArray())
         });
     });
 
@@ -129,7 +129,8 @@ module.exports = function(con,cMongoDB){
             title:'Novo Produto',
             produto:{},
             marcas: await cMongoDB.db(req.session.user.database).collection('marcas').find({ativo:'1'},{projection:{_id:1,nome:1}}).toArray(),
-            categorias: await cMongoDB.db(req.session.user.database).collection('categorias').find({ativo:'1'},{projection:{_id:1,nome:1,subcategoria:1}}).toArray()
+            categorias: await cMongoDB.db(req.session.user.database).collection('categorias').find({ativo:'1'},{projection:{_id:1,nome:1,subcategoria:1}}).toArray(),
+            variacoes: await cMongoDB.db(req.session.user.database).collection(`variacoes`).find({},{projection:{_id:1,nome:1}}).toArray(),
         });
     });
 
@@ -199,6 +200,10 @@ module.exports = function(con,cMongoDB){
     routers.route(`/variacoes/ed/:id`,checkLogin)
     .post((req,res)=>{
         let db = cMongoDB.db(req.session.user.database).collection(`variacoes`)
+        for(let i = 0; i < req.body.var.length; i++){
+            if(req.body.var[i]._id == ``)
+                req.body.var[i]._id = String(new ObjectId());
+        }
         if(req.params.id == 0){
             db.insertOne(req.body);
             res.status(201).redirect(`/variacoes`);

@@ -1,7 +1,7 @@
 $("#btn_excluir").click(()=>{
     Swal.fire({
         icon:'warning',
-        title: $('#inp_nome').val(),
+        title: $('#nome').val(),
         text:'Deseja Excluir?',
         showCancelButton: true,
         showConfirmButton: false,
@@ -29,15 +29,17 @@ $("#btn_excluir").click(()=>{
     });
 });
 
+let cont = (parseInt($(`.varCont:last`).val()))+1 || 1;
 $('#btn_addVar').click(()=>{
     $("#tbl_variacao").append(`
         <div class="row mt-3">
             <div class="col">
-                <input type="text" name="inp_varNome[]" class="form-control" placeholder="Nome da variação">
+                <input type="text" name="var[`+cont+`][nome]" class="form-control" placeholder="Nome da variação">
+                <input type="hidden" name="var[`+cont+`][_id]" value="">
             </div>
-            `+($(`#inp_cor`).val()==`1`?`
+            `+($(`#cor`).val()==`1`?`
             <div class="col-1">
-                <input type="color" name="inp_varCor" class="btn border">
+                <input type="color" name="var[`+cont+`][cor]" class="btn border">
             </div>
             `:`<div class="col-1"></div>`)+`
            <div class="col-1">
@@ -45,15 +47,16 @@ $('#btn_addVar').click(()=>{
             </div>
         </div>
     `);
+    cont = cont + 1;
 });
 
-$(`#inp_cor`).change((r)=>{
+$(`#cor`).change((r)=>{
     if($($(r.currentTarget).find(`:selected`)).val() == 0){
-        $(`#inp_varCor`).attr(`disabled`,``);
-        $(`#inp_varCor`).addClass(`d-none`);
+        $(`#varCor`).attr(`disabled`,``);
+        $(`#varCor`).addClass(`d-none`);
     }
     else{
-        $(`#inp_varCor`).removeAttr(`disabled`);
-        $(`#inp_varCor`).removeClass(`d-none`);
+        $(`#varCor`).removeAttr(`disabled`);
+        $(`#varCor`).removeClass(`d-none`);
     }
 });

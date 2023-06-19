@@ -7,7 +7,7 @@ $(document).ready(()=>{
 new gridjs.Grid({
     columns: [
         {
-            data: (row) => row.inp_nome,
+            data: (row) => row.nome,
         },
         {
             id:'_id',

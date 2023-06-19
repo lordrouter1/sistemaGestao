@@ -1,8 +1,8 @@
 <%- include("../includes/header.ejs",{title:title});%>
 
 <%
-    if(variacao[`inp_cor`] == undefined)
-        variacao = {inp_varCor:[],inp_varNome:[]}
+    if(variacao[`cor`] == undefined)
+        variacao = {var:[{nome:``,cor:``,_id:``}]}
 %>
 
 <input type="hidden" id="_id" value="<%- variacao['_id'] -%>">
@@ -16,14 +16,14 @@
         <div class="card-body">
             <div class="row">
                 <div class="col">
-                    <label for="inp_descricao">Nome</label>
-                    <input type="text" name="inp_nome" id="inp_nome" class="form-control" value="<%- variacao['inp_nome'] -%>">
+                    <label for="descricao">Nome</label>
+                    <input type="text" name="nome" id="nome" class="form-control" value="<%- variacao['nome'] -%>">
                 </div>
                 <div class="col-3">
-                    <label for="inp_cor">Possui Cor</label>
-                    <select name="inp_cor" id="inp_cor" class="form-control">
-                        <option value="0" <%- variacao['inp_cor'] == `0`?`selected`:`` -%>>Não</option>
-                        <option value="1" <%- variacao['inp_cor'] == `1`?`selected`:`` -%>>Sim</option>
+                    <label for="cor">Possui Cor</label>
+                    <select name="cor" id="cor" class="form-control">
+                        <option value="0" <%- variacao['cor'] == `0`?`selected`:`` -%>>Não</option>
+                        <option value="1" <%- variacao['cor'] == `1`?`selected`:`` -%>>Sim</option>
                     </select>
                 </div>
             </div>
@@ -37,29 +37,31 @@
         <div class="card-body">
             <div class="row">
                 <div class="col">
-                    <input type="text" name="inp_varNome[]" class="form-control" placeholder="Nome da variação" value="<%- variacao['inp_varNome'][0] -%>">
+                    <input type="text" name="var[0][nome]" class="form-control" placeholder="Nome da variação" value="<%- variacao['var'][0][`nome`] -%>">
+                    <input type="hidden" name="var[0][_id]" value="<%- variacao['var'][0][`_id`] -%>">
                 </div>
                 <div class="col-1">
-                    <input type="color" name="inp_varCor" id="inp_varCor" class="btn border <%- variacao['inp_cor'] == 1?`"`:`d-none" disabled` %>>
+                    <input type="color" name="var[0][cor]" id="varCor" value="<%- variacao['var'][0][`cor`] -%>" class="btn border <%- variacao['cor'] == 1?`"`:`d-none" disabled` %>>
                 </div>
                 <div class="col-1">
                 </div>
             </div>
             <div id="tbl_variacao">
                 <%
-                    if(variacao[`inp_varNome`].length > 1){
-                        for(let i = 1; i < variacao[`inp_varNome`].length;i++)
+                    if(variacao[`var`].length > 1){
+                        for(let i = 1; i < variacao[`var`].length;i++)
                         {
                             %>
                             <div class="row mt-3">
                                 <div class="col">
-                                    <input type="text" name="inp_varNome[]" class="form-control" placeholder="Nome da variação" value="<%- variacao[`inp_varNome`][i] -%>">
+                                    <input type="text" name="var[<%- i -%>][nome]" class="form-control" placeholder="Nome da variação" value="<%- variacao['var'][i][`nome`] -%>">
+                                    <input type="hidden" name="var[<%- i -%>][_id]" value="<%- variacao['var'][i][`_id`] -%>">
                                 </div>
                             <%
-                            if(variacao[`inp_cor`] == 1){
+                            if(variacao[`cor`] == 1){
                             %>
                                 <div class="col-1">
-                                    <input type="color" name="inp_varCor" class="btn border" value="<%- variacao[`inp_varCor`][i] -%>">
+                                    <input type="color" name="var[<%- i -%>][cor]" class="btn border" value="<%- variacao['var'][i][`cor`] -%>">
                                 </div>
                             <%
                             }else{
@@ -70,6 +72,7 @@
                                     <button type="button" class="btn btn-danger delButton"><i class="fa-solid fa-trash-can"></i></button>
                                 </div>
                             </div>
+                            <input type="hidden" class="varCont" value="<%- i -%>">
                             <%
                         }
                     }
