@@ -1,9 +1,21 @@
 const express = require('express');
 const gridjs = require('gridjs');
 const ObjectId = require('mongodb').ObjectId;
+const multer = require(`multer`);
 
 module.exports = function(con,cMongoDB){
     const routers = express.Router();
+
+    const storage = multer.diskStorage({
+        destination: function (req, file, cb) {
+          cb(null, `public/img/`); // Pasta onde os uploads serão armazenados
+        },
+        filename: function (req, file, cb) {
+          cb(null, `${req.session.user.database}-${Date.now()}-${file.originalname}`); // Nome do arquivo de upload
+        }
+    });
+    
+    const upload = multer({ storage: storage });
 
     // --- LOGIN ---
     function checkLogin(req,res,next){
@@ -87,7 +99,7 @@ module.exports = function(con,cMongoDB){
     routers.get('/produtos',checkLogin,async (req,res)=>{
         res.render('estoque/index',{
             title:'Produtos',
-            data: JSON.stringify(await cMongoDB.db(req.session.user.database).collection('produtos').find({},{projection:{_id:1,nome:1}}).toArray())
+            data: JSON.stringify(await cMongoDB.db(req.session.user.database).collection('produtos').find({},{projection:{_id:1,nome:1,descricao:1}}).toArray())
         });
     });
 
@@ -222,6 +234,26 @@ module.exports = function(con,cMongoDB){
             }
         });
     });
+
+
+    routers.route(`/produtos/ed/:id`,checkLogin)
+    .post(upload.single(`imagem`),(req,res)=>{
+        let db = cMongoDB.db(req.session.user.database).collection(`produtos`);
+        if(req.params.id == 0){
+            if(req.file){
+                req.body.imgPath = req.file.path;
+            }
+            db.insertOne(req.body);
+            res.status(200).redirect(`/produtos?success`);
+        }else{
+            if(req.file){
+                req.body.imgPath = req.file.path;
+            }
+            db.updateOne({_id:new ObjectId(req.params.id)},{$set:req.body});
+            res.status(200).redirect(`/produtos?success`);
+        }
+    })
+    .delete()
 
     return routers;
 };

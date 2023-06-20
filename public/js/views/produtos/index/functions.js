@@ -5,14 +5,17 @@ function modalCliente(id){
 new gridjs.Grid({
     columns: [
         {
-            id:'inp_descricao',
-            name: "Descricao",
-            with: '5%'
+            id:'nome',
+            name: "Nome",
+        },
+        {
+            id:'descricao',
+            name: "Descrição",
         },
         {
             id:'_id',
             name:'',
-            formatter:(cell) => gridjs.html(`<a href="/clientes/editar/${cell}" class="btn btn-primary"><i class="fa-solid fa-pen"></i></a>`),
+            formatter:(cell) => gridjs.html(`<a href="/produtos/editar/${cell}" class="btn btn-primary"><i class="fa-solid fa-pen"></i></a>`),
         },
     ],
     data:JSON.parse($('#conData').attr('val')),

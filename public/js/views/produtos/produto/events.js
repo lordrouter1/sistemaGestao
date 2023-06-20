@@ -49,11 +49,10 @@ $(`#categoria`).change((r)=>{
 });
 
 $(`#btn_addVar`).click((r)=>{
-    console.log($(`.varOpt`).tostring());
     $(`#tbl_var`).append(`
         <div class="row mt-3">
             <div class="col">
-                <select class="form-control" name="variacao[]"></select>
+                <select class="form-control" name="variacoes[]">`+$(`#varOpt`).html()+`</select>
             </div>
             <div class="col-1">
                 <button type="button" class="btn btn-danger delButton"><i class="fa-solid fa-trash-can"></i></button>

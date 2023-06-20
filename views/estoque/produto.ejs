@@ -5,7 +5,7 @@
 
 <input type="hidden" id="id" value="">
 
-<form id="form_cadastro">
+<form id="form_cadastro" method="post" action="/produtos/ed/<%- produto['_id'] || 0 -%>" enctype="multipart/form-data">
    
     <div class="card">
         <div class="card-header bg-primary text-light">
@@ -108,7 +108,7 @@
                             <i class="fa-solid fa-cloud-arrow-up m-auto"></i>
                         </div>
                     </div>
-                    <input type="file" id="foto" class="d-none">
+                    <input type="file" name="imagem" id="foto" class="d-none">
                 </div>
             </div>
         </div>
@@ -129,15 +129,7 @@
             <strong>Variações</strong>
         </div>
         <div class="card-body">
-            <div class="row">
-                <div class="col">
-                    <select name="variacao[]" class="form-control">
-                        <option value="0">Nao possui</option>
-                        <%- variacoes.map(v => `<option value="${v['_id']}" class="varOpt">${v['nome']}</option>`).join(``) -%>
-                    </select>
-                </div>
-                <div class="col-1"></div>
-            </div>
+            <div class="d-none" id="varOpt"><%- variacoes.map(v => `<option value="${v['_id']}" class="varOpt">${v['nome']}</option>`).join(``) -%></div>
             <div id="tbl_var">
 
             </div>
@@ -153,7 +145,7 @@
             <div class="row">
                 <div class="col-3">
                     <label for="origem">Origem</label>
-                    <select name="origem" id="origem" class="form-control" disabled>
+                    <select name="fiscal[origem]" id="origem" class="form-control" disabled>
                         <option value="0">Nacional</option>
                         <option value="1">Exterior</option>
                     </select>
@@ -162,37 +154,37 @@
             <div class="row mt-3">
                 <div class="col">
                     <label for="ncm">NCM</label>
-                    <input type="text" name="ncm" id="ncm" class="form-control" disabled>
+                    <input type="text" name="fiscal[ncm]" id="ncm" class="form-control" disabled>
                 </div>
                 <div class="col">
                     <label for="cest">CEST</label>
-                    <input type="text" name="cest" id="cest" class="form-control" disabled>
+                    <input type="text" name="fiscal[cest]" id="cest" class="form-control" disabled>
                 </div>
                 <div class="col">
                     <label for="cfop">CFOP</label>
-                    <input type="text" name="cfop" id="cfop" class="form-control" disabled>
+                    <input type="text" name="fiscal[cfop]" id="cfop" class="form-control" disabled>
                 </div>
                 <div class="col">
                     <label for="cst">CST</label>
-                    <input type="text" name="cst" id="cst" class="form-control" disabled>
+                    <input type="text" name="fiscal[cst]" id="cst" class="form-control" disabled>
                 </div>
             </div>
             <div class="row mt-3">
                 <div class="col">
                     <label for="icms">ICMS</label>
-                    <input type="text" name="icms" id="icms" class="form-control" disabled>
+                    <input type="text" name="fiscal[icms]" id="icms" class="form-control" disabled>
                 </div>
                 <div class="col">
                     <label for="ipi">IPI</label>
-                    <input type="text" name="ipi" id="ipi" class="form-control" disabled>
+                    <input type="text" name="fiscal[ipi]" id="ipi" class="form-control" disabled>
                 </div>
                 <div class="col">
                     <label for="pis">PIS</label>
-                    <input type="text" name="pis" id="pis" class="form-control" disabled>
+                    <input type="text" name="fiscal[pis]" id="pis" class="form-control" disabled>
                 </div>
                 <div class="col">
                     <label for="cofins">COFINS</label>
-                    <input type="text" name="cofins" id="cofins" class="form-control" disabled>
+                    <input type="text" name="fiscal[cofins]" id="cofins" class="form-control" disabled>
                 </div>
             </div>
         </div>
@@ -206,19 +198,19 @@
             <div class="row">
                 <div class="col">
                     <label for="altura">Altura(cm)</label>
-                    <input type="number" name="altura" id="altura" class="form-control">
+                    <input type="number" name="entrega[altura]" id="altura" class="form-control">
                 </div>
                 <div class="col">
                     <label for="largura">Largura(cm)</label>
-                    <input type="number" name="largura" id="largura" class="form-control">
+                    <input type="number" name="entrega[largura]" id="largura" class="form-control">
                 </div>
                 <div class="col">
-                    <label for="profundidade">Profundidade(cm)</label>
-                    <input type="number" name="profundidade" id="profundidade" class="form-control">
+                    <label for="comprimento">Comprimento(cm)</label>
+                    <input type="number" name="entrega[comprimento]" id="comprimento" class="form-control">
                 </div>
                 <div class="col">
                     <label for="peso">Peso(g)</label>
-                    <input type="number" name="peso" id="peso" class="form-control">
+                    <input type="number" name="entrega[peso]" id="peso" class="form-control">
                 </div>
             </div>
         </div>
