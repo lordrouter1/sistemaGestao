@@ -1,5 +1,13 @@
 <%- include("../includes/header.ejs",{title:title});%>
 
+<link rel="stylesheet" href="/public/css/filepond.min.css">
+<link rel="stylesheet" href="/public/css/filepond-plugin-image-preview.min.css">
+
+<script src="/public/js/filepond-plugin-file-validate-type.min.js"></script>
+<script src="/public/js/filepond-plugin-image-preview.min.js"></script>
+<script src="/public/js/filepond.min.js"></script>
+<script src="/public/js/filepond.jquery.js"></script>
+
 <script src="/public/js/jsBarCode.min.js"></script>
 <script src="/public/js/qrcode.min.js"></script>
 
@@ -96,23 +104,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-4">
-            <div class="card h-100">
-                <div class="card-header bg-primary text-light">
-                    <strong>Imagem</strong>
-                </div>
-                <div class="card-body d-flex">
-                    <div class="w-100 h-100 container-foto m-auto" id="fotoBotao" style="max-width:300px;max-height:300px;">
-                        <img id="fotoSrc" class="m-auto w-100 h-100">
-                        <div class="overlay d-flex">
-                            <i class="fa-solid fa-cloud-arrow-up m-auto"></i>
-                        </div>
-                    </div>
-                    <input type="file" name="imagem" id="foto" class="d-none">
-                </div>
-            </div>
-        </div>
-        <div class="col-4">
+        <div class="col">
             <div class="card h-100">
                 <div class="card-header bg-primary text-light">
                     <strong>Observações</strong>
@@ -121,6 +113,15 @@
                     <textarea name="obs" id="obs" class="form-control h-100" rows="10"></textarea>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <div class="card mt-3">
+        <div class="card-header bg-primary text-light">
+            <strong>Imagens</strong>
+        </div>
+        <div class="card-body">
+            <input type="file" name="imagens" id="imagens" multiple>
         </div>
     </div>
     

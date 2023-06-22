@@ -88,7 +88,14 @@ app.set('trust proxy',1);
 //
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(helmet());
+app.use(express.text());
+app.use(helmet({ crossOriginEmbedderPolicy: false, originAgentCluster: true }));
+app.use(helmet.contentSecurityPolicy({
+    useDefaults: true,
+    directives: {
+      "img-src": ["'self'", "https: data: blob:"],
+    },
+}));
 app.use(logger('dev'));
 app.use('/public/',express.static(__dirname+'/public'));
 app.use(confSession);

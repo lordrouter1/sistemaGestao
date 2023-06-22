@@ -2,6 +2,7 @@ const express = require('express');
 const gridjs = require('gridjs');
 const ObjectId = require('mongodb').ObjectId;
 const multer = require(`multer`);
+const fs = require(`fs`);
 
 module.exports = function(con,cMongoDB){
     const routers = express.Router();
@@ -209,6 +210,21 @@ module.exports = function(con,cMongoDB){
     });
 
 
+    routers.route(`/fUpload`)
+    .post(upload.single(`imagens`),(req,res)=>{
+        res.status(200).send(req.file.filename);
+    })
+    .delete((req,res)=>{
+        fs.existsSync(`public\\img\\`+req.body,(ex)=>{
+            if(ex){
+                fs.unlinkSync(`public\\img\\`+req.body);
+                res.status(200).send(0);
+            }else{
+                res.status(404).send(-1);
+            }
+        });
+    });
+
     routers.route(`/variacoes/ed/:id`,checkLogin)
     .post((req,res)=>{
         let db = cMongoDB.db(req.session.user.database).collection(`variacoes`)
@@ -235,20 +251,14 @@ module.exports = function(con,cMongoDB){
         });
     });
 
-
     routers.route(`/produtos/ed/:id`,checkLogin)
-    .post(upload.single(`imagem`),(req,res)=>{
+    .post((req,res)=>{
         let db = cMongoDB.db(req.session.user.database).collection(`produtos`);
         if(req.params.id == 0){
-            if(req.file){
-                req.body.imgPath = req.file.path;
-            }
+            console.log(req.body);
             db.insertOne(req.body);
             res.status(200).redirect(`/produtos?success`);
         }else{
-            if(req.file){
-                req.body.imgPath = req.file.path;
-            }
             db.updateOne({_id:new ObjectId(req.params.id)},{$set:req.body});
             res.status(200).redirect(`/produtos?success`);
         }
