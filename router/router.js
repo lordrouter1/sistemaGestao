@@ -203,28 +203,41 @@ module.exports = function(con,cMongoDB){
     routers.get(`/variacoes/editar/:id`,checkLogin,async (req,res)=>{
         cMongoDB.db(req.session.user.database).collection(`variacoes`).findOne({_id:new ObjectId(req.params[`id`])}).then((r)=>{
             res.render(`variacoes/variacao`,{
-                title:`Editar variacoes`,
+                title:`Editar Variacoes`,
                 variacao: r,
             });
         });
     });
 
+    routers.get(`/produtos/editar/:id`,checkLogin,async (req,res)=>{
+        cMongoDB.db(req.session.user.database).collection(`produtos`).findOne({_id:new ObjectId(req.params[`id`])}).then(async (r)=>{
+            res.render(`estoque/produto`,{
+                title:`Editar Produto`,
+                produto: r,
+                marcas: await cMongoDB.db(req.session.user.database).collection('marcas').find({ativo:'1'},{projection:{_id:1,nome:1}}).toArray(),
+                categorias: await cMongoDB.db(req.session.user.database).collection('categorias').find({ativo:'1'},{projection:{_id:1,nome:1,subcategoria:1}}).toArray(),
+                variacoes: await cMongoDB.db(req.session.user.database).collection(`variacoes`).find({},{projection:{_id:1,nome:1}}).toArray(),
+            });
+        });
+    });
 
-    routers.route(`/fUpload`)
+    // --- UPLOAD ---
+    routers.route(`/fUpload`,checkLogin)
     .post(upload.single(`imagens`),(req,res)=>{
         res.status(200).send(req.file.filename);
     })
     .delete((req,res)=>{
-        fs.existsSync(`public\\img\\`+req.body,(ex)=>{
-            if(ex){
+        fs.stat(`public\\img\\`+req.body,(err,stat)=>{
+            if(err == null){
                 fs.unlinkSync(`public\\img\\`+req.body);
-                res.status(200).send(0);
+                res.status(200).send(`0`);
             }else{
-                res.status(404).send(-1);
+                res.status(404).send(`-1`);
             }
         });
     });
 
+    // --- CRUD ---
     routers.route(`/variacoes/ed/:id`,checkLogin)
     .post((req,res)=>{
         let db = cMongoDB.db(req.session.user.database).collection(`variacoes`)
@@ -252,10 +265,9 @@ module.exports = function(con,cMongoDB){
     });
 
     routers.route(`/produtos/ed/:id`,checkLogin)
-    .post((req,res)=>{
+    .post(upload.none(),(req,res)=>{
         let db = cMongoDB.db(req.session.user.database).collection(`produtos`);
         if(req.params.id == 0){
-            console.log(req.body);
             db.insertOne(req.body);
             res.status(200).redirect(`/produtos?success`);
         }else{
