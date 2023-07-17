@@ -11,7 +11,7 @@
 <script src="/public/js/jsBarCode.min.js"></script>
 <script src="/public/js/qrcode.min.js"></script>
 
-<input type="hidden" id="id" value="">
+<input type="hidden" id="_id" value="<%- produto[`_id`] -%>">
 
 <form id="form_cadastro" method="post" action="/produtos/ed/<%- produto['_id'] || 0 -%>" enctype="multipart/form-data">
    
@@ -68,11 +68,9 @@
                     <label for="subCategoria">Subcategoria</label>
                     <select name="subCategoria" id="subCategoria" class="form-control">
                         <option value="" selected disabled></option>
-                        <%
-                        if(JSON.stringify(produto) != `{}`){ 
-                            categorias.filter((i)=>{return i[`_id`] == produto[`categoria`]})[0].subcategoria.map(sub => `<option class="optionSub" value="${sub.nome}" ${(sub.nome == produto[`subCategoria`])?`selected`:``}>${sub.nome}</option>`).join(``)
-                        }
-                        %>
+                        <% if(produto[`categoria`] != undefined){ %>
+                        <%- categorias.filter((i)=>{return i[`_id`] == produto[`categoria`]})[0].subcategoria.map(sub => `<option class="optionSub" value="${sub.nome}" ${(sub.nome == produto[`subCategoria`])?`selected`:``}>${sub.nome}</option>`).join(``) -%>
+                        <% } %>
                     </select>
                 </div>
             </div>
@@ -91,7 +89,7 @@
                         <div class="col">
                             <div class="row">
                                 <div class="col">
-                                    <input type="text" name="qrCode" id="barcodeVal" class="form-control" placeholder="Código Produto" value="" required>
+                                    <input type="text" name="nCodigo" id="barcodeVal" class="form-control" placeholder="Código Produto" value="<%- produto[`nCodigo`] -%>" required>
                                 </div>
                                 <div class="col-1 d-flex">
                                     <span class="text-danger m-auto">*</span>
@@ -118,7 +116,7 @@
                     <strong>Observações</strong>
                 </div>
                 <div class="card-body">
-                    <textarea name="obs" id="obs" class="form-control h-100" rows="10"></textarea>
+                    <textarea name="obs" id="obs" class="form-control h-100" rows="10"><%- produto[`obs`] -%></textarea>
                 </div>
             </div>
         </div>
@@ -129,6 +127,11 @@
             <strong>Imagens</strong>
         </div>
         <div class="card-body">
+            <% if(produto[`imagens`] != undefined){ %>
+                <input type="hidden" id="imgJson" value='[<%- (typeof(produto[`imagens`])==`string`)?`{"source":"${produto[`imagens`]}","options":{"type":"local"}}`:produto[`imagens`].map(img => `{"source":"${img}","options":{"type":"local"}}`).join(`,`) -%>]'>
+            <% }else{ %>
+                <input type="hidden" id="imgJson" value='[]'>
+            <% } %>
             <input type="file" name="imagens" id="imagens" multiple>
         </div>
     </div>
@@ -140,7 +143,18 @@
         <div class="card-body">
             <div class="d-none" id="varOpt"><%- variacoes.map(v => `<option value="${v['_id']}" class="varOpt">${v['nome']}</option>`).join(``) -%></div>
             <div id="tbl_var">
-
+                <% if(produto[`variacoes`] != undefined){ %>
+                    <% for(let i = 0; i < produto[`variacoes`].length; i++){ %>
+                        <div class="row mt-3">
+                            <div class="col">
+                                <select class="form-control" name="variacoes[]"><%- variacoes.map(v => `<option value="${v['_id']}" class="varOpt" ${(v[`_id`] == produto[`variacoes`][i])?`selected`:``}>${v['nome']}</option>`).join(``) -%></select>
+                            </div>
+                            <div class="col-1">
+                                <button type="button" class="btn btn-danger delButton"><i class="fa-solid fa-trash-can"></i></button>
+                            </div>
+                        </div>
+                    <% } %>
+                <% } %>
             </div>
             <button type="button" class="btn btn-primary mt-3" id="btn_addVar">Adicionar</button>
         </div>
@@ -207,19 +221,19 @@
             <div class="row">
                 <div class="col">
                     <label for="altura">Altura(cm)</label>
-                    <input type="number" name="entrega[altura]" id="altura" class="form-control">
+                    <input type="number" name="entrega[altura]" id="altura" class="form-control" value="<%- (produto[`entrega`]!=undefined)?produto[`entrega`][`altura`]:`` -%>">
                 </div>
                 <div class="col">
                     <label for="largura">Largura(cm)</label>
-                    <input type="number" name="entrega[largura]" id="largura" class="form-control">
+                    <input type="number" name="entrega[largura]" id="largura" class="form-control" value="<%- (produto[`entrega`]!=undefined)?produto[`entrega`][`largura`]:`` -%>">
                 </div>
                 <div class="col">
                     <label for="comprimento">Comprimento(cm)</label>
-                    <input type="number" name="entrega[comprimento]" id="comprimento" class="form-control">
+                    <input type="number" name="entrega[comprimento]" id="comprimento" class="form-control" value="<%- (produto[`entrega`]!=undefined)?produto[`entrega`][`comprimento`]:`` -%>">
                 </div>
                 <div class="col">
                     <label for="peso">Peso(g)</label>
-                    <input type="number" name="entrega[peso]" id="peso" class="form-control">
+                    <input type="number" name="entrega[peso]" id="peso" class="form-control" value="<%- (produto[`entrega`]!=undefined)?produto[`entrega`][`peso`]:`` -%>">
                 </div>
             </div>
         </div>

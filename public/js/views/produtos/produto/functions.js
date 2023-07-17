@@ -35,8 +35,6 @@ $(document).ready(function(){
             },
             load:`/public/img/`,
         },
-        files:[
-            //{source:`99999999999999-1687268277571-fe5ce54e-d877-429c-a693-7492eb364f63.png`,options:{type:`local`}}
-        ],
+        files:JSON.parse($(`#imgJson`).val()),
     });
 });

@@ -1,9 +1,9 @@
 let qrCode = new QRCode(document.getElementById('qrCode'),{
-    text:'1234567890123',
+    text:($(`#barcodeVal`).val()==``?'1234567890123':$(`#barcodeVal`).val()),
     width:128,
     height:128
 });
-JsBarcode('#codigoDeBarras','1234567890123',{width:1,height:60});
+JsBarcode('#codigoDeBarras',($(`#barcodeVal`).val()==``?'1234567890123':$(`#barcodeVal`).val()),{width:1,height:60});
 var base = new Image();
 
 $("#btn_excluir").click(()=>{
@@ -17,8 +17,22 @@ $("#btn_excluir").click(()=>{
         denyButtonText: 'Excluir',
         cancelButtonText: 'Cancelar',
     }).then((resp)=>{
-       if(resp.isDenied){
-            socket.emit('delUsr',$('#id').val());
+        if(resp.isDenied){
+            $.ajax({
+                url:`/produtos/ed/`+$(`#_id`).val(),
+                method: `DELETE`,
+                statusCode:{
+                    200: ()=>{
+                        location.href = `/produtos`;
+                    },
+                    500: ()=>{
+                        swal.fire({
+                            icon: `error`,
+                            title: `Erro ao salvar`
+                        });
+                    }
+                }
+            });
         };
     });
 });
