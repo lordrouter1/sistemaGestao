@@ -279,15 +279,24 @@ module.exports = function(con,cMongoDB){
         let temp;
         try{
             temp = await cMongoDB.db(req.session.user.database).collection(`produtos`).findOne({_id:new ObjectId(req.params.id)});
-            cMongoDB.db(req.session.user.database).collection(`produtos`).deleteOne({_id:new ObjectId(req.params.id)});
 
-            for(let i in temp[`imagens`]){
-                fs.stat(`public\\img\\`+temp[`imagens`][i],(err,stat)=>{
+            if(typeof(temp[`imagens`]) != 'string'){
+                for(let i in temp[`imagens`]){
+                    fs.stat(`public\\img\\`+temp[`imagens`][i],(err,stat)=>{
+                        if(err == null){
+                            fs.unlinkSync(`public\\img\\`+temp[`imagens`][i]);
+                        }
+                    });
+                }
+            }else{
+                fs.stat(`public\\img\\`+temp[`imagens`],(err,stat)=>{
                     if(err == null){
-                        fs.unlinkSync(`public\\img\\`+temp[`imagens`][i]);
+                        fs.unlinkSync(`public\\img\\`+temp[`imagens`]);
                     }
                 });
             }
+
+            cMongoDB.db(req.session.user.database).collection(`produtos`).deleteOne({_id:new ObjectId(req.params.id)});
 
             res.status(200).send(true);
         }catch(e){
