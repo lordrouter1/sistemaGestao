@@ -2,9 +2,9 @@
 
 <script src="/public/js/views/marca/marca/functions.js"></script>
 
-<input type="hidden" id="inp_id" value="<%- marca['_id'] -%>">
+<input type="hidden" id="_id" value="<%- marca['_id'] -%>">
 
-<form id="form_cadastro">
+<form id="form_cadastro" method="post" action="/marcas/ed/<%- marca['_id'] || 0 -%>">
    
     <div class="card">
         <div class="card-header bg-primary text-light">
@@ -13,12 +13,12 @@
         <div class="card-body">
             <div class="row">
                 <div class="col">
-                    <label for="inp_descricao">Nome</label>
-                    <input type="text" name="inp_nome" id="inp_nome" class="form-control" value="<%- marca['nome'] -%>">
+                    <label for="nome">Nome</label>
+                    <input type="text" name="nome" id="nome" class="form-control" value="<%- marca['nome'] -%>">
                 </div>
                 <div class="col-4">
-                    <label for="inp_ativo">Ativo</label>
-                    <select name="inp_ativo" id="inp_ativo" class="form-control">
+                    <label for="ativo">Ativo</label>
+                    <select name="ativo" id="ativo" class="form-control">
                         <option value="1" <%- (marca['ativo'] != '0')?'selected':'' -%>>Sim</option>
                         <option value="0" <%- (marca['ativo'] == '0')?'selected':'' -%>>Não</option>
                     </select>
@@ -26,8 +26,8 @@
             </div>
             <div class="row mt-3">
                 <div class="col">
-                    <label for="inp_descricao">Descrição</label>
-                    <input type="text" name="inp_descricao" id="inp_descricao" class="form-control" value="<%- marca['descricao'] -%>">
+                    <label for="descricao">Descrição</label>
+                    <input type="text" name="descricao" id="descricao" class="form-control" value="<%- marca['descricao'] -%>">
                 </div>
             </div>
         </div>

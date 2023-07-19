@@ -3,9 +3,9 @@
 <%
 %>
 
-<input type="hidden" id="inp_id" value="<%- medida['_id'] -%>">
+<input type="hidden" id="_id" value="<%- medida['_id'] -%>">
 
-<form id="form_cadastro">
+<form id="form_cadastro" method="post" action="/medidas/ed/<%- medida['_id'] || 0 -%>">
    
     <div class="card">
         <div class="card-header bg-primary text-light">
@@ -14,16 +14,16 @@
         <div class="card-body">
             <div class="row">
                 <div class="col">
-                    <label for="inp_descricao">Nome</label>
-                    <input type="text" name="inp_nome" id="inp_nome" class="form-control" value="<%- medida['nome'] -%>">
+                    <label for="descricao">Nome</label>
+                    <input type="text" name="nome" id="nome" class="form-control" value="<%- medida['nome'] -%>">
                 </div>
                 <div class="col-2">
-                    <label for="inp_simbolo">Simbolo</label>
-                    <input type="text" name="inp_simbolo" id="inp_simbolo" class="form-control" value="<%- medida['simbolo'] -%>">
+                    <label for="simbolo">Simbolo</label>
+                    <input type="text" name="simbolo" id="simbolo" class="form-control" value="<%- medida['simbolo'] -%>">
                 </div>
                 <div class="col-2">
-                    <label for="inp_ativo">Ativo</label>
-                    <select name="inp_ativo" id="inp_ativo" class="form-control">
+                    <label for="ativo">Ativo</label>
+                    <select name="ativo" id="ativo" class="form-control">
                         <option value="1" <%- (medida['ativo'] != '0')?'selected':'' -%>>Sim</option>
                         <option value="0" <%- (medida['ativo'] == '0')?'selected':'' -%>>Não</option>
                     </select>
@@ -61,11 +61,11 @@
                             </tr>
                         </thead>
                         <tbody id="tbl_grandezas">
-                            <% if(medida['grandeza'])for(let i = 0; i < medida['grandeza'].length;i++){ %>
+                            <% if(medida['grandeza'])for(let i = 0; i < medida['grandeza'][`nome`].length;i++){ %>
                                 <tr>
-                                    <td><input class="form-control" value="<%- medida['grandeza'][i]['nome'] -%>" disabled></td>
-                                    <td><input class="form-control" value="<%- medida['grandeza'][i]['simbolo'] -%>" disabled></td>
-                                    <td class="d-flex"><span class="m-auto">1 <%- medida['grandeza'][i]['simbolo'] -%> = </span> <input type="text" value="<%- medida['grandeza'][i]['proporcao'] -%>" class="form-control w-50" disabled><span class="m-auto"> <%- medida['simbolo'] -%></span></td>
+                                    <td><input class="form-control" name="grandeza[nome]" value="<%- medida['grandeza']['nome'][i] -%>" readonly="readonly"></td>
+                                    <td><input class="form-control" name="grandeza[simbolo]" value="<%- medida['grandeza']['simbolo'][i] -%>" readonly="readonly"></td>
+                                    <td class="d-flex"><span class="m-auto">1 <%- medida['grandeza']['simbolo'][i] -%> = </span> <input type="text" name="grandeza[proporcao]" value="<%- medida['grandeza']['proporcao'][i] -%>" class="form-control w-50" readonly="readonly"><span class="m-auto"> <%- medida['simbolo'] -%></span></td>
                                     <td><button type="button" class="btn btn-danger delButton"><i class="fa-solid fa-trash-can"></i></button></td>
                                 </tr>
                             <% } %>

@@ -305,5 +305,47 @@ module.exports = function(con,cMongoDB){
         }
     });
 
+    routers.route(`/medidas/ed/:id`,checkLogin)
+    .post((req,res)=>{
+        let db = cMongoDB.db(req.session.user.database).collection(`medidas`);
+        if(req.params.id == 0){
+            db.insertOne(req.body);
+            res.status(200).redirect(`/medidas?success`);
+        }else{
+            db.updateOne({_id:new ObjectId(req.params.id)},{$set:req.body});
+            res.status(200).redirect(`/medidas?success`);
+        }
+    })
+    .delete((req,res)=>{
+        try{
+            cMongoDB.db(req.session.user.database).collection(`medidas`).deleteOne({_id:new ObjectId(req.params.id)});
+            res.status(200).send(true);
+        }catch(e){
+            console.log(e);
+            res.status(500).send(false);
+        }
+    });
+
+    routers.route(`/marcas/ed/:id`,checkLogin)
+    .post((req,res)=>{
+        let db = cMongoDB.db(req.session.user.database).collection(`marcas`);
+        if(req.params.id == 0){
+            db.insertOne(req.body);
+            res.status(200).redirect(`/marcas?success`);
+        }else{
+            db.updateOne({_id:new ObjectId(req.params.id)},{$set:req.body});
+            res.status(200).redirect(`/marcas?success`);
+        }
+    })
+    .delete((req,res)=>{
+        try{
+            cMongoDB.db(req.session.user.database).collection(`marcas`).deleteOne({_id:new ObjectId(req.params.id)});
+            res.status(200).send(true);
+        }catch(e){
+            console.log(e);
+            res.status(500).send(false);
+        }
+    });
+    
     return routers;
 };

@@ -15,7 +15,7 @@ new gridjs.Grid({
             width: '15%',
             formatter:(cell) => gridjs.html(`
                 <a href="/marcas/editar/${cell}" class="btn btn-primary"><i class="fa-solid fa-pen"></i></a>
-                <button cliente="${cell}" class="btn btn-secondary"><i class="fa-solid fa-eye"></i></button>
+                <!--<button cliente="${cell}" class="btn btn-secondary"><i class="fa-solid fa-eye"></i></button>-->
             `),
         },
     ],
