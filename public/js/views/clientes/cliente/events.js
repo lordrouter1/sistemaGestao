@@ -9,8 +9,22 @@ $("#btn_excluir").click(()=>{
         denyButtonText: 'Excluir',
         cancelButtonText: 'Cancelar',
     }).then((resp)=>{
-       if(resp.isDenied){
-            socket.emit('delUsr',$('#inp_id').val());
+        if(resp.isDenied){
+            $.ajax({
+                url:`/clientes/ed/`+$(`#_id`).val(),
+                method: `DELETE`,
+                statusCode:{
+                    200: ()=>{
+                        location.href = `/clientes`;
+                    },
+                    500: ()=>{
+                        swal.fire({
+                            icon: `error`,
+                            title: `Erro ao salvar`
+                        });
+                    }
+                }
+            });
         };
     });
 });
@@ -77,9 +91,9 @@ $('#inp_pixTipo').change(()=>{
 $('#btn_addContato').click(()=>{
     $("#tbl_contato").append(`
     <tr>
-        <td class="w-25"><input type="text" value="`+$('#inp_tipoContato').val()+`" class="form-control" disabled></td>
-        <td><input type="text" value="`+$("#inp_contato").val()+`" class="form-control" disabled></td>
-        <td><select class="form-control"><option value="0">Nao</option><option value="1">Sim</option></select></td>
+        <td class="w-25"><input type="text" name="contato[tipo][]" value="`+$('#inp_tipoContato').val()+`" class="form-control" readonly></td>
+        <td><input type="text" name="contato[contato][]" value="`+$("#inp_contato").val()+`" class="form-control" readonly></td>
+        <td><select class="form-control" name="contato[padrao][]"><option value="0">Nao</option><option value="1">Sim</option></select></td>
         <td><button type="button" class="btn btn-danger delButton"><i class="fa-solid fa-trash-can"></i></button></td>
     </tr>
     `);
@@ -90,11 +104,11 @@ $('#btn_addContato').click(()=>{
 $('#btn_addEndereco').click(()=>{
     $("#tbl_endereco").append(`
     <tr>
-        <td><input class="form-control" value="`+$('#inp_cep').val()+`" disabled></td>
-        <td><input class="form-control" value="`+$('#inp_endereco').val()+`" disabled></td>
-        <td><input class="form-control" value="`+$('#inp_numero').val()+`" disabled></td>
-        <td><input class="form-control" value="`+$('#inp_complemento').val()+`" disabled></td>
-        <td><select class="form-control"><option value="0">Nao</option><option value="1">Sim</option></select></td>
+        <td><input class="form-control" name="endereco[cep][]" value="`+$('#inp_cep').val()+`" readonly></td>
+        <td><input class="form-control" name="endereco[endereco][]" value="`+$('#inp_endereco').val()+`" readonly></td>
+        <td><input class="form-control" name="endereco[numero][]" value="`+$('#inp_numero').val()+`" readonly></td>
+        <td><input class="form-control" name="endereco[complemento][]" value="`+$('#inp_complemento').val()+`" readonly></td>
+        <td><select class="form-control" name="endereco[padrao][]"><option value="0">Nao</option><option value="1">Sim</option></select></td>
         <td><button type="button" class="btn btn-danger delButton"><i class="fa-solid fa-trash-can"></i></button></td>
     </tr>
     `);
@@ -108,11 +122,11 @@ $('#btn_addEndereco').click(()=>{
 $('#btn_addBanco').click(()=>{
     $("#tbl_banco").append(`
     <tr>
-        <td><input type="text" class="form-control" value="`+$("#inp_bancoCodigo").val()+`" disabled></td>
-        <td><input type="text" value="`+$("#inp_bancoTipoConta").val()+`" class="form-control" disabled></td>
-        <td><input type="text" value="`+$("#inp_bancoAgencia").val()+`" class="form-control" disabled></td>
-        <td><input type="text" value="`+$("#inp_bancoConta").val()+`" class="form-control" disabled></td>
-        <td><select class="form-control"><option value="0">Nao</option><option value="1">Sim</option></select></td>
+        <td><input type="text" name="banco[instituicao][]" class="form-control" value="`+$("#inp_bancoCodigo").val()+`" readonly></td>
+        <td><input type="text" name="banco[conta][]" value="`+$("#inp_bancoTipoConta").val()+`" class="form-control" readonly></td>
+        <td><input type="text" name="banco[agencia][]" value="`+$("#inp_bancoAgencia").val()+`" class="form-control" readonly></td>
+        <td><input type="text" name="banco[numero][]" value="`+$("#inp_bancoConta").val()+`" class="form-control" readonly></td>
+        <td><select class="form-control" name="banco[padrao][]"><option value="0">Nao</option><option value="1">Sim</option></select></td>
         <td><button type="button" class="btn btn-danger delButton"><i class="fa-solid fa-trash-can"></i></button></td>
     </tr>
     `);
@@ -126,9 +140,9 @@ $('#btn_addBanco').click(()=>{
 $('#btn_addPix').click(()=>{
     $("#tbl_pix").append(`
     <tr>
-        <td class="w-25"><input type="text" class="form-control" value="`+$('#inp_pixTipo').val()+`" disabled></td>
-        <td><input type="text" value="`+$('#inp_pixChave').val()+`" class="form-control" disabled></td>
-        <td><select class="form-control"><option value="0">Nao</option><option value="1">Sim</option></select></td>
+        <td class="w-25"><input type="text" name="pix[tipo][]" class="form-control" value="`+$('#inp_pixTipo').val()+`" readonly></td>
+        <td><input type="text" name="pix[chave][]" value="`+$('#inp_pixChave').val()+`" class="form-control" readonly></td>
+        <td><select class="form-control" name="pix[padrao][]"><option value="0">Nao</option><option value="1">Sim</option></select></td>
         <td><button type="button" class="btn btn-danger delButton"><i class="fa-solid fa-trash-can"></i></button></td>
     </tr>
     `);

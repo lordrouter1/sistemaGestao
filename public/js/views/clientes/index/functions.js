@@ -27,7 +27,7 @@ new gridjs.Grid({
             name:'',
             formatter:(cell) => gridjs.html(`
                 <a href="/clientes/editar/${cell}" class="btn btn-primary"><i class="fa-solid fa-pen"></i></a>
-                <button cliente="${cell}" class="btn btn-secondary"><i class="fa-solid fa-eye"></i></button>
+                <!--<button cliente="${cell}" class="btn btn-secondary"><i class="fa-solid fa-eye"></i></button>-->
             `),
         },
     ],

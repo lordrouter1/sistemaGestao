@@ -3,11 +3,11 @@
 <%
 %>
 
-<input type="hidden" id="inp_id" value="<%- categoria['_id'] -%>">
+<input type="hidden" id="_id" value="<%- categoria['_id'] -%>">
 
 <script src="/public/js/views/categorias/categoria/functions.js"></script>
 
-<form id="form_cadastro">
+<form id="form_cadastro" method="post" action="/categorias/ed/<%- categoria['_id'] || 0 -%>">
    
     <div class="card">
         <div class="card-header bg-primary text-light">
@@ -16,12 +16,12 @@
         <div class="card-body">
             <div class="row">
                 <div class="col">
-                    <label for="inp_descricao">Nome</label>
-                    <input type="text" name="inp_nome" id="inp_nome" class="form-control" value="<%- categoria['nome'] -%>">
+                    <label for="nome">Nome</label>
+                    <input type="text" name="nome" id="inp_nome" class="form-control" value="<%- categoria['nome'] -%>">
                 </div>
                 <div class="col-4">
-                    <label for="inp_ativo">Ativo</label>
-                    <select name="inp_ativo" id="inp_ativo" class="form-control">
+                    <label for="ativo">Ativo</label>
+                    <select name="ativo" id="inp_ativo" class="form-control">
                         <option value="1" <%- (categoria['ativo'] != '0')?'selected':'' -%>>Sim</option>
                         <option value="0" <%- (categoria['ativo'] == '0')?'selected':'' -%>>Não</option>
                     </select>
@@ -29,8 +29,8 @@
             </div>
             <div class="row mt-3">
                 <div class="col">
-                    <label for="inp_descricao">Descrição</label>
-                    <input type="text" name="inp_descricao" id="inp_descricao" class="form-control" value="<%- categoria['descricao'] -%>">
+                    <label for="descricao">Descrição</label>
+                    <input type="text" name="descricao" id="inp_descricao" class="form-control" value="<%- categoria['descricao'] -%>">
                 </div>
             </div>
         </div>
@@ -61,13 +61,13 @@
                             </tr>
                         </thead>
                         <tbody id="tbl_sub">
-                            <% if(categoria['subcategoria'])for(let i = 0; i < categoria['subcategoria'].length;i++){ %>
+                            <% if(categoria['subcategoria'])for(let i = 0; i < categoria['subcategoria']['nome'].length;i++){ %>
                                 <tr>
-                                    <td><input type="text" class="form-control" value="<%- categoria['subcategoria'][i]['nome'] -%>"></td>
+                                    <td><input type="text" name="subcategoria[nome]" class="form-control" value="<%- categoria['subcategoria']['nome'][i] -%>"></td>
                                     <td>
-                                        <select class="form-control">
-                                            <option value="1" <%- (categoria['subcategoria'][i]['ativo'] != 0)?'selected':''; -%>>Sim</option>
-                                            <option value="0" <%- (categoria['subcategoria'][i]['ativo'] == 0)?'selected':''; -%>>Não</option>
+                                        <select class="form-control" name="subcategoria[ativo]">
+                                            <option value="1" <%- (categoria['subcategoria']['ativo'][i] != 0)?'selected':''; -%>>Sim</option>
+                                            <option value="0" <%- (categoria['subcategoria']['ativo'][i] == 0)?'selected':''; -%>>Não</option>
                                         </select>
                                     </td>
                                 </tr>
