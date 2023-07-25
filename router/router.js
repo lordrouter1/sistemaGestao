@@ -34,6 +34,13 @@ module.exports = function(con,cMongoDB){
         else
             res.redirect('/');
     });
+    routers.get('/cadastro/empresa',async (req,res)=>{
+        if(req.session.user == undefined)
+            res.render('login/empresa');
+        else
+            res.redirect('/');
+    });
+
     routers.post('/login',async (req,res)=>{
         con.collection('login').findOne({user:req.body.email}).then((resp) => {
             if(resp != null &&  Date.now() - resp.bloqueado > 300000){
@@ -66,7 +73,6 @@ module.exports = function(con,cMongoDB){
         req.session.user = null;
         res.redirect('/login');
     });
-
     routers.post(`/cadastro`,async (req,res)=>{
         let empresa = req.body.empresa;
         let usuario = req.body.usuario;
@@ -340,6 +346,27 @@ module.exports = function(con,cMongoDB){
     .delete((req,res)=>{
         try{
             cMongoDB.db(req.session.user.database).collection(`marcas`).deleteOne({_id:new ObjectId(req.params.id)});
+            res.status(200).send(true);
+        }catch(e){
+            console.log(e);
+            res.status(500).send(false);
+        }
+    });
+
+    routers.route('/categorias/ed/:id',checkLogin)
+    .post((req,res)=>{
+        let db = cMongoDB.db(req.session.user.database).collection('categorias');
+        if(req.params.id == 0){
+            db.insertOne(req.body);
+            res.status(200).redirect('/categorias?success');
+        }else{
+            db.updateOne({_id:new ObjectId(req.params.id)},{$set:req.body});
+            res.status(200).redirect('/categorias?success');
+        }
+    })
+    .delete((req,res)=>{
+        try{
+            cMongoDB.db(req.session.user.database).collection('categorias').deleteOne({_id:new ObjectId(req.params.id)});
             res.status(200).send(true);
         }catch(e){
             console.log(e);

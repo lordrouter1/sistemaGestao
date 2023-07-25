@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pt-br" class="h-100">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nova Empresa</title>
+
+    <link rel="stylesheet" href="/public/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/public/css/fontawesome-all.min.css">
+    <link rel="stylesheet" href="/public/css/sweetalert2.min.css">
+    <link rel="stylesheet" href="/public/css/main.css">
+
+    <script src="/public/js/jquery.js"></script>
+    <script src="/public/js/socket.js"></script>
+
+    <script src="/public/js/sweetalert2.all.min.js"></script>
+    <script src="/public/js/jquery.mask.min.js"></script>
+    <script src="/public/js/sha256.js"></script>
+    <script src="/public/js/views/login/index.js"></script>
+</head>
+<body class="bg-light w-100 h-100 d-flex">
+    <div class="m-auto bg-white text-center w-25 h-50 card">
+        <div class="card-header">
+            <h4 class m><strong>Sistema de Gestão</strong></h4>
+        </div>
+        <div class="card-body">
+            
+            <div class="body-item active" data-id="1">
+                <p>Insira o CNPJ, Nome Fantasia e a Razão Social</p>
+                <input type="text" id="inp_cnpj" class="form-control mt-3" placeholder="CNPJ" required><br>
+                <input type="text" id="inp_nomeFantasia" class="form-control" placeholder="Nome fantasia" required><br>
+                <input type="text" id="inp_razaoSocial" class="form-control" placeholder="Razão social" require>
+            </div>
+
+            <div class="body-item d-none" data-id="2">
+                <p>Insira o CNPJ, Nome Fantasia e a Razão Social 2</p>
+                <input type="text" id="inp_cnpj" class="form-control mt-3" placeholder="CNPJ" required><br>
+                <input type="text" id="inp_nomeFantasia" class="form-control" placeholder="Nome fantasia" required><br>
+                <input type="text" id="inp_razaoSocial" class="form-control" placeholder="Razão social" require>
+            </div>
+
+            <div class="body-item d-none" data-id="3">
+                <p>Insira o CNPJ, Nome Fantasia e a Razão Social 3</p>
+                <input type="text" id="inp_cnpj" class="form-control mt-3" placeholder="CNPJ" required><br>
+                <input type="text" id="inp_nomeFantasia" class="form-control" placeholder="Nome fantasia" required><br>
+                <input type="text" id="inp_razaoSocial" class="form-control" placeholder="Razão social" require>
+            </div>
+
+            <div class="body-item d-none" data-id="4">
+                <p>Insira o CNPJ, Nome Fantasia e a Razão Social 4</p>
+                <input type="text" id="inp_cnpj" class="form-control mt-3" placeholder="CNPJ" required><br>
+                <input type="text" id="inp_nomeFantasia" class="form-control" placeholder="Nome fantasia" required><br>
+                <input type="text" id="inp_razaoSocial" class="form-control" placeholder="Razão social" require>
+            </div>
+
+            <div class="body-item d-none" data-id="5">
+                <p>Insira o CNPJ, Nome Fantasia e a Razão Social 5</p>
+                <input type="text" id="inp_cnpj" class="form-control mt-3" placeholder="CNPJ" required><br>
+                <input type="text" id="inp_nomeFantasia" class="form-control" placeholder="Nome fantasia" required><br>
+                <input type="text" id="inp_razaoSocial" class="form-control" placeholder="Razão social" require>
+            </div>
+
+        </div>
+        <div class="card-footer">
+            <div class="row">
+                <div class="col">
+
+                </div>
+                <div class="col">
+                    <button class="btn btn-primary" id="btn-next">Avançar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
