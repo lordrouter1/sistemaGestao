@@ -1,6 +1,6 @@
 $(document).ready(()=>{
-    $(`#principal`).on(`click`,`[cliente]`,(self)=>{
-        socket.emit('getClienteModal',$(self.currentTarget).attr(`cliente`));
+    $(`#principal`).on(`click`,`[fornecedor]`,(self)=>{
+        socket.emit('getFornecedorModal',$(self.currentTarget).attr(`fornecedor`));
     });
 });
 
@@ -26,8 +26,8 @@ new gridjs.Grid({
             id:'_id',
             name:'',
             formatter:(cell) => gridjs.html(`
-                <a href="/clientes/editar/${cell}" class="btn btn-primary"><i class="fa-solid fa-pen"></i></a>
-                <!--<button cliente="${cell}" class="btn btn-secondary"><i class="fa-solid fa-eye"></i></button>-->
+                <a href="/fornecedores/editar/${cell}" class="btn btn-primary"><i class="fa-solid fa-pen"></i></a>
+                <!--<button fornecedor="${cell}" class="btn btn-secondary"><i class="fa-solid fa-eye"></i></button>-->
             `),
         },
     ],
