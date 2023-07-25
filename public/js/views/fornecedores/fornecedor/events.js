@@ -11,11 +11,11 @@ $("#btn_excluir").click(()=>{
     }).then((resp)=>{
         if(resp.isDenied){
             $.ajax({
-                url:`/clientes/ed/`+$(`#_id`).val(),
+                url:`/fornecedores/ed/`+$(`#_id`).val(),
                 method: `DELETE`,
                 statusCode:{
                     200: ()=>{
-                        location.href = `/clientes`;
+                        location.href = `/fornecedores`;
                     },
                     500: ()=>{
                         swal.fire({

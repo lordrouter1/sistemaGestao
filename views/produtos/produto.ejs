@@ -61,15 +61,16 @@
                     <label for="categoria">Categoria</label>
                     <select name="categoria" id="categoria" class="form-control">
                         <option value="" selected disabled></option>
-                        <%- categorias.map(cat => `<option value="${cat._id}" sub='["${cat.subcategoria.map(sub => sub.nome).join(`","`)}"]' ${(cat[`_id`]==produto[`categoria`]?`selected`:``)}>${cat.nome}</option>`).join(` `) %>
+                        <%- categorias.map(cat => `<option value="${cat._id}" sub='["${cat.subcategoria.nome.join(`","`)}"]' ${(cat[`_id`]==produto[`categoria`]?`selected`:``)}>${cat.nome}</option>`).join(` `) %>
                     </select>
                 </div>
                 <div class="col">
                     <label for="subCategoria">Subcategoria</label>
+
                     <select name="subCategoria" id="subCategoria" class="form-control">
                         <option value="" selected disabled></option>
                         <% if(produto[`categoria`] != undefined){ %>
-                        <%- categorias.filter((i)=>{return i[`_id`] == produto[`categoria`]})[0].subcategoria.map(sub => `<option class="optionSub" value="${sub.nome}" ${(sub.nome == produto[`subCategoria`])?`selected`:``}>${sub.nome}</option>`).join(``) -%>
+                        <%- categorias.filter((i)=>{return i[`_id`] == produto[`categoria`]})[0].subcategoria.nome.map(nome => `<option class="optionSub" value="${nome}" ${(nome == produto[`subCategoria`])?`selected`:``}>${nome}</option>`).join(``) -%>
                         <% } %>
                     </select>
                 </div>

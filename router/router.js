@@ -99,12 +99,19 @@ module.exports = function(con,cMongoDB){
     routers.get('/clientes',checkLogin,async (req,res)=>{
         res.render('clientes/index',{
             title:'Cadastro de Clientes',
-            data: JSON.stringify(await cMongoDB.db(req.session.user.database).collection('usuarios').find({},{projection:{_id:1,razaoSocial:1,nomeFantasia:1,responsavel:{nome:1},contato:1}}).toArray())
+            data: JSON.stringify(await cMongoDB.db(req.session.user.database).collection('clientes').find({},{projection:{_id:1,razaoSocial:1,nomeFantasia:1,responsavel:{nome:1},contato:1}}).toArray())
+        });
+    });
+
+    routers.get('/fornecedores',checkLogin,async (req,res)=>{
+        res.render(`fornecedores/index`,{
+            title: `Cadastro de Fornecedores`,
+            data: JSON.stringify(await cMongoDB.db(req.session.user.database).collection(`fornecedores`).find({},{projection:{_id:1, razaoSocial:1, nomeFantasia:1, responsavel:{nome:1},contato:1}}).toArray()), 
         });
     });
 
     routers.get('/produtos',checkLogin,async (req,res)=>{
-        res.render('estoque/index',{
+        res.render('produtos/index',{
             title:'Produtos',
             data: JSON.stringify(await cMongoDB.db(req.session.user.database).collection('produtos').find({},{projection:{_id:1,nome:1,descricao:1}}).toArray())
         });
@@ -140,11 +147,15 @@ module.exports = function(con,cMongoDB){
 
     // --- NOVO ---
     routers.get('/clientes/novo',checkLogin,(req,res)=>{
-        res.render('clientes/cliente',{title:'Novo Cliente',cliente:undefined});
+        res.render('clientes/cliente',{title:'Novo Cliente',cliente:{}});
+    });
+
+    routers.get(`/fornecedores/novo`,checkLogin,(req,res)=>{
+        res.render(`fornecedores/fornecedor`,{title:`Novo Fornecedor`,fornecedor:{}});
     });
 
     routers.get('/produtos/novo',checkLogin,async (req,res)=>{
-        res.render('estoque/produto',{
+        res.render('produtos/produto',{
             title:'Novo Produto',
             produto:{},
             marcas: await cMongoDB.db(req.session.user.database).collection('marcas').find({ativo:'1'},{projection:{_id:1,nome:1}}).toArray(),
@@ -171,10 +182,19 @@ module.exports = function(con,cMongoDB){
 
     // --- EDITAR ---
     routers.get('/clientes/editar/:id',checkLogin,async (req,res)=>{
-        cMongoDB.db(req.session.user.database).collection('usuarios').findOne({_id:new ObjectId(req.params['id'])}).then((r)=>{
+        cMongoDB.db(req.session.user.database).collection('clientes').findOne({_id:new ObjectId(req.params['id'])}).then((r)=>{
             res.render('clientes/cliente',{
                 title:'Editar Cliente',
                 cliente: r,
+            });
+        });
+    });
+
+    routers.get(`/fornecedores/editar/:id`,checkLogin,async (req,res)=>{
+        cMongoDB.db(req.session.user.database).collection(`fornecedores`).findOne({_id: new ObjectId(req.params[`id`])}).then((r)=>{
+            res.render(`fornecedores/fornecedor`,{
+                title:`Editar Fornecedor`,
+                fornecedor: r,
             });
         });
     });
@@ -217,7 +237,7 @@ module.exports = function(con,cMongoDB){
 
     routers.get(`/produtos/editar/:id`,checkLogin,async (req,res)=>{
         cMongoDB.db(req.session.user.database).collection(`produtos`).findOne({_id:new ObjectId(req.params[`id`])}).then(async (r)=>{
-            res.render(`estoque/produto`,{
+            res.render(`produtos/produto`,{
                 title:`Editar Produto`,
                 produto: r,
                 marcas: await cMongoDB.db(req.session.user.database).collection('marcas').find({ativo:'1'},{projection:{_id:1,nome:1}}).toArray(),
@@ -252,19 +272,31 @@ module.exports = function(con,cMongoDB){
                 req.body.var[i]._id = String(new ObjectId());
         }
         if(req.params.id == 0){
-            db.insertOne(req.body);
-            res.status(201).redirect(`/variacoes`);
+            db.insertOne(req.body).then((err,result)=>{
+                if(err){
+                    console.log(err);
+                    res.status(500).redirect(`/variacoes?err`);
+                }else{
+                    res.status(201).redirect(`/variacoes?success`);
+                }
+            });
         }else{
-            db.updateOne({_id:new ObjectId(req.params.id)},{$set:req.body});
-            res.status(200).redirect(`/variacoes`);
+            db.updateOne({_id:new ObjectId(req.params.id)},{$set:req.body}).then((err,result)=>{
+                if(err){
+                    console.log(err);
+                    res.status(500).redirect(`/variacoes?err`);
+                }else{
+                    res.status(200).redirect(`/variacoes?success`);
+                }
+            });
         }
     })
     .delete((req,res)=>{
-        cMongoDB.db(req.session.user.database).collection(`variacoes`).deleteOne({_id:new ObjectId(req.params.id)}).then((err,obj)=>{
-            if(err['deletedCount'] < 1){
+        cMongoDB.db(req.session.user.database).collection(`variacoes`).deleteOne({_id:new ObjectId(req.params.id)},(err,result)=>{
+            if(err){
+                console.log(err);
                 res.status(500).send(false);
-            }
-            else{
+            }else{
                 res.status(200).send(true);
             }
         });
@@ -274,11 +306,23 @@ module.exports = function(con,cMongoDB){
     .post(upload.none(),(req,res)=>{
         let db = cMongoDB.db(req.session.user.database).collection(`produtos`);
         if(req.params.id == 0){
-            db.insertOne(req.body);
-            res.status(200).redirect(`/produtos?success`);
+            db.insertOne(req.body).then((err,result)=>{
+                if(err){
+                    console.log(err);
+                    res.status(500).redirect(`/produtos?err`);
+                }else{
+                    res.status(200).redirect(`/produtos?success`);
+                }
+            });
         }else{
-            db.updateOne({_id:new ObjectId(req.params.id)},{$set:req.body});
-            res.status(200).redirect(`/produtos?success`);
+            db.updateOne({_id:new ObjectId(req.params.id)},{$set:req.body}).then((err,result)=>{
+                if(err){
+                    console.log(err);
+                    res.status(500).redirect(`/produtos?err`);
+                }else{
+                    res.status(200).redirect(`/produtos?success`);
+                }
+            });
         }
     })
     .delete(async(req,res)=>{
@@ -315,11 +359,23 @@ module.exports = function(con,cMongoDB){
     .post((req,res)=>{
         let db = cMongoDB.db(req.session.user.database).collection(`medidas`);
         if(req.params.id == 0){
-            db.insertOne(req.body);
-            res.status(200).redirect(`/medidas?success`);
+            db.insertOne(req.body).then((err,result)=>{
+                if(err){
+                    console.log(err);
+                    res.status(500).redirect(`/medidas?err`);
+                }else{
+                    res.status(200).redirect(`/medidas?success`);
+                }
+            });
         }else{
-            db.updateOne({_id:new ObjectId(req.params.id)},{$set:req.body});
-            res.status(200).redirect(`/medidas?success`);
+            db.updateOne({_id:new ObjectId(req.params.id)},{$set:req.body}).then((err,result)=>{
+                if(err){
+                    console.log(err);
+                    res.status(500).redirect(`/medidas?err`);
+                }else{
+                    res.status(200).redirect(`/medidas?success`);
+                }
+            });
         }
     })
     .delete((req,res)=>{
@@ -336,16 +392,127 @@ module.exports = function(con,cMongoDB){
     .post((req,res)=>{
         let db = cMongoDB.db(req.session.user.database).collection(`marcas`);
         if(req.params.id == 0){
-            db.insertOne(req.body);
-            res.status(200).redirect(`/marcas?success`);
+            db.insertOne(req.body).then((err,result)=>{
+                if(err){
+                    console.log(err);
+                    res.status(200).redirect(`/marcas?err`);
+                }else{
+                    res.status(200).redirect(`/marcas?success`);
+                }
+            });
         }else{
-            db.updateOne({_id:new ObjectId(req.params.id)},{$set:req.body});
-            res.status(200).redirect(`/marcas?success`);
+            db.updateOne({_id:new ObjectId(req.params.id)},{$set:req.body}).then((err,result)=>{
+                if(err){
+                    console.log(err);
+                    res.status(200).redirect(`/marcas?err`);
+                }else{
+                    res.status(200).redirect(`/marcas?success`);
+                }
+            });
         }
     })
     .delete((req,res)=>{
         try{
             cMongoDB.db(req.session.user.database).collection(`marcas`).deleteOne({_id:new ObjectId(req.params.id)});
+            req.status(200).send(true);
+        }catch(e){
+            console.log(e);
+            res.status(500).send(false);
+        }
+    });
+
+    routers.route(`/categorias/ed/:id`,checkLogin)
+    .post((req,res)=>{
+        let db = cMongoDB.db(req.session.user.database).collection(`categorias`);
+        if(req.params.id == 0){
+            db.insertOne(req.body).then((err,result)=>{
+                if(err){
+                    console.log(err);
+                    res.status(500).redirect(`/categorias?err`);
+                }else{
+                    res.status(200).redirect(`/categorias?success`);
+                }
+            });
+        }else{
+            db.updateOne({_id:new ObjectId(req.params.id)},{$set:req.body}).then((err,result)=>{
+                if(err){
+                    console.log(err);
+                    res.status(500).redirect(`/categorias?err`);
+                }else{
+                    res.status(200).redirect(`/categorias?success`);
+                }
+            });
+        }
+    })
+    .delete((req,res)=>{
+        try{
+            cMongoDB.db(req.session.user.database).collection(`categorias`).deleteOne({_id:new ObjectId(req.params.id)});
+            res.status(200).send(true);
+        }catch(e){
+            console.log(e);
+            res.status(500).send(false);
+        }
+    });
+
+    routers.route(`/clientes/ed/:id`,checkLogin)
+    .post((req,res)=>{
+        let db = cMongoDB.db(req.session.user.database).collection(`clientes`);
+        if(req.params.id == 0){
+            db.insertOne(req.body).then((err,result)=>{
+                if(err){
+                    console.log(err);
+                    res.status(500).redirect(`/clientes?err`);
+                }else{
+                    res.status(200).redirect(`/clientes?success`);
+                }
+            });
+        }else{
+            db.updateOne({_id:new ObjectId(req.params.id)},{$set:req.body}).then((err,result)=>{
+                if(err){
+                    console.log(err);
+                    res.status(500).redirect(`/clientes?err`);
+                }else{
+                    res.status(200).redirect(`/clientes?success`);
+                }
+            });
+        }
+    })
+    .delete((req,res)=>{
+        try{
+            cMongoDB.db(req.session.user.database).collection(`clientes`).deleteOne({_id:new ObjectId(req.params.id)}).then(r=>console.log(r));
+            res.status(200).send(true);
+        }catch(e){
+            console.log(e);
+            res.status(500).send(false);
+        }
+    });
+
+    routers.route(`/fornecedores/ed/:id`,checkLogin)
+    .post((req,res)=>{
+        let db = cMongoDB.db(req.session.user.database).collection(`fornecedores`);
+        if(req.params.id == 0){
+            db.insertOne(req.body).then((err,result)=>{
+                if(err){
+                    console.log(err);
+                    res.status(500).redirect(`/fornecedores?err`);
+                }else{
+                    res.status(200).redirect(`/fornecedores?success`);
+                }
+            });
+        }else{
+            db.updateOne({_id:new ObjectId(req.params.id)},{$set:req.body}).then((err,result)=>{
+                if(err){
+                    console.log(err);
+                    res.status(500).redirect(`/fornecedores?err`);
+                }else{
+                    res.status(200).redirect(`/fornecedores?success`);
+                }
+            });
+        }
+    })
+    .delete((req,res)=>{
+        try{
+            cMongoDB.db(req.session.user.database).collection(`fornecedores`).deleteOne({_id:new ObjectId(req.params.id)}).then(r=>console.log(r));
             res.status(200).send(true);
         }catch(e){
             console.log(e);

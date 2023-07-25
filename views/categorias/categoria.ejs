@@ -7,7 +7,7 @@
 
 <script src="/public/js/views/categorias/categoria/functions.js"></script>
 
-<form id="form_cadastro" method="post" action="/marcas/ed/<%- categoria['_id'] || 0 -%>">
+<form id="form_cadastro" method="post" action="/categorias/ed/<%- categoria['_id'] || 0 -%>">
    
     <div class="card">
         <div class="card-header bg-primary text-light">
@@ -61,9 +61,9 @@
                             </tr>
                         </thead>
                         <tbody id="tbl_sub">
-                            <% if(categoria['subcategoria'])for(let i = 0; i < categoria['subcategoria'].length;i++){ %>
+                            <% if(categoria['subcategoria'])for(let i = 0; i < categoria['subcategoria']['nome'].length;i++){ %>
                                 <tr>
-                                    <td><input type="text" class="form-control" name="subcategoria[nome]" value="<%- categoria['subcategoria']['nome'][i] -%>"></td>
+                                    <td><input type="text" name="subcategoria[nome]" class="form-control" value="<%- categoria['subcategoria']['nome'][i] -%>"></td>
                                     <td>
                                         <select class="form-control" name="subcategoria[ativo]">
                                             <option value="1" <%- (categoria['subcategoria']['ativo'][i] != 0)?'selected':''; -%>>Sim</option>

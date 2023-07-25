@@ -1,0 +1,186 @@
+<%- include("../includes/header.ejs",{title:title}); %>
+
+<table id="principal"></table>
+
+<a class="btn btn-primary text-light" href="/fornecedores/novo">Adicionar</a>
+
+<meta id="conData" val='<%-data-%>'>
+
+<script src="/public/js/views/fornecedores/index/functions.js"></script>
+<script src="/public/js/views/fornecedores/index/sockets.js"></script>
+
+<div class="modal fade" id="mdl_cliente">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4><strong><span id="mdl_razaosocial"></span></strong></h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <ul class="nav nav-tabs">
+                    <li class="nav-item">
+                        <a class="nav-link active" data-toggle="tab" href="#tbl_geral"><strong>Geral</strong></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#tbl_contato"><strong>Contato</strong></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#tbl_endereco"><strong>Endereço</strong></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#tbl_financeiro"><strong>Financeiro</strong></a>
+                    </li>
+                </ul>
+                
+                <div class="tab-content bg-primary pt-3 pb-3">
+                    <div class="tab-pane container active" id="tbl_geral">
+                        <div class="border p-2 rounded bg-light">
+                            <div class="row">
+                                <div class="col">
+                                    <strong>Classificação</strong>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <label for="">Pessoa:</label>
+                                    <strong><span id="mdl_pessoa">Jurídica</span></strong>
+                                </div>
+                                <div class="col">
+                                    <label for="">Mei:</label>
+                                    <strong><span id="mdl_mei">Sim</span></strong>
+                                </div>
+                                <div class="col">
+                                    <label for="">Tipo:</label>
+                                    <strong><span id="mdl_tipo">Sim</span></strong>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <label for="">Enquadramento Fiscal:</label>
+                                    <strong><span id="mdl_enquadramento">Sim</span></strong>
+                                </div>
+                                <div class="col">
+                                    <label for="">Fornecedor:</label>
+                                    <strong><span id="mdl_fornecedor"></span></strong>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="border p-2 rounded mt-2 bg-light">
+                            <div class="row">
+                                <div class="col">
+                                    <strong>Dados Gerais</strong>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <label for="">Nome/Razão Social:</label>
+                                    <strong><span id="mdl_razaoSocial"></span></strong>
+                                </div>
+                                <div class="col">
+                                    <label for="">Nome Fantasia:</label>
+                                    <strong><span id="mdl_nomeFantasia"></span></strong>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <label for="">CPF:</label>
+                                    <strong><span id="mdl_cpf"></span></strong>
+                                </div>
+                                <div class="col">
+                                    <label for="">CNPJ:</label>
+                                    <strong><span id="mdl_cnpj"></span></strong>
+                                </div>
+                                <div class="col">
+                                    <label for="">Inscrição Estadual:</label>
+                                    <strong><span id="mdl_ie"></span></strong>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="border p-2 rounded mt-2 bg-light">
+                            <div class="row">
+                                <div class="col">
+                                    <strong>Responsável</strong>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <label for="">Nome:</label>
+                                    <strong>
+                                        <span id="mdl_respNome"></span>
+                                    </strong>
+                                </div>
+                                <div class="col">
+                                    <label for="">Cargo:</label>
+                                    <strong>
+                                        <span id="mdl_respCargo"></span>
+                                    </strong>
+                                </div>
+                                <div class="col">
+                                    <label for="">CPF:</label>
+                                    <strong>
+                                        <span id="mdl_respCpf"></span>
+                                    </strong>
+                                </div>
+                            </div>
+                        </div>
+        
+                        <div class="border p-2 rounded mt-2 bg-light">
+                            <div class="row">
+                                <div class="col">
+                                    <strong>Observações:</strong>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <span id="mdl_obs"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="tab-pane container fade" id="tbl_endereco">
+                        <div id="mdl_endereco">
+    
+                        </div>
+                    </div>
+
+                    <div class="tab-pane container fade" id="tbl_financeiro">
+                        <div class="border p-2 rounded mt-2 bg-light">
+                            <div class="row">
+                                <div class="col">
+                                    <strong>PIX</strong>
+                                </div>
+                            </div>
+                            <div id="mdl_pix">
+    
+                            </div>
+                        </div>
+    
+                        <div class="border p-2 rounded mt-2 bg-light">
+                            <div class="row">
+                                <div class="col">
+                                    <strong>Banco</strong>
+                                </div>
+                            </div>
+                            <div id="mdl_banco">
+    
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane container fade" id="tbl_contato">
+                        <div id="mdl_contato">
+    
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include("../includes/footer.ejs"); %>

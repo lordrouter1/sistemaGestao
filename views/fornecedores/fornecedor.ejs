@@ -4,21 +4,17 @@
 let PJ;
 let PF;
 let MEI;
-if(Object.keys(cliente) != 0){
-    PJ = (cliente['pessoa']=='2')?'disabled':'';
-    PF = (cliente['pessoa']=='2')?'':'disabled';
-    MEI = (cliente['mei']=='1')?'disabled':'';
+if(Object.keys(fornecedor) != 0){
+    MEI = (fornecedor['mei']=='1')?'disabled':'';
 }else{
-    cliente = {responsavel:{}};
-    PJ = "";
-    PF = "readonly";
+    fornecedor = {responsavel:{}};
     MEI = "";
 }
 %>
 
-<input type="hidden" id="_id" value="<%- cliente['_id'] -%>">
+<input type="hidden" id="_id" value="<%- fornecedor['_id'] -%>">
 
-<form id="form_cadastro" method="post" action="/clientes/ed/<%- cliente['_id'] || 0 -%>">
+<form id="form_cadastro" method="post" action="/fornecedores/ed/<%- fornecedor['_id'] || 0 -%>">
     <div class="card">
         <div class="card-header bg-primary text-light">
             <strong>Classificação</strong>
@@ -26,34 +22,27 @@ if(Object.keys(cliente) != 0){
         <div class="card-body">
             <div class="row">
                 <div class="col">
-                    <label for="pessoa">Pessoa</label>
-                    <select id="inp_pessoa" name="pessoa" class="form-control">
-                        <option value="1" <%- (cliente['pessoa'] != '2')?'selected':'' -%>>Jurídica</option>
-                        <option value="2" <%- (cliente['pessoa'] == '2')?'selected':'' -%>>Física</option>
-                    </select>
-                </div>
-                <div class="col">
                     <label for="mei">MEI</label>
-                    <select pj name="mei" id="inp_mei" class="form-control" <%-PJ-%>>
-                        <option value="0" <%- (cliente['mei'] != '1' )?'selected':'' -%>>Não</option>
-                        <option value="1" <%- (cliente['mei'] == '1')?'selected':'' -%>>Sim</option>
+                    <select pj name="mei" id="inp_mei" class="form-control">
+                        <option value="0" <%- (fornecedor['mei'] != '1' )?'selected':'' -%>>Não</option>
+                        <option value="1" <%- (fornecedor['mei'] == '1')?'selected':'' -%>>Sim</option>
                     </select>
                 </div>
                 <div class="col">
                     <label for="tipo">Tipo</label>
-                    <select pj name="tipo" id="inp_tipo" class="form-control" <%-PJ-%> <%-MEI-%>>
-                        <option value="0" <%- (cliente['tipo'] == '0')?'selected':'' -%>>Sociedade Limitada (LTDA)</option>
-                        <option value="1" <%- (cliente['tipo'] == '1')?'selected':'' -%>>Empresa individual (EI)</option>
-                        <option value="2" <%- (cliente['tipo'] == '2')?'selected':'' -%>>Empresa individual de responsabilidade limitada (EIRELI)</option>
-                        <option value="3" <%- (cliente['tipo'] == '3')?'selected':'' -%>>Sociedade anônima (SA)</option>
+                    <select pj name="tipo" id="inp_tipo" class="form-control" <%-MEI-%>>
+                        <option value="0" <%- (fornecedor['tipo'] == '0')?'selected':'' -%>>Sociedade Limitada (LTDA)</option>
+                        <option value="1" <%- (fornecedor['tipo'] == '1')?'selected':'' -%>>Empresa individual (EI)</option>
+                        <option value="2" <%- (fornecedor['tipo'] == '2')?'selected':'' -%>>Empresa individual de responsabilidade limitada (EIRELI)</option>
+                        <option value="3" <%- (fornecedor['tipo'] == '3')?'selected':'' -%>>Sociedade anônima (SA)</option>
                     </select>
                 </div>
                 <div class="col">
                     <label for="enquadramento">Enquadramento Fiscal</label>
-                    <select pj name="enquadramento" id="inp_enquadramento" class="form-control" <%-PJ-%> <%-MEI-%>>
-                        <option value="1" <%- (cliente['enquadramento'] == '1')?'selected':'' -%>>Simples Nacional</option>
-                        <option value="2" <%- (cliente['enquadramento'] == '2')?'selected':'' -%>>Lucro Presumido</option>
-                        <option value="3" <%- (cliente['enquadramento'] == '3')?'selected':'' -%>>Lucro Real</option>
+                    <select pj name="enquadramento" id="inp_enquadramento" class="form-control" <%-MEI-%>>
+                        <option value="1" <%- (fornecedor['enquadramento'] == '1')?'selected':'' -%>>Simples Nacional</option>
+                        <option value="2" <%- (fornecedor['enquadramento'] == '2')?'selected':'' -%>>Lucro Presumido</option>
+                        <option value="3" <%- (fornecedor['enquadramento'] == '3')?'selected':'' -%>>Lucro Real</option>
                     </select>
                 </div>
             </div>
@@ -68,25 +57,21 @@ if(Object.keys(cliente) != 0){
             <div class="row mt-3">
                 <div class="col">
                     <label for="razaoSocial">Nome/Razão Social <small class="text-danger">*</small></label>
-                    <input type="text" class="form-control" id="inp_razaoSocial" name="razaoSocial" value="<%- cliente['razaoSocial'] -%>" required>
+                    <input type="text" class="form-control" id="inp_razaoSocial" name="razaoSocial" value="<%- fornecedor['razaoSocial'] -%>" required>
                 </div>
                 <div class="col">
                     <label for="nomeFantasia">Nome Fantasia <small class="text-danger">*</small></label>
-                    <input pj type="text" class="form-control" id="inp_nomeFantasia" name="nomeFantasia" value="<%- cliente['nomeFantasia'] -%>" <%-PJ-%> required>
+                    <input pj type="text" class="form-control" id="inp_nomeFantasia" name="nomeFantasia" value="<%- fornecedor['nomeFantasia'] -%>" required>
                 </div>
             </div>
             <div class="row mt-3">
                 <div class="col">
-                    <label for="cpf">CPF <small class="text-danger">*</small></label>
-                    <input pf type="text" name="cpf" id="inp_cpf" class="form-control" value="<%- cliente['cpf'] -%>" <%-PF-%> required>
-                </div>
-                <div class="col">
                     <label for="cnpj">CNPJ <small class="text-danger">*</small></label>
-                    <input pj type="text" name="cnpj" id="inp_cnpj" class="form-control" value="<%- cliente['cnpj'] -%>" <%-PJ-%> required>
+                    <input pj type="text" name="cnpj" id="inp_cnpj" class="form-control" value="<%- fornecedor['cnpj'] -%>" required>
                 </div>
                 <div class="col">
                     <label for="ie">Inscrição Estadual <small class="text-danger">*</small></label>
-                    <input pj type="text" name="ie" id="inp_ie" class="form-control" value="<%- cliente['ie'] -%>" <%-PJ-%> <%-MEI-%> required>
+                    <input pj type="text" name="ie" id="inp_ie" class="form-control" value="<%- fornecedor['ie'] -%>" <%-MEI-%> required>
                 </div>
             </div>
         </div>
@@ -100,18 +85,18 @@ if(Object.keys(cliente) != 0){
             <div class="row mt-3">
                 <div class="col">
                     <label for="inp_respNome">Nome <small class="text-danger">*</small></label>
-                    <input pj type="text" class="form-control" id="inp_respNome" name="responsavel[nome]" value="<%- cliente['responsavel']['nome'] -%>" <%-PJ-%> required>
+                    <input pj type="text" class="form-control" id="inp_respNome" name="responsavel[nome]" value="<%- fornecedor['responsavel']['nome'] -%>" required>
                 </div>
                 <div class="col">
                     <label for="inp_respCargo">Cargo</label>
                     <select pj name="responsavel[cargo]" id="inp_respCargo" class="form-control" <%-PJ-%>>
-                        <option value="funcionario" <%- (cliente['responsavel']['cargo'] == "funcionario" || cliente['responsavel']['cargo'] == undefined)?'selected':'' -%>>Funcionário</option>
-                        <option value="dono" <%- (cliente['responsavel']['cargo'] == "dono")?'selected':'' -%>>Dono</option>
+                        <option value="funcionario" <%- (fornecedor['responsavel']['cargo'] == "funcionario" || fornecedor['responsavel']['cargo'] == undefined)?'selected':'' -%>>Funcionário</option>
+                        <option value="dono" <%- (fornecedor['responsavel']['cargo'] == "dono")?'selected':'' -%>>Dono</option>
                     </select>
                 </div>
                 <div class="col">
                     <label for="inp_respCpf">CPF</label>
-                    <input pj type="text" class="form-control" id="inp_respCpf" name="responsavel[cpf]" value="<%- cliente['responsavel']['cpf'] -%>" <%-PJ-%> required>
+                    <input pj type="text" class="form-control" id="inp_respCpf" name="responsavel[cpf]" value="<%- fornecedor['responsavel']['cpf'] -%>" required>
                 </div>
             </div>
         </div>
@@ -170,11 +155,11 @@ if(Object.keys(cliente) != 0){
                                     </tr>
                                 </thead>
                                 <tbody id="tbl_contato">
-                                    <% if(cliente['contato'])for(let i = 0; i < cliente['contato']['tipo'].length;i++){ %>
+                                    <% if(fornecedor['contato'])for(let i = 0; i < fornecedor['contato']['tipo'].length;i++){ %>
                                         <tr class="w-25">
-                                            <td><input type="text" name="contato[tipo][]" class="form-control" value="<%- cliente['contato']['tipo'][i] -%>" readonly></td>
-                                            <td><input type="text" name="contato[contato][]" value="<%- cliente['contato']['contato'][i]-%>" class="form-control" readonly></td>
-                                            <td><select class="form-control" name="contato[padrao][]"><option value="0" <%- (cliente['contato']['padrao'][i] == '0')?'selected':'' -%>>Nao</option><option value="1" <%- (cliente['contato']['padrao'][i] == '1')?'selected':'' -%>>Sim</option></select></td>
+                                            <td><input type="text" name="contato[tipo][]" class="form-control" value="<%- fornecedor['contato']['tipo'][i] -%>" readonly></td>
+                                            <td><input type="text" name="contato[contato][]" value="<%- fornecedor['contato']['contato'][i]-%>" class="form-control" readonly></td>
+                                            <td><select class="form-control" name="contato[padrao][]"><option value="0" <%- (fornecedor['contato']['padrao'][i] == '0')?'selected':'' -%>>Nao</option><option value="1" <%- (fornecedor['contato']['padrao'][i] == '1')?'selected':'' -%>>Sim</option></select></td>
                                             <td><button type="button" class="btn btn-danger delButton"><i class="fa-solid fa-trash-can"></i></button></td>
                                         </tr>
                                     <% } %>
@@ -219,13 +204,13 @@ if(Object.keys(cliente) != 0){
                                     </tr>
                                 </thead>
                                 <tbody id="tbl_endereco">
-                                    <% if(cliente['endereco'])for(let i = 0; i < cliente['endereco']['cep'].length;i++){ %>
+                                    <% if(fornecedor['endereco'])for(let i = 0; i < fornecedor['endereco']['cep'].length;i++){ %>
                                         <tr>
-                                            <td><input class="form-control" name="endereco[cep][]" value="<%- cliente['endereco']['cep'][i] -%>" readonly></td>
-                                            <td><input class="form-control" name="endereco[endereco][]" value="<%- cliente['endereco']['endereco'][i] -%>" readonly></td>
-                                            <td><input class="form-control" name="endereco[numero][]" value="<%- cliente['endereco']['numero'][i] -%>" readonly></td>
-                                            <td><input class="form-control" name="endereco[complemento][]" value="<%- cliente['endereco']['complemento'][i] -%>" readonly></td>
-                                            <td><select class="form-control" name="endereco[padrao][]"><option value="0" <%- (cliente['endereco']['padrao'][i] == '2')?'selected':'' -%>>Nao</option><option value="1" <%- (cliente['endereco']['padrao'][i] == '1')?'selected':'' -%>>Sim</option></select></td>
+                                            <td><input class="form-control" name="endereco[cep][]" value="<%- fornecedor['endereco']['cep'][i] -%>" readonly></td>
+                                            <td><input class="form-control" name="endereco[endereco][]" value="<%- fornecedor['endereco']['endereco'][i] -%>" readonly></td>
+                                            <td><input class="form-control" name="endereco[numero][]" value="<%- fornecedor['endereco']['numero'][i] -%>" readonly></td>
+                                            <td><input class="form-control" name="endereco[complemento][]" value="<%- fornecedor['endereco']['complemento'][i] -%>" readonly></td>
+                                            <td><select class="form-control" name="endereco[padrao][]"><option value="0" <%- (fornecedor['endereco']['padrao'][i] == '2')?'selected':'' -%>>Nao</option><option value="1" <%- (fornecedor['endereco']['padrao'][i] == '1')?'selected':'' -%>>Sim</option></select></td>
                                             <td><button type="button" class="btn btn-danger delButton"><i class="fa-solid fa-trash-can"></i></button></td>
                                         </tr>
                                     <% } %>
@@ -326,13 +311,13 @@ if(Object.keys(cliente) != 0){
                                 </tr>
                             </thead>
                             <tbody id="tbl_banco">
-                                <% if(cliente['banco'])for(let i = 0; i < cliente['banco']['instituicao'].length;i++){ %>
+                                <% if(fornecedor['banco'])for(let i = 0; i < fornecedor['banco']['instituicao'].length;i++){ %>
                                     <tr class="w-25">
-                                        <td><input type="text" name="banco[instituicao][]" class="form-control" value="<%- cliente['banco']['instituicao'][i] -%>" readonly></td>
-                                        <td><input type="text" name="banco[conta][]" value="<%- cliente['banco']['conta'][i] -%>" class="form-control" readonly></td>
-                                        <td><input type="text" name="banco[agencia][]" value="<%- cliente['banco']['agencia'][i] -%>" class="form-control" readonly></td>
-                                        <td><input type="text" name="banco[numero][]" value="<%- cliente['banco']['numero'][i] -%>" class="form-control" readonly></td>
-                                        <td><select class="form-control" name="banco[padrao][]"><option value="0" <%- (cliente['banco']['padrao'][i] == '0')?'selected':'' -%>>Nao</option><option value="1" <%- (cliente['banco']['padrao'][i] == '1')?'selected':'' -%>>Sim</option></select></td>
+                                        <td><input type="text" name="banco[instituicao][]" class="form-control" value="<%- fornecedor['banco']['instituicao'][i] -%>" readonly></td>
+                                        <td><input type="text" name="banco[conta][]" value="<%- fornecedor['banco']['conta'][i] -%>" class="form-control" readonly></td>
+                                        <td><input type="text" name="banco[agencia][]" value="<%- fornecedor['banco']['agencia'][i] -%>" class="form-control" readonly></td>
+                                        <td><input type="text" name="banco[numero][]" value="<%- fornecedor['banco']['numero'][i] -%>" class="form-control" readonly></td>
+                                        <td><select class="form-control" name="banco[padrao][]"><option value="0" <%- (fornecedor['banco']['padrao'][i] == '0')?'selected':'' -%>>Nao</option><option value="1" <%- (fornecedor['banco']['padrao'][i] == '1')?'selected':'' -%>>Sim</option></select></td>
                                         <td><button type="button" class="btn btn-danger delButton"><i class="fa-solid fa-trash-can"></i></button></td>
                                     </tr>
                                 <% } %>
@@ -374,11 +359,11 @@ if(Object.keys(cliente) != 0){
                                 </tr>
                             </thead>
                             <tbody id="tbl_pix">
-                                <% if(cliente['pix'])for(let i = 0; i < cliente['pix']['tipo'].length;i++){ %>
+                                <% if(fornecedor['pix'])for(let i = 0; i < fornecedor['pix']['tipo'].length;i++){ %>
                                     <tr class="w-25">
-                                        <td><input type="text" name="pix[tipo][]" class="form-control" value="<%- cliente['pix']['tipo'][i] -%>" readonly></td>
-                                        <td><input type="text" name="pix[chave][]" value="<%- cliente['pix']['chave'][i]-%>" class="form-control" readonly></td>
-                                        <td><select class="form-control" name="pix[padrao][]"><option value="0" <%- (cliente['pix']['padrao'][i] == '0')?'selected':'' -%>>Nao</option><option value="1" <%- (cliente['pix']['padrao'][i] == '1')?'selected':'' -%>>Sim</option></select></td>
+                                        <td><input type="text" name="pix[tipo][]" class="form-control" value="<%- fornecedor['pix']['tipo'][i] -%>" readonly></td>
+                                        <td><input type="text" name="pix[chave][]" value="<%- fornecedor['pix']['chave'][i]-%>" class="form-control" readonly></td>
+                                        <td><select class="form-control" name="pix[padrao][]"><option value="0" <%- (fornecedor['pix']['padrao'][i] == '0')?'selected':'' -%>>Nao</option><option value="1" <%- (fornecedor['pix']['padrao'][i] == '1')?'selected':'' -%>>Sim</option></select></td>
                                         <td><button type="button" class="btn btn-danger delButton"><i class="fa-solid fa-trash-can"></i></button></td>
                                     </tr>
                                 <% } %>
@@ -394,25 +379,25 @@ if(Object.keys(cliente) != 0){
                     <strong>Observações</strong>
                 </div>
                 <div class="card-body">
-                    <textarea name="obs" id="inp_obs" class="form-control" rows="10"><%- cliente['obs'] -%></textarea>
+                    <textarea name="obs" id="inp_obs" class="form-control" rows="10"><%- fornecedor['obs'] -%></textarea>
                 </div>
             </div>
         </div>
     </div>
 
     <div class="mt-3">
-        <a href="/clientes" class="btn btn-secondary text-light">Voltar</a>
+        <a href="/fornecedores" class="btn btn-secondary text-light">Voltar</a>
         <%- 
-            (cliente['_id']!=undefined)?
+            (fornecedor['_id']!=undefined)?
             '<div id="btn_excluir" class="btn btn-danger text-light mr-1">Excluir</div><button type="submit" class="btn btn-primary text-light">Editar</button>':
             '<button type="submit" class="btn btn-primary text-light">Salvar</button>' 
         -%>
     </div>
 </form>
 
-<script src="/public/js/views/clientes/cliente/functions.js"></script>
-<script src="/public/js/views/clientes/cliente/submit.js"></script>
-<script src="/public/js/views/clientes/cliente/events.js"></script>
-<script src="/public/js/views/clientes/cliente/sockets.js"></script>
+<script src="/public/js/views/fornecedores/fornecedor/functions.js"></script>
+<script src="/public/js/views/fornecedores/fornecedor/submit.js"></script>
+<script src="/public/js/views/fornecedores/fornecedor/events.js"></script>
+<script src="/public/js/views/fornecedores/fornecedor/sockets.js"></script>
 
 <%- include("../includes/footer.ejs"); %>

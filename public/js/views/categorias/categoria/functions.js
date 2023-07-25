@@ -10,16 +10,28 @@ $(document).ready(function(){
             denyButtonText: 'Excluir',
             cancelButtonText: 'Cancelar',
         }).then((resp)=>{
-           if(resp.isDenied){
-                socket.emit('delCategoria',$('#inp_id').val());
-            };
+            $.ajax({
+                url:`/categorias/ed/`+$(`#_id`).val(),
+                method: `DELETE`,
+                statusCode:{
+                    200: ()=>{
+                        location.href = `/categorias`;
+                    },
+                    500: ()=>{
+                        swal.fire({
+                            icon: `error`,
+                            title: `Erro ao salvar`
+                        });
+                    }
+                }
+            });
         });
     });
 
     $('#btn_addSub').click(function(){
         $("#tbl_sub").append(`
         <tr>
-            <td><input type="text" name="subcategoria[nome]" value="`+$("#inp_subNome").val()+`" class="form-control"></td>
+            <td><input name="subcategoria[nome]" type="text" value="`+$("#inp_subNome").val()+`" class="form-control"></td>
             <td><select class="form-control" name="subcategoria[ativo]"><option value="1">Sim</option><option value="0">Nao</option></select></td>
         </tr>
         `);
