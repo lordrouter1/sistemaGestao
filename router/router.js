@@ -105,7 +105,7 @@ module.exports = function(con,cMongoDB){
     });
 
     routers.get('/produtos',checkLogin,async (req,res)=>{
-        res.render('estoque/index',{
+        res.render('produtos/index',{
             title:'Produtos',
             data: JSON.stringify(await cMongoDB.db(req.session.user.database).collection('produtos').find({},{projection:{_id:1,nome:1,descricao:1}}).toArray())
         });
@@ -149,7 +149,7 @@ module.exports = function(con,cMongoDB){
     });
 
     routers.get('/produtos/novo',checkLogin,async (req,res)=>{
-        res.render('estoque/produto',{
+        res.render('produtos/produto',{
             title:'Novo Produto',
             produto:{},
             marcas: await cMongoDB.db(req.session.user.database).collection('marcas').find({ativo:'1'},{projection:{_id:1,nome:1}}).toArray(),
@@ -231,7 +231,7 @@ module.exports = function(con,cMongoDB){
 
     routers.get(`/produtos/editar/:id`,checkLogin,async (req,res)=>{
         cMongoDB.db(req.session.user.database).collection(`produtos`).findOne({_id:new ObjectId(req.params[`id`])}).then(async (r)=>{
-            res.render(`estoque/produto`,{
+            res.render(`produtos/produto`,{
                 title:`Editar Produto`,
                 produto: r,
                 marcas: await cMongoDB.db(req.session.user.database).collection('marcas').find({ativo:'1'},{projection:{_id:1,nome:1}}).toArray(),
