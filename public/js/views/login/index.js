@@ -20,13 +20,20 @@ $(document).ready(()=>{
                     Swal.fire({
                         icon: 'error',
                         title: 'Oops...',
-                        text: 'Email ou senha invalido! Aguarde 5 minutos para tentar novamente',
+                        text: 'Email ou senha invalido!',
                     });
                 }
             }
         });
     });
 
+    $("#btn-next").click(function(){
+        let next = parseInt($('.body-item.active').attr('data-id')) + 1;
+        $('.body-item.active').removeClass('active').addClass('d-none');
+        $(`.body-item[data-id="${next}"]`).removeClass('d-none').addClass('active');
+    });
+
+    /*
     $(`#inp_senha2`).change(()=>{
         if($(`#inp_senha`).val()!=$(`#inp_senha2`).val()){
             Swal.fire({icon:`error`,title:`As senhas não conferem`});
@@ -93,6 +100,6 @@ $(document).ready(()=>{
                 title: `Preencha todos os campos`
             });
         }
-    });
+    });*/
 
 });

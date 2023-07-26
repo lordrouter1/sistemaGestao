@@ -26,21 +26,34 @@
                 <input type="text" id="256" name="245" class="form-control mt-3" placeholder="E-mail">
                 <input type="password" id="237" name="506" class="form-control mt-3" placeholder="Senha">
                 <button type="button" id="648" class="btn btn-secondary mt-3 btn-block">Entrar</button>
-                <span class="btn mt-3" data-toggle="modal" data-target="#mdl_cadastro">Nova empresa</span>
+                
+                <div class="accordion">
+                    <span class="btn mt-3 collapsed" data-toggle="collapse" data-target="#mdl_cadastro">Cadastrar</span>
+                    <div id="mdl_cadastro" class="collapse" data-parent="#accordion">
+                        <ul class="navbar-nav mt-3">
+                            <li class="navbar-item">
+                                <a href="/cadastro/empresa" class="nav-link">Empresa</a>
+                            </li>
+        
+                            <li class="navbar-item">
+                                <a href="#" class="nav-link">Usuário</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
             
         </div>
     </nav>
     <section class="w-100 h-100 bg-light" style="background-image:url('/public/img/background/login.jpg');">
 
     </section>
-    <div class="modal" id="mdl_cadastro">
+    <!--<div class="modal" id="mdl_cadastro">
         <div class="modal-dialog modal-lg h-75">
             <div class="modal-content h-75">
                 <div class="modal-body h-75 bg-primary">
 
                     <div id="cadastro" class="carousel slide h-100" data-interval="false" data-ride="carousel">
                       
-                        <!-- The slideshow -->
                         <div class="carousel-inner h-100 text-light">
 
                             <div class="carousel-item active h-100">
@@ -146,7 +159,6 @@
 
                         </div>
                       
-                        <!-- Left and right controls -->
                         <a class="carousel-control-prev" href="#cadastro" data-slide="prev">
                           <span class="carousel-control-prev-icon"></span>
                         </a>
@@ -159,7 +171,8 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div>-->
+
 </body>
     <script src="/public/js/bootstrap.min.js"></script>
     <script src="/public/js/fontawesome-all.min.js"></script>

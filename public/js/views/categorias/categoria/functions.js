@@ -1,5 +1,4 @@
 $(document).ready(function(){
-
     $("#btn_excluir").click(()=>{
         Swal.fire({
             icon:'warning',
@@ -39,5 +38,4 @@ $(document).ready(function(){
         $("#inp_subNome").val('');
         $("#inp_subNome").focus();
     });
-
 });

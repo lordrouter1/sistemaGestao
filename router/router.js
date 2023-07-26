@@ -413,6 +413,27 @@ module.exports = function(con,cMongoDB){
             res.status(500).send(false);
         }
     });
+
+    routers.route('/categorias/ed/:id',checkLogin)
+    .post((req,res)=>{
+        let db = cMongoDB.db(req.session.user.database).collection('categorias');
+        if(req.params.id == 0){
+            db.insertOne(req.body);
+            res.status(200).redirect('/categorias?success');
+        }else{
+            db.updateOne({_id:new ObjectId(req.params.id)},{$set:req.body});
+            res.status(200).redirect('/categorias?success');
+        }
+    })
+    .delete((req,res)=>{
+        try{
+            cMongoDB.db(req.session.user.database).collection('categorias').deleteOne({_id:new ObjectId(req.params.id)});
+            res.status(200).send(true);
+        }catch(e){
+            console.log(e);
+            res.status(500).send(false);
+        }
+    });
     
     return routers;
 };
