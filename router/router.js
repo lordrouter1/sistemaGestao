@@ -5,7 +5,7 @@ const multer = require(`multer`);
 const fs = require(`fs`);
 
 module.exports = function(con,cMongoDB){
-    const routers = express.Router();
+    let routers = express.Router();
 
     const storage = multer.diskStorage({
         destination: function (req, file, cb) {
@@ -28,73 +28,17 @@ module.exports = function(con,cMongoDB){
         }
     }
 
-    routers.get('/login',(req,res)=>{
-        if(req.session.user == undefined)
-            res.render('login/index');
-        else
-            res.redirect('/');
-    });
-    routers.post('/login',async (req,res)=>{
-        con.collection('login').findOne({user:req.body.email}).then((resp) => {
-            if(resp != null &&  Date.now() - resp.bloqueado > 300000){
-                if(resp.bloqueado > 0){
-                    resp.bloqueado = 0;
-                    resp.contBloqueio = 0;
-                }
-                if(resp.senha == req.body.senha){
-                    req.session.user = resp;
-                    res.send(true);
-                }
-                else{
-                    resp.contBloqueio++;
-                    if(resp.contBloqueio >= 5){
-                        resp.bloqueado = Date.now();
-                    }
-                    console.log({_id:resp._id});
-                    con.collection(`login`).updateOne({_id:new ObjectId(resp._id)},{$set:resp});
-                    res.send(false);
-                }
-                con.collection(`login`).updateOne({_id:new ObjectId(resp._id)},{$set:{ultimoAcesso:Date()}});
-            }
-            else{
-                req.session.user = undefined;
-                res.send(false);
-            }
-        });
-    });
-    routers.post('/logoff',async (req,res)=>{
-        req.session.user = null;
-        res.redirect('/login');
-    });
+    routers = require(`./rotas/login`)(checkLogin,routers,con,cMongoDB);
+    routers = require(`./rotas/cientes`)(checkLogin,routers,con,cMongoDB);
 
-    routers.post(`/cadastro`,async (req,res)=>{
-        let empresa = req.body.empresa;
-        let usuario = req.body.usuario;
-        con.collection(`empresa`).findOne({cnpj:empresa.cnpj}).then((resp) =>{
-            if(resp == null){
-                con.collection(`empresa`).insertOne(empresa);
-                usuario.database = empresa.cnpj.replace(/[\.\-/]/g,``);
-                con.collection(`login`).insertOne(usuario);
-                req.session.user = usuario;
-                res.send(true)
-            }
-            else{
-                console.log(resp);
-            }
-        });
+    fs.readdirSync(__dirname,(err,files)=>{
+        console.log(err,files);
     });
 
 
     // --- INDEX---
     routers.get('/',checkLogin,(req,res)=>{
         res.render('index',{title:'Dashboard'});
-    });
-
-    routers.get('/clientes',checkLogin,async (req,res)=>{
-        res.render('clientes/index',{
-            title:'Cadastro de Clientes',
-            data: JSON.stringify(await cMongoDB.db(req.session.user.database).collection('clientes').find({},{projection:{_id:1,razaoSocial:1,nomeFantasia:1,responsavel:{nome:1},contato:1}}).toArray())
-        });
     });
 
     routers.get('/fornecedores',checkLogin,async (req,res)=>{
@@ -140,9 +84,6 @@ module.exports = function(con,cMongoDB){
     });
 
     // --- NOVO ---
-    routers.get('/clientes/novo',checkLogin,(req,res)=>{
-        res.render('clientes/cliente',{title:'Novo Cliente',cliente:{}});
-    });
 
     routers.get(`/fornecedores/novo`,checkLogin,(req,res)=>{
         res.render(`fornecedores/fornecedor`,{title:`Novo Fornecedor`,fornecedor:{}});
@@ -175,14 +116,6 @@ module.exports = function(con,cMongoDB){
     });
 
     // --- EDITAR ---
-    routers.get('/clientes/editar/:id',checkLogin,async (req,res)=>{
-        cMongoDB.db(req.session.user.database).collection('clientes').findOne({_id:new ObjectId(req.params['id'])}).then((r)=>{
-            res.render('clientes/cliente',{
-                title:'Editar Cliente',
-                cliente: r,
-            });
-        });
-    });
 
     routers.get(`/fornecedores/editar/:id`,checkLogin,async (req,res)=>{
         cMongoDB.db(req.session.user.database).collection(`fornecedores`).findOne({_id: new ObjectId(req.params[`id`])}).then((r)=>{
@@ -441,39 +374,6 @@ module.exports = function(con,cMongoDB){
     .delete((req,res)=>{
         try{
             cMongoDB.db(req.session.user.database).collection(`categorias`).deleteOne({_id:new ObjectId(req.params.id)});
-            res.status(200).send(true);
-        }catch(e){
-            console.log(e);
-            res.status(500).send(false);
-        }
-    });
-
-    routers.route(`/clientes/ed/:id`,checkLogin)
-    .post((req,res)=>{
-        let db = cMongoDB.db(req.session.user.database).collection(`clientes`);
-        if(req.params.id == 0){
-            db.insertOne(req.body).then((err,result)=>{
-                if(err){
-                    console.log(err);
-                    res.status(500).redirect(`/clientes?err`);
-                }else{
-                    res.status(200).redirect(`/clientes?success`);
-                }
-            });
-        }else{
-            db.updateOne({_id:new ObjectId(req.params.id)},{$set:req.body}).then((err,result)=>{
-                if(err){
-                    console.log(err);
-                    res.status(500).redirect(`/clientes?err`);
-                }else{
-                    res.status(200).redirect(`/clientes?success`);
-                }
-            });
-        }
-    })
-    .delete((req,res)=>{
-        try{
-            cMongoDB.db(req.session.user.database).collection(`clientes`).deleteOne({_id:new ObjectId(req.params.id)}).then(r=>console.log(r));
             res.status(200).send(true);
         }catch(e){
             console.log(e);
