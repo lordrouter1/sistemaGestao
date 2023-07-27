@@ -1,6 +1,7 @@
 const ObjectId = require('mongodb').ObjectId;
 
-module.exports = (checkLogin,routers,con,cMongoDB,upload)=>{
+module.exports = (checkLogin,routers,con,cMongoDB,data)=>{
+    
     routers.get('/produtos',checkLogin,async (req,res)=>{
         res.render('produtos/index',{
             title:'Produtos',
@@ -31,7 +32,7 @@ module.exports = (checkLogin,routers,con,cMongoDB,upload)=>{
     });
 
     routers.route(`/produtos/ed/:id`,checkLogin)
-    .post(upload.none(),(req,res)=>{
+    .post(data.upload.none(),(req,res)=>{
         let db = cMongoDB.db(req.session.user.database).collection(`produtos`);
         if(req.params.id == 0){
             db.insertOne(req.body).then((err,result)=>{

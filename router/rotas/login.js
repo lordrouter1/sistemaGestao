@@ -1,9 +1,10 @@
 const ObjectId = require('mongodb').ObjectId;
 
-module.exports = (checkLogin,routers,con,cMongoDB)=>{
-    routers.get('/login',(req,res)=>{
-        if(req.session.user == undefined)
+module.exports = (checkLogin,routers,con,cMongoDB,data)=>{
+    routers.get('/login',async (req,res)=>{
+        if(req.session.user == undefined){
             res.render('login/index');
+        }
         else
             res.redirect('/');
     });

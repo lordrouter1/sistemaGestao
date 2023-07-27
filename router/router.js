@@ -3,9 +3,12 @@ const gridjs = require('gridjs');
 const ObjectId = require('mongodb').ObjectId;
 const multer = require(`multer`);
 const fs = require(`fs`);
+const MetaMask = require('@metamask/sdk');
 
 module.exports = function(con,cMongoDB){
     let routers = express.Router();
+    let test;
+    const mmSdk = new MetaMask.MetaMaskSDK({dappMetadata:{name: "My Dapp", url: "http://localhost:3000"},injectProvider:true});
 
     const storage = multer.diskStorage({
         destination: function (req, file, cb) {
@@ -31,7 +34,7 @@ module.exports = function(con,cMongoDB){
     fs.readdirSync(__dirname+`\\rotas`).forEach(arq=>{
         const rota = arq.split(`.`)[0];
         console.log(`[rota] ${rota} adicionada`);
-        routers = require(`./rotas/${rota}`)(checkLogin,routers,con,cMongoDB,upload);
+        routers = require(`./rotas/${rota}`)(checkLogin,routers,con,cMongoDB,{upload:upload,mmSdk:mmSdk});
     });
     console.log();
 
