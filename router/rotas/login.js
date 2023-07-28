@@ -1,9 +1,10 @@
 const ObjectId = require('mongodb').ObjectId;
+const sha256 = require('sha256');
 
 module.exports = (checkLogin,routers,con,cMongoDB,data)=>{
     routers.get('/login',async (req,res)=>{
         if(req.session.user == undefined){
-            res.render('login/index');
+            res.render('login/index',{lCode:sha256(String(Date.now()))});
         }
         else
             res.redirect('/');

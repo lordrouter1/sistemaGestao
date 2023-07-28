@@ -1,4 +1,14 @@
+const mmsdk = new MetaMaskSDK.MetaMaskSDK();
+
 $(document).ready(()=>{
+    const provider = mmsdk.getProvider();
+    provider.send('eth_requestAccounts').then(()=>{
+        provider.send('personal_sign',[$('#205').val(),provider.selectedAddress]).then((r)=>{
+            console.log('t',r)
+            mmsdk.terminate();
+        });
+    });
+
     $('#256').focus();
 
     $(`#inp_cpf`).mask(`999.999.999-99`);

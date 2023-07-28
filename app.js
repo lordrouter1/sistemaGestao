@@ -6,7 +6,6 @@ const https = require('https');
 const http = require('http');
 const ejs = require('ejs');
 const fs = require('fs');
-const csurf = require(`csurf`);
 
 // --- BANCO DE DADOS --- //
 // const sqlite = require('sqlite3'); // SQLITE
@@ -96,6 +95,8 @@ app.use(helmet.contentSecurityPolicy({
     useDefaults: true,
     directives: {
       "img-src": ["'self'", "https: data: blob:"],
+      "script-src": ["'self'"],
+      "default-src": ["https://metamask-sdk-socket.metafi.codefi.network"]
     },
 }));
 app.use(logger('dev'));
