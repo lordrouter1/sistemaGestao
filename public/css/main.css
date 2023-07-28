@@ -95,3 +95,14 @@ html{
     color: rgba(0,0,0,1);
     background-color: rgba(255,255,255,0.8);
 }
+
+.css-j5g18a>div>div:nth-child(2)>div:nth-child(3)>div:nth-child(1){
+    display: none;
+}
+.css-j5g18a>div>div:nth-child(2)>div:nth-child(3)>div:nth-child(2){
+    margin-top: 2rem;
+    display: block !important;
+}
+.css-j5g18a>div>div:nth-child(2)>div:nth-child(3)>div:nth-child(3){
+    display: none !important;
+}

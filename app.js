@@ -90,15 +90,15 @@ app.set('trust proxy',1);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.text());
-app.use(helmet({ crossOriginEmbedderPolicy: false, originAgentCluster: true }));
+/*app.use(helmet({ crossOriginEmbedderPolicy: false, originAgentCluster: true }));
 app.use(helmet.contentSecurityPolicy({
     useDefaults: true,
     directives: {
       "img-src": ["'self'", "https: data: blob:"],
-      "script-src": ["'self'"],
+      "script-src": ["'self'", "'unsafe-eval'"],
       "default-src": ["https://metamask-sdk-socket.metafi.codefi.network"]
     },
-}));
+}));*/
 app.use(logger('dev'));
 app.use('/public/',express.static(__dirname+'/public'));
 app.use(confSession);

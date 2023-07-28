@@ -1,34 +1,25 @@
 const ObjectId = require('mongodb').ObjectId;
 const sha256 = require('sha256');
+const web3 = require('web3');
 
 module.exports = (checkLogin,routers,con,cMongoDB,data)=>{
     routers.get('/login',async (req,res)=>{
         if(req.session.user == undefined){
-            res.render('login/index',{lCode:sha256(String(Date.now()))});
+            req.session.lCode = JSON.stringify({access:sha256(String(Date.now()))});
+            res.render('login/index',{lCode:req.session.lCode});
         }
         else
             res.redirect('/');
     });
     routers.post('/login',async (req,res)=>{
-        con.collection('login').findOne({user:req.body.email}).then((resp) => {
+        const user = web3.eth.accounts.recover(req.session.lCode,req.body.data);
+
+        con.collection('login').findOne({wallet:user}).then((resp) => {
             if(resp != null &&  Date.now() - resp.bloqueado > 300000){
-                if(resp.bloqueado > 0){
-                    resp.bloqueado = 0;
-                    resp.contBloqueio = 0;
-                }
-                if(resp.senha == req.body.senha){
-                    req.session.user = resp;
-                    res.send(true);
-                }
-                else{
-                    resp.contBloqueio++;
-                    if(resp.contBloqueio >= 5){
-                        resp.bloqueado = Date.now();
-                    }
-                    console.log({_id:resp._id});
-                    con.collection(`login`).updateOne({_id:new ObjectId(resp._id)},{$set:resp});
-                    res.send(false);
-                }
+                console.log(resp);
+                req.session.user = resp;
+                req.session.lCode = undefined;
+                res.send(true);
                 con.collection(`login`).updateOne({_id:new ObjectId(resp._id)},{$set:{ultimoAcesso:Date()}});
             }
             else{

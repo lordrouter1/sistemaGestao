@@ -6,6 +6,7 @@ const fs = require(`fs`);
 
 module.exports = function(con,cMongoDB){
     let routers = express.Router();
+    
     const storage = multer.diskStorage({
         destination: function (req, file, cb) {
           cb(null, `public/img/`); // Pasta onde os uploads serão armazenados
