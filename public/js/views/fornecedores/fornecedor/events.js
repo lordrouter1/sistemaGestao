@@ -1,7 +1,6 @@
 $("#btn_excluir").click(()=>{
     Swal.fire({
         icon:'warning',
-        title: $('#inp_razaoSocial').val(),
         text:'Deseja Excluir?',
         showCancelButton: true,
         showConfirmButton: false,
