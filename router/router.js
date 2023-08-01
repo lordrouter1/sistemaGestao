@@ -33,7 +33,6 @@ module.exports = function(con,cMongoDB){
         console.log(`[rota] ${rota} adicionada`);
         routers = require(`./rotas/${rota}`)(checkLogin,routers,con,cMongoDB,{upload:upload});
     });
-    console.log();
 
     // --- INDEX---
     routers.get('/',checkLogin,(req,res)=>{

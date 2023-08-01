@@ -1,0 +1,63 @@
+{
+    "logger":"dev",
+    
+    "https":false,
+
+    "port":3000,
+
+    "db":{
+        "mongodb":{
+            "url":"mongodb+srv://juliobenin:vM7U9js1zuXazT5E@cluster0.l7zkjlq.mongodb.net/?retryWrites=true&w=majority",
+            "dbMaster":"SystemaGestao"
+        }
+    },
+
+    "routers":{
+        "path":"./router/router"
+    },
+
+    "socket":{
+        "path":"./socket/socket"
+    },
+
+    "session":{
+        "config":{
+            "secret": "248bba09ea5f441b89c133ce1ef53b3a7b7500b14f924ccf08e29de3aaf4a9ea",
+            "name": "sessao",
+            "resave": false,
+            "saveUninitialized": true,
+            "cookie":{
+                "secure": false,
+                "httpOnly": true,
+                "sameSite": "strict",
+                "path":"/",
+                "expires": false
+            }
+        }
+    },
+
+    "helmet":{
+        "init":{
+            "crossOriginEmbedderPolicy": false,
+            "originAgentCluster": true
+        },
+        "csp":{
+            "useDefaults": true,
+            "directives": {
+                "img-src": ["'self'", "https: data: blob:"],
+                "script-src": ["'self'"],
+                "default-src": ["data: https://metamask-sdk-socket.metafi.codefi.network"],
+                "connect-src": ["wss: gap: data: https://metamask-sdk-socket.metafi.codefi.network","'self'"]
+            }
+        }
+    },
+
+    "view":{
+        "path":"/views"
+    },
+
+    "public":{
+        "url":"/public/",
+        "path":"/public"
+    }
+}

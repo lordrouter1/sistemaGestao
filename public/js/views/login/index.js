@@ -1,8 +1,4 @@
-if(!window.prov){
-    const mmsdk = new MetaMaskSDK.MetaMaskSDK();
-    window.prov = mmsdk.getProvider();
-    console.log('entrou');
-}
+const mmsdk = new MetaMaskSDK.MetaMaskSDK();
 
 $(document).ready(()=>{
     $('#256').focus();

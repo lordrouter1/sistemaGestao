@@ -7,83 +7,40 @@ const http = require('http');
 const ejs = require('ejs');
 const fs = require('fs');
 
-// --- BANCO DE DADOS --- //
-// const sqlite = require('sqlite3'); // SQLITE
+const cfg = /*Dev?*/(true)?require('./configs/dev.json'):require('./configs/prod.json');
+
 const { MongoClient } = require('mongodb'); // MONGODB
-const mysql = require('mysql'); // MYSQL
-// --- FIM BANCO DE DADOS --- //
+
 const {Server} = require('socket.io');
 
-// --- BANCO DE DADOS --- //
-
-// SQLITE
-// const sdb = new sqlite.Database('data.db');
-
-// MONGO DB
-
-const cMongoDB = new MongoClient('mongodb+srv://juliobenin:vM7U9js1zuXazT5E@cluster0.l7zkjlq.mongodb.net/?retryWrites=true&w=majority');
-
+const cMongoDB = new MongoClient(cfg.db.mongodb.url);
 cMongoDB.connect();
-const con = cMongoDB.db('SystemaGestao');
-
-/*
-// MYSQL
-const con = mysql.createConnection({
-    host: 'localhost',
-    user: 'nodeMaster',
-    password: 'nodeMast&r*',
-    database: 'nodeInit',
-});
-
-con.connect();
-*/
-
-// --- FIM BANCO DE DADOS --- //
+const con = cMongoDB.db(cfg.db.mongodb.dbMaster);
 
 // --- FUNÇÕES LOCAIS --- //
-const routers = require('./router/router')(con,cMongoDB);
-const socketEvents = require('./socket/socket');
+const routers = require(cfg.routers.path)(con,cMongoDB);
+const socketEvents = require(cfg.socket.path);
 
 //
-const port = 3000;
 const app = express();
 
 // Se HTTPS difinir como true
-const server = (false)?https.createServer(app):http.createServer({/*key: fs.readFileSync("cert/key.pem"),cert: fs.readFileSync("cert/cert.pem")*/},app);
+const server = (cfg.https)?https.createServer(app):http.createServer(app);
 
 // Session Config
-const confSession = session({
-    secret: '123456789',
-    name: 'sessao',
-    resave: false,
-    saveUninitialized: true,
-    cookie:{
-        secure: false,
-        httpOnly: true,
-        path:'/',
-        expires: false
-    }
-})
+const confSession = session(cfg.session.config)
 
 //
 const io = new Server(server);
 const wrap = middleware => (socket,next) => middleware(socket.request,{},next);
 io.use(wrap(confSession));
-io.use((socket,next)=>{
-    if(socket.request.session.user){
-        next();
-    }
-    else{
-        next(new Error('Nao Autorizado'));
-    }
-});
+io.use((socket,next)=>{ if(socket.request.session.user){ next(); } else { next(new Error('Nao Autorizado')); }});
 
 // Socket.IO Middleware
 io.on('connection',(socket)=>{socketEvents(io,socket,cMongoDB)});
 
-//
 app.set('view engine','ejs');
-app.set('views',__dirname+'/views');
+app.set('views',__dirname+cfg.view.path);
 app.set('trust proxy',1);
 
 //
@@ -91,22 +48,14 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.text());
 
-app.use(helmet({ crossOriginEmbedderPolicy: false, originAgentCluster: true }));
-app.use(helmet.contentSecurityPolicy({
-    useDefaults: true,
-    directives: {
-      "img-src": ["'self'", "https: data: blob:"],
-      "script-src": ["'self'", "'unsafe-eval'"],
-      "default-src": ["data: https://metamask-sdk-socket.metafi.codefi.network"],
-      "connect-src": ["gap: data: https://metamask-sdk-socket.metafi.codefi.network","'self'"],
-    },
-}));
+app.use(helmet(cfg.helmet.init));
+app.use(helmet.contentSecurityPolicy(cfg.helmet.csp));
 
-app.use(logger('dev'));
-app.use('/public/',express.static(__dirname+'/public'));
+app.use(logger(cfg.logger));
+app.use(cfg.public.url,express.static(__dirname+cfg.public.path));
 app.use(confSession);
 app.use(routers);
 //
-server.listen(port);
-console.log(`Sistema funcionando na porta ${port}`);
+server.listen(cfg.port);
+console.log(`Sistema funcionando na porta ${cfg.port}`);
 

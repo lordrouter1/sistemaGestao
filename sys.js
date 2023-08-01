@@ -1,4 +1,10 @@
 const fs = require('fs');
+const { rimrafSync } = require('rimraf');
+
+const readline = require('readline').createInterface({
+    input: process.stdin,
+    output: process.stdout
+});
 
 if(process.argv.length < 4){
     console.log('Requer ao menos 1 argumento');
@@ -257,13 +263,37 @@ return routers;
 switch(process.argv[2]){
     case 'new':
         try{
-            new_(process.argv[3],process.argv[4]);
+            new_(name,titulo);
         }catch(e){
             console.log(e);
         }
         break;
 
     case 'del':
+        try{
+            if(process.argv.length < 4){
+                console.log('Requer 1 argumento para prosseguir');
+                return false;
+            }
+
+            const name = process.argv[3];
+            readline.question(`Digite [${name}] para deletar:`,(resp)=>{
+                if(resp == name){
+
+                    rimrafSync(`views/${name}`);
+                    rimrafSync(`public/js/views/${name}`);
+                    fs.rmSync(`router/rotas/${name}.js`);
+
+                    console.log('Arquivos deletados com sucesso!');
+                }
+                else{
+                    console.log('Arquivos não deletados!');
+                }
+                readline.close();
+            });
+        }catch(e){
+            console.log(e);
+        }
         break;
 
     default:{
