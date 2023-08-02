@@ -4,7 +4,7 @@ module.exports = (checkLogin,routers,con,cMongoDB)=>{
     routers.get('/marcas',checkLogin,async (req,res)=>{
         res.render('marcas/index',{
             title:'Marcas',
-            data: JSON.stringify(await cMongoDB.db(req.session.user.database).collection('marcas').find({},{projection:{_id:1,nome:1,ativo:1}}).toArray())
+            data: JSON.stringify(await cMongoDB.db(data.getDb(req)).collection('marcas').find({},{projection:{_id:1,nome:1,ativo:1}}).toArray())
         });
     });
 
@@ -13,7 +13,7 @@ module.exports = (checkLogin,routers,con,cMongoDB)=>{
     });
 
     routers.get('/marcas/editar/:id',checkLogin,async (req,res)=>{
-        cMongoDB.db(req.session.user.database).collection('marcas').findOne({_id:new ObjectId(req.params['id'])}).then((r)=>{
+        cMongoDB.db(data.getDb(req)).collection('marcas').findOne({_id:new ObjectId(req.params['id'])}).then((r)=>{
             res.render('marcas/marca',{
                 title:'Editar Marcas',
                 marca: r,
@@ -23,7 +23,7 @@ module.exports = (checkLogin,routers,con,cMongoDB)=>{
 
     routers.route(`/marcas/ed/:id`,checkLogin)
     .post((req,res)=>{
-        let db = cMongoDB.db(req.session.user.database).collection(`marcas`);
+        let db = cMongoDB.db(data.getDb(req)).collection(`marcas`);
         if(req.params.id == 0){
             db.insertOne(req.body).then((err,result)=>{
                 if(err){
@@ -46,7 +46,7 @@ module.exports = (checkLogin,routers,con,cMongoDB)=>{
     })
     .delete((req,res)=>{
         try{
-            cMongoDB.db(req.session.user.database).collection(`marcas`).deleteOne({_id:new ObjectId(req.params.id)});
+            cMongoDB.db(data.getDb(req)).collection(`marcas`).deleteOne({_id:new ObjectId(req.params.id)});
             req.status(200).send(true);
         }catch(e){
             console.log(e);

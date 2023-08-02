@@ -48,7 +48,7 @@ module.exports = function(con,cMongoDB){
     fs.readdirSync(__dirname+`\\rotas`).forEach(arq=>{
         const rota = arq.split(`.`)[0];
         console.log(`[rota] ${rota} adicionada`);
-        routers = require(`./rotas/${rota}`)(checkLogin,routers,con,cMongoDB,{upload:upload});
+        routers = require(`./rotas/${rota}`)(checkLogin,routers,con,cMongoDB,{upload:upload,csrfCheckToken:csrfCheckToken,getDb:getDb});
     });
 
     // --- INDEX---

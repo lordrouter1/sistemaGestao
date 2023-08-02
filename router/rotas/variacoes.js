@@ -4,7 +4,7 @@ module.exports = (checkLogin,routers,con,cMongoDB)=>{
     routers.get(`/variacoes`,checkLogin,async (req,res)=>{
         res.render(`variacoes/index`,{
             title: `Variações`,
-            data: JSON.stringify(await cMongoDB.db(req.session.user.database).collection(`variacoes`).find({}).toArray())
+            data: JSON.stringify(await cMongoDB.db(data.getDb(req)).collection(`variacoes`).find({}).toArray())
         });
     });
 
@@ -13,7 +13,7 @@ module.exports = (checkLogin,routers,con,cMongoDB)=>{
     });
 
     routers.get(`/variacoes/editar/:id`,checkLogin,async (req,res)=>{
-        cMongoDB.db(req.session.user.database).collection(`variacoes`).findOne({_id:new ObjectId(req.params[`id`])}).then((r)=>{
+        cMongoDB.db(data.getDb(req)).collection(`variacoes`).findOne({_id:new ObjectId(req.params[`id`])}).then((r)=>{
             res.render(`variacoes/variacao`,{
                 title:`Editar Variacoes`,
                 variacao: r,
@@ -23,7 +23,7 @@ module.exports = (checkLogin,routers,con,cMongoDB)=>{
 
     routers.route(`/variacoes/ed/:id`,checkLogin)
     .post((req,res)=>{
-        let db = cMongoDB.db(req.session.user.database).collection(`variacoes`)
+        let db = cMongoDB.db(data.getDb(req)).collection(`variacoes`)
         for(let i = 0; i < req.body.var.length; i++){
             if(req.body.var[i]._id == ``)
                 req.body.var[i]._id = String(new ObjectId());
@@ -49,7 +49,7 @@ module.exports = (checkLogin,routers,con,cMongoDB)=>{
         }
     })
     .delete((req,res)=>{
-        cMongoDB.db(req.session.user.database).collection(`variacoes`).deleteOne({_id:new ObjectId(req.params.id)},(err,result)=>{
+        cMongoDB.db(data.getDb(req)).collection(`variacoes`).deleteOne({_id:new ObjectId(req.params.id)},(err,result)=>{
             if(err){
                 console.log(err);
                 res.status(500).send(false);
