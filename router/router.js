@@ -27,6 +27,23 @@ module.exports = function(con,cMongoDB){
         }
     }
 
+    function csrfCheckToken(req,res,next){
+        if(req.body.csrfToken == req.session.csrf){
+            delete req.body.csrfToken;
+            next();
+        }
+        else{
+            req.session.user = null;
+            req.session.csrf = null;
+            res.redirect('/login');
+        }
+    }
+
+    function getDb(req){
+        return req.session.user.database;
+    }
+
+
     // --- INCLUSAO DAS ROTAS ---
     fs.readdirSync(__dirname+`\\rotas`).forEach(arq=>{
         const rota = arq.split(`.`)[0];
