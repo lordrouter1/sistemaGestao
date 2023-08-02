@@ -16,8 +16,8 @@ module.exports = (checkLogin,routers,con,cMongoDB,data)=>{
 
         con.collection('login').findOne({wallet:user}).then((resp) => {
             if(resp != null &&  Date.now() - resp.bloqueado > 300000){
-                console.log(resp);
                 req.session.user = resp;
+                req.session.csrf = sha256(String(Date.now()));
                 req.session.lCode = undefined;
                 res.send(true);
                 con.collection(`login`).updateOne({_id:new ObjectId(resp._id)},{$set:{ultimoAcesso:Date()}});

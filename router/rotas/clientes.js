@@ -5,13 +5,14 @@ module.exports = (checkLogin,routers,con,cMongoDB)=>{
     routers.get('/clientes',checkLogin,async (req,res)=>{
         res.render('clientes/index',{
             title:'Cadastro de Clientes',
+            csrfToken:req.session.csrf,
             data: JSON.stringify(await cMongoDB.db(req.session.user.database).collection('clientes').find({},{projection:{_id:1,razaoSocial:1,nomeFantasia:1,responsavel:{nome:1},contato:1}}).toArray())
         });
     });
 
     // VIEW NOVO
     routers.get('/clientes/novo',checkLogin,(req,res)=>{
-        res.render('clientes/cliente',{title:'Novo Cliente',cliente:{}});
+        res.render('clientes/cliente',{title:'Novo Cliente',csrfToken:req.session.csrf,cliente:{}});
     });
 
     // VIEW EDITAR
@@ -19,6 +20,7 @@ module.exports = (checkLogin,routers,con,cMongoDB)=>{
         cMongoDB.db(req.session.user.database).collection('clientes').findOne({_id:new ObjectId(req.params['id'])}).then((r)=>{
             res.render('clientes/cliente',{
                 title:'Editar Cliente',
+                csrfToken:req.session.csrf,
                 cliente: r,
             });
         });

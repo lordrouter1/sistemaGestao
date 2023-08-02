@@ -4,18 +4,20 @@ module.exports = (checkLogin,routers,con,cMongoDB)=>{
     routers.get('/marcas',checkLogin,async (req,res)=>{
         res.render('marcas/index',{
             title:'Marcas',
+            csrfToken:req.session.csrf,
             data: JSON.stringify(await cMongoDB.db(req.session.user.database).collection('marcas').find({},{projection:{_id:1,nome:1,ativo:1}}).toArray())
         });
     });
 
     routers.get('/marcas/novo',checkLogin,(req,res)=>{
-        res.render('marcas/marca',{title:'Nova Marca',marca:{}});
+        res.render('marcas/marca',{title:'Nova Marca',csrfToken:req.session.csrf,marca:{}});
     });
 
     routers.get('/marcas/editar/:id',checkLogin,async (req,res)=>{
         cMongoDB.db(req.session.user.database).collection('marcas').findOne({_id:new ObjectId(req.params['id'])}).then((r)=>{
             res.render('marcas/marca',{
                 title:'Editar Marcas',
+                csrfToken:req.session.csrf,
                 marca: r,
             });
         });
