@@ -23,20 +23,6 @@ module.exports = function(con,cMongoDB){
             next();
         }
         else{
-            req.session.csrf = null;
-            req.session.user = null;
-            res.redirect('/login');
-        }
-    }
-
-    function csrfCheckToken(req,res,next){
-        if(req.body.csrfToken == req.session.csrf){
-            delete req.body.csrfToken;
-            next();
-        }
-        else{
-            req.session.user = null;
-            req.session.csrf = null;
             res.redirect('/login');
         }
     }

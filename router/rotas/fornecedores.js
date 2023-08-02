@@ -5,20 +5,18 @@ module.exports = (checkLogin,routers,con,cMongoDB)=>{
     routers.get('/fornecedores',checkLogin,async (req,res)=>{
         res.render(`fornecedores/index`,{
             title: `Cadastro de Fornecedores`,
-            csrfToken:req.session.csrf,
             data: JSON.stringify(await cMongoDB.db(req.session.user.database).collection(`fornecedores`).find({},{projection:{_id:1, razaoSocial:1, nomeFantasia:1, responsavel:{nome:1},contato:1}}).toArray()), 
         });
     });
 
     routers.get(`/fornecedores/novo`,checkLogin,(req,res)=>{
-        res.render(`fornecedores/fornecedor`,{title:`Novo Fornecedor`,csrfToken:req.session.csrf,fornecedor:{}});
+        res.render(`fornecedores/fornecedor`,{title:`Novo Fornecedor`,fornecedor:{}});
     });
 
     routers.get(`/fornecedores/editar/:id`,checkLogin,async (req,res)=>{
         cMongoDB.db(req.session.user.database).collection(`fornecedores`).findOne({_id: new ObjectId(req.params[`id`])}).then((r)=>{
             res.render(`fornecedores/fornecedor`,{
                 title:`Editar Fornecedor`,
-                csrfToken:req.session.csrf,
                 fornecedor: r,
             });
         });

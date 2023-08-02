@@ -4,20 +4,18 @@ module.exports = (checkLogin,routers,con,cMongoDB)=>{
     routers.get('/categorias',checkLogin,async (req,res)=>{
         res.render('categorias/index',{
             title:'Categorias',
-            csrfToken:req.session.csrf,
             data: JSON.stringify(await cMongoDB.db(req.session.user.database).collection('categorias').find({},{projection:{_id:1,nome:1,ativo:1}}).toArray())
         });
     });
 
     routers.get('/categorias/novo',checkLogin,(req,res)=>{
-        res.render('categorias/categoria',{title:'Nova Categoria',csrfToken:req.session.csrf,categoria:{}});
+        res.render('categorias/categoria',{title:'Nova Categoria',categoria:{}});
     });
 
     routers.get('/categorias/editar/:id',checkLogin,async (req,res)=>{
         cMongoDB.db(req.session.user.database).collection('categorias').findOne({_id:new ObjectId(req.params['id'])}).then((r)=>{
             res.render('categorias/categoria',{
                 title:'Editar Categoria',
-                csrfToken:req.session.csrf,
                 categoria: r,
             });
         });

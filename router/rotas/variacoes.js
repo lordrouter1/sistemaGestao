@@ -4,20 +4,18 @@ module.exports = (checkLogin,routers,con,cMongoDB)=>{
     routers.get(`/variacoes`,checkLogin,async (req,res)=>{
         res.render(`variacoes/index`,{
             title: `Variações`,
-            csrfToken:req.session.csrf,
             data: JSON.stringify(await cMongoDB.db(req.session.user.database).collection(`variacoes`).find({}).toArray())
         });
     });
 
     routers.get(`/variacoes/novo`,checkLogin,(req,res)=>{
-        res.render(`variacoes/variacao`,{title:`Nova Variação`,csrfToken:req.session.csrf,variacao:{}});
+        res.render(`variacoes/variacao`,{title:`Nova Variação`,variacao:{}});
     });
 
     routers.get(`/variacoes/editar/:id`,checkLogin,async (req,res)=>{
         cMongoDB.db(req.session.user.database).collection(`variacoes`).findOne({_id:new ObjectId(req.params[`id`])}).then((r)=>{
             res.render(`variacoes/variacao`,{
                 title:`Editar Variacoes`,
-                csrfToken:req.session.csrf,
                 variacao: r,
             });
         });

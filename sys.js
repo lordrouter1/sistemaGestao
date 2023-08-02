@@ -263,13 +263,11 @@ return routers;
 switch(process.argv[2]){
     case 'new':
         try{
-            const name = process.argv[3];
-            const titulo = process.argv[4];
             new_(name,titulo);
         }catch(e){
             console.log(e);
         }
-        return;
+        break;
 
     case 'del':
         try{
@@ -296,8 +294,7 @@ switch(process.argv[2]){
         }catch(e){
             console.log(e);
         }
-
-        return;
+        break;
 
     default:{
         console.log('Comando inválido!');

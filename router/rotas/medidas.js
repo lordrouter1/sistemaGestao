@@ -4,20 +4,18 @@ module.exports = (checkLogin,routers,con,cMongoDB)=>{
     routers.get('/medidas',checkLogin,async (req,res)=>{
         res.render('medidas/index',{
             title:'Medidas',
-            csrfToken:req.session.csrf,
             data: JSON.stringify(await cMongoDB.db(req.session.user.database).collection('medidas').find({},{projection:{_id:1,nome:1,ativo:1}}).toArray())
         });
     });
 
     routers.get('/medidas/novo',checkLogin,(req,res)=>{
-        res.render('medidas/medida',{title:'Nova Medida',csrfToken:req.session.csrf,medida:{}});
+        res.render('medidas/medida',{title:'Nova Medida',medida:{}});
     });
 
     routers.get('/medidas/editar/:id',checkLogin,async (req,res)=>{
         cMongoDB.db(req.session.user.database).collection('medidas').findOne({_id:new ObjectId(req.params['id'])}).then((r)=>{
             res.render('medidas/medida',{
                 title:'Editar Medidas',
-                csrfToken:req.session.csrf,
                 medida: r,
             });
         });
