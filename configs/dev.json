@@ -25,13 +25,13 @@
             "secret": "248bba09ea5f441b89c133ce1ef53b3a7b7500b14f924ccf08e29de3aaf4a9ea",
             "name": "sessao",
             "resave": false,
-            "saveUninitialized": true,
+            "saveUninitialized": false,
             "cookie":{
                 "secure": false,
                 "httpOnly": true,
                 "sameSite": "strict",
                 "path":"/",
-                "expires": false
+                "maxAge": 14400000
             }
         }
     },
