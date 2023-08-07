@@ -11,15 +11,28 @@ module.exports = (checkLogin,routers,con,cMongoDB,data)=>{
         else
             res.redirect('/');
     });
-    routers.post('/login',async (req,res)=>{
-        const user = web3.eth.accounts.recover(req.session.lCode,req.body.data);
 
-        con.collection('login').findOne({wallet:user}).then((resp) => {
+    routers.post('/login',async (req,res)=>{
+        con.collection('login').findOne({user:req.body.email}).then((resp) => {
             if(resp != null &&  Date.now() - resp.bloqueado > 300000){
-                console.log(resp);
-                req.session.user = resp;
-                req.session.lCode = undefined;
-                res.send(true);
+                if(resp.bloqueado > 0){
+                    resp.bloqueado = 0;
+                    resp.contBloqueio = 0;
+                }
+                if(resp.senha == req.body.senha){
+                    req.session.csrf = sha256(String(Date.now()));
+                    req.session.user = resp;
+                    res.send(true);
+                }
+                else{
+                    resp.contBloqueio++;
+                    if(resp.contBloqueio >= 5){
+                        resp.bloqueado = Date.now();
+                    }
+                    console.log({_id:resp._id});
+                    con.collection(`login`).updateOne({_id:new ObjectId(resp._id)},{$set:resp});
+                    res.send(false);
+                }
                 con.collection(`login`).updateOne({_id:new ObjectId(resp._id)},{$set:{ultimoAcesso:Date()}});
             }
             else{
@@ -30,6 +43,7 @@ module.exports = (checkLogin,routers,con,cMongoDB,data)=>{
     });
     routers.post('/logoff',async (req,res)=>{
         req.session.user = null;
+        req.session.csrf = null;
         res.redirect('/login');
     });
 

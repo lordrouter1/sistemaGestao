@@ -9,28 +9,23 @@ $(document).ready(()=>{
     $(`#inp_empTel`).mask(`(99)99999-9999`);
 
     $("#648").click(async ()=>{
-        const provider = await mmsdk.getProvider();
-        await provider.send('eth_requestAccounts');
-        provider.send('personal_sign',[$('#205').val(),provider.selectedAddress]).then(async (r)=>{
-            setTimeout(mmsdk.terminate(),2000);
-            $.ajax({
-                type: "POST",
-                url: '/login',
-                data: JSON.stringify({data:r.result}),
-                contentType: 'application/json',
-                success:(data)=>{
-                    if(data){
-                        location.href = '/';
-                    }
-                    else{
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Oops...',
-                            text: 'Email ou senha invalido!',
-                        });
-                    }
+        $.ajax({
+            type: "POST",
+            url: '/login',
+            data: JSON.stringify({usuario:$('#256').val(),senha:sha256(`${$('#256').val()}:${$('#237').val()}`)}),
+            contentType: 'application/json',
+            success:(data)=>{
+                if(data){
+                    location.href = '/';
                 }
-            });
+                else{
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Email ou senha invalido! Aguarde 5 minutos para tentar novamente',
+                    });
+                }
+            }
         });
     });
 
