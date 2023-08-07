@@ -1,6 +1,6 @@
 const ObjectId = require('mongodb').ObjectId;
 
-module.exports = (checkLogin,routers,con,cMongoDB)=>{
+module.exports = (checkLogin,routers,con,cMongoDB,data)=>{
     routers.get('/categorias',checkLogin,async (req,res)=>{
         res.render('categorias/index',{
             title:'Categorias',
@@ -9,7 +9,11 @@ module.exports = (checkLogin,routers,con,cMongoDB)=>{
     });
 
     routers.get('/categorias/novo',checkLogin,(req,res)=>{
-        res.render('categorias/categoria',{title:'Nova Categoria',categoria:{}});
+        res.render('categorias/categoria',{
+            title:'Nova Categoria',
+            categoria:{},
+            csrfToken:req.session.csrf,
+        });
     });
 
     routers.get('/categorias/editar/:id',checkLogin,async (req,res)=>{
@@ -17,12 +21,13 @@ module.exports = (checkLogin,routers,con,cMongoDB)=>{
             res.render('categorias/categoria',{
                 title:'Editar Categoria',
                 categoria: r,
+                csrfToken:req.session.csrf,
             });
         });
     });
 
-    routers.route(`/categorias/ed/:id`,checkLogin)
-    .post((req,res)=>{
+    routers.route(`/categorias/ed/:id/:csrfToken?`)
+    .post(checkLogin,data.csrfCheckToken,(req,res)=>{
         let db = cMongoDB.db(data.getDb(req)).collection(`categorias`);
         if(req.params.id == 0){
             db.insertOne(req.body).then((err,result)=>{
@@ -44,7 +49,7 @@ module.exports = (checkLogin,routers,con,cMongoDB)=>{
             });
         }
     })
-    .delete((req,res)=>{
+    .delete(checkLogin,data.csrfCheckToken,(req,res)=>{
         try{
             cMongoDB.db(data.getDb(req)).collection(`categorias`).deleteOne({_id:new ObjectId(req.params.id)});
             res.status(200).send(true);

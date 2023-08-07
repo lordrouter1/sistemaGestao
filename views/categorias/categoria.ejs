@@ -8,7 +8,7 @@
 <script src="/public/js/views/categorias/categoria/functions.js"></script>
 
 <form id="form_cadastro" method="post" action="/categorias/ed/<%- categoria['_id'] || 0 -%>">
-   
+    <input type="hidden" name="csrfToken" value="<%- csrfToken -%>">
     <div class="card">
         <div class="card-header bg-primary text-light">
             <strong>Dados Gerais</strong>

@@ -11,7 +11,7 @@ $(document).ready(function(){
             cancelButtonText: 'Cancelar',
         }).then((resp)=>{
             $.ajax({
-                url:`/categorias/ed/`+$(`#_id`).val(),
+                url:`/categorias/ed/`+$(`#_id`).val()+'/'+$('[name="csrfToken"]').val(),
                 method: `DELETE`,
                 statusCode:{
                     200: ()=>{

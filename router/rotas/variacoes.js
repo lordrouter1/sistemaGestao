@@ -1,6 +1,6 @@
 const ObjectId = require('mongodb').ObjectId;
 
-module.exports = (checkLogin,routers,con,cMongoDB)=>{
+module.exports = (checkLogin,routers,con,cMongoDB,data)=>{
     routers.get(`/variacoes`,checkLogin,async (req,res)=>{
         res.render(`variacoes/index`,{
             title: `Variações`,
@@ -9,7 +9,11 @@ module.exports = (checkLogin,routers,con,cMongoDB)=>{
     });
 
     routers.get(`/variacoes/novo`,checkLogin,(req,res)=>{
-        res.render(`variacoes/variacao`,{title:`Nova Variação`,variacao:{}});
+        res.render(`variacoes/variacao`,{
+            title:`Nova Variação`,
+            variacao:{},
+            csrfToken:req.session.csrf,
+        });
     });
 
     routers.get(`/variacoes/editar/:id`,checkLogin,async (req,res)=>{
@@ -17,12 +21,13 @@ module.exports = (checkLogin,routers,con,cMongoDB)=>{
             res.render(`variacoes/variacao`,{
                 title:`Editar Variacoes`,
                 variacao: r,
+                csrfToken:req.session.csrf,
             });
         });
     });
 
-    routers.route(`/variacoes/ed/:id`,checkLogin)
-    .post((req,res)=>{
+    routers.route(`/variacoes/ed/:id`)
+    .post(checkLogin,data.csrfCheckToken,(req,res)=>{
         let db = cMongoDB.db(data.getDb(req)).collection(`variacoes`)
         for(let i = 0; i < req.body.var.length; i++){
             if(req.body.var[i]._id == ``)
@@ -48,7 +53,7 @@ module.exports = (checkLogin,routers,con,cMongoDB)=>{
             });
         }
     })
-    .delete((req,res)=>{
+    .delete(checkLogin,data.csrfCheckToken,(req,res)=>{
         cMongoDB.db(data.getDb(req)).collection(`variacoes`).deleteOne({_id:new ObjectId(req.params.id)},(err,result)=>{
             if(err){
                 console.log(err);

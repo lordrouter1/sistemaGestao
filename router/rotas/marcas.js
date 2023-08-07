@@ -1,6 +1,6 @@
 const ObjectId = require('mongodb').ObjectId;
 
-module.exports = (checkLogin,routers,con,cMongoDB)=>{
+module.exports = (checkLogin,routers,con,cMongoDB,data)=>{
     routers.get('/marcas',checkLogin,async (req,res)=>{
         res.render('marcas/index',{
             title:'Marcas',
@@ -9,7 +9,11 @@ module.exports = (checkLogin,routers,con,cMongoDB)=>{
     });
 
     routers.get('/marcas/novo',checkLogin,(req,res)=>{
-        res.render('marcas/marca',{title:'Nova Marca',marca:{}});
+        res.render('marcas/marca',{
+            title:'Nova Marca',
+            marca:{},
+            csrfToken:req.session.csrf,
+        });
     });
 
     routers.get('/marcas/editar/:id',checkLogin,async (req,res)=>{
@@ -17,12 +21,13 @@ module.exports = (checkLogin,routers,con,cMongoDB)=>{
             res.render('marcas/marca',{
                 title:'Editar Marcas',
                 marca: r,
+                csrfToken:req.session.csrf,
             });
         });
     });
 
-    routers.route(`/marcas/ed/:id`,checkLogin)
-    .post((req,res)=>{
+    routers.route(`/marcas/ed/:id`)
+    .post(checkLogin,data.csrfCheckToken,(req,res)=>{
         let db = cMongoDB.db(data.getDb(req)).collection(`marcas`);
         if(req.params.id == 0){
             db.insertOne(req.body).then((err,result)=>{
@@ -44,7 +49,7 @@ module.exports = (checkLogin,routers,con,cMongoDB)=>{
             });
         }
     })
-    .delete((req,res)=>{
+    .delete(checkLogin,data.csrfCheckToken,(req,res)=>{
         try{
             cMongoDB.db(data.getDb(req)).collection(`marcas`).deleteOne({_id:new ObjectId(req.params.id)});
             req.status(200).send(true);

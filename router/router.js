@@ -28,7 +28,7 @@ module.exports = function(con,cMongoDB){
     }
 
     function csrfCheckToken(req,res,next){
-        if(req.body.csrfToken == req.session.csrf){
+        if(req.body.csrfToken == req.session.csrf || req.params['csrfToken'] == req.session.csrf){
             delete req.body.csrfToken;
             next();
         }

@@ -16,6 +16,7 @@ module.exports = (checkLogin,routers,con,cMongoDB,data)=>{
             marcas: await cMongoDB.db(data.getDb(req)).collection('marcas').find({ativo:'1'},{projection:{_id:1,nome:1}}).toArray(),
             categorias: await cMongoDB.db(data.getDb(req)).collection('categorias').find({ativo:'1'},{projection:{_id:1,nome:1,subcategoria:1}}).toArray(),
             variacoes: await cMongoDB.db(data.getDb(req)).collection(`variacoes`).find({},{projection:{_id:1,nome:1}}).toArray(),
+            csrfToken:req.session.csrf,
         });
     });
 
@@ -27,12 +28,13 @@ module.exports = (checkLogin,routers,con,cMongoDB,data)=>{
                 marcas: await cMongoDB.db(data.getDb(req)).collection('marcas').find({ativo:'1'},{projection:{_id:1,nome:1}}).toArray(),
                 categorias: await cMongoDB.db(data.getDb(req)).collection('categorias').find({ativo:'1'},{projection:{_id:1,nome:1,subcategoria:1}}).toArray(),
                 variacoes: await cMongoDB.db(data.getDb(req)).collection(`variacoes`).find({},{projection:{_id:1,nome:1}}).toArray(),
+                csrfToken:req.session.csrf,
             });
         });
     });
 
-    routers.route(`/produtos/ed/:id`,checkLogin)
-    .post(data.upload.none(),(req,res)=>{
+    routers.route(`/produtos/ed/:id`)
+    .post(checkLogin,data.csrfCheckToken,data.upload.none(),(req,res)=>{
         let db = cMongoDB.db(data.getDb(req)).collection(`produtos`);
         if(req.params.id == 0){
             db.insertOne(req.body).then((err,result)=>{
@@ -54,7 +56,7 @@ module.exports = (checkLogin,routers,con,cMongoDB,data)=>{
             });
         }
     })
-    .delete(async(req,res)=>{
+    .delete(checkLogin,data.csrfCheckToken,async(req,res)=>{
         let temp;
         try{
             temp = await cMongoDB.db(data.getDb(req)).collection(`produtos`).findOne({_id:new ObjectId(req.params.id)});

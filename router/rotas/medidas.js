@@ -1,6 +1,6 @@
 const ObjectId = require('mongodb').ObjectId;
 
-module.exports = (checkLogin,routers,con,cMongoDB)=>{
+module.exports = (checkLogin,routers,con,cMongoDB,data)=>{
     routers.get('/medidas',checkLogin,async (req,res)=>{
         res.render('medidas/index',{
             title:'Medidas',
@@ -9,7 +9,11 @@ module.exports = (checkLogin,routers,con,cMongoDB)=>{
     });
 
     routers.get('/medidas/novo',checkLogin,(req,res)=>{
-        res.render('medidas/medida',{title:'Nova Medida',medida:{}});
+        res.render('medidas/medida',{
+            title:'Nova Medida',
+            medida:{},
+            csrfToken:req.session.csrf,
+        });
     });
 
     routers.get('/medidas/editar/:id',checkLogin,async (req,res)=>{
@@ -17,12 +21,13 @@ module.exports = (checkLogin,routers,con,cMongoDB)=>{
             res.render('medidas/medida',{
                 title:'Editar Medidas',
                 medida: r,
+                csrfToken:req.session.csrf,
             });
         });
     });
 
-    routers.route(`/medidas/ed/:id`,checkLogin)
-    .post((req,res)=>{
+    routers.route(`/medidas/ed/:id`)
+    .post(checkLogin,data.csrfCheckToken,(req,res)=>{
         let db = cMongoDB.db(data.getDb(req)).collection(`medidas`);
         if(req.params.id == 0){
             db.insertOne(req.body).then((err,result)=>{
@@ -44,7 +49,7 @@ module.exports = (checkLogin,routers,con,cMongoDB)=>{
             });
         }
     })
-    .delete((req,res)=>{
+    .delete(checkLogin,data.csrfCheckToken,(req,res)=>{
         try{
             cMongoDB.db(data.getDb(req)).collection(`medidas`).deleteOne({_id:new ObjectId(req.params.id)});
             res.status(200).send(true);

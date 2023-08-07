@@ -30,7 +30,7 @@ routers.get('/estoque/editar/:id',checkLogin,async (req,res)=>{
 });
 
 routers.route('/estoque/ed/:id',checkLogin)
-.post(data.upload.none(),(req,res)=>{
+.post(checkLogin,data.csrfCheckToken,data.upload.none(),(req,res)=>{
     let db = cMongoDB.db(data.getDb(req)).collection('estoque');
     if(req.params.id == 0){
         db.insertOne(req.body).then((err,result)=>{
@@ -52,7 +52,7 @@ routers.route('/estoque/ed/:id',checkLogin)
         });
     }
 })
-.delete(async(req,res)=>{
+.delete(checkLogin,data.csrfCheckToken,async(req,res)=>{
     let temp;
     try{
         temp = await cMongoDB.db(data.getDb(req)).collection('estoque').findOne({_id:new ObjectId(req.params.id)});

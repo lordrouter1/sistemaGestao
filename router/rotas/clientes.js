@@ -1,6 +1,6 @@
 const ObjectId = require('mongodb').ObjectId;
 
-module.exports = (checkLogin,routers,con,cMongoDB)=>{
+module.exports = (checkLogin,routers,con,cMongoDB,data)=>{
     // VIEW INDEX
     routers.get('/clientes',checkLogin,async (req,res)=>{
         res.render('clientes/index',{
@@ -11,7 +11,11 @@ module.exports = (checkLogin,routers,con,cMongoDB)=>{
 
     // VIEW NOVO
     routers.get('/clientes/novo',checkLogin,(req,res)=>{
-        res.render('clientes/cliente',{title:'Novo Cliente',cliente:{}});
+        res.render('clientes/cliente',{
+            title:'Novo Cliente',
+            cliente:{},
+            csrfToken:req.session.csrf,
+        });
     });
 
     // VIEW EDITAR
@@ -20,13 +24,14 @@ module.exports = (checkLogin,routers,con,cMongoDB)=>{
             res.render('clientes/cliente',{
                 title:'Editar Cliente',
                 cliente: r,
+                csrfToken:req.session.csrf,
             });
         });
     });
 
     // EDITAR
-    routers.route(`/clientes/ed/:id`,checkLogin)
-    .post((req,res)=>{
+    routers.route(`/clientes/ed/:id`)
+    .post(checkLogin,data.csrfCheckToken,(req,res)=>{
         let db = cMongoDB.db(data.getDb(req)).collection(`clientes`);
         if(req.params.id == 0){
             db.insertOne(req.body).then((err,result)=>{
@@ -48,7 +53,7 @@ module.exports = (checkLogin,routers,con,cMongoDB)=>{
             });
         }
     })
-    .delete((req,res)=>{
+    .delete(checkLogin,data.csrfCheckToken,(req,res)=>{
         try{
             cMongoDB.db(data.getDb(req)).collection(`clientes`).deleteOne({_id:new ObjectId(req.params.id)}).then(r=>console.log(r));
             res.status(200).send(true);

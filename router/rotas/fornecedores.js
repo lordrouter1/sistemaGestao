@@ -1,6 +1,6 @@
 const ObjectId = require('mongodb').ObjectId;
 
-module.exports = (checkLogin,routers,con,cMongoDB)=>{
+module.exports = (checkLogin,routers,con,cMongoDB,data)=>{
 
     routers.get('/fornecedores',checkLogin,async (req,res)=>{
         res.render(`fornecedores/index`,{
@@ -10,7 +10,11 @@ module.exports = (checkLogin,routers,con,cMongoDB)=>{
     });
 
     routers.get(`/fornecedores/novo`,checkLogin,(req,res)=>{
-        res.render(`fornecedores/fornecedor`,{title:`Novo Fornecedor`,fornecedor:{}});
+        res.render(`fornecedores/fornecedor`,{
+            title:`Novo Fornecedor`,
+            fornecedor:{},
+            csrfToken:req.session.csrf,
+        });
     });
 
     routers.get(`/fornecedores/editar/:id`,checkLogin,async (req,res)=>{
@@ -18,12 +22,13 @@ module.exports = (checkLogin,routers,con,cMongoDB)=>{
             res.render(`fornecedores/fornecedor`,{
                 title:`Editar Fornecedor`,
                 fornecedor: r,
+                csrfToken:req.session.csrf,
             });
         });
     });
 
-    routers.route(`/fornecedores/ed/:id`,checkLogin)
-    .post((req,res)=>{
+    routers.route(`/fornecedores/ed/:id`)
+    .post(checkLogin,data.csrfCheckToken,(req,res)=>{
         let db = cMongoDB.db(data.getDb(req)).collection(`fornecedores`);
         if(req.params.id == 0){
             db.insertOne(req.body).then((err,result)=>{
@@ -45,7 +50,7 @@ module.exports = (checkLogin,routers,con,cMongoDB)=>{
             });
         }
     })
-    .delete((req,res)=>{
+    .delete(checkLogin,data.csrfCheckToken,(req,res)=>{
         try{
             cMongoDB.db(data.getDb(req)).collection(`fornecedores`).deleteOne({_id:new ObjectId(req.params.id)}).then(r=>console.log(r));
             res.status(200).send(true);

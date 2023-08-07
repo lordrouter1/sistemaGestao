@@ -33,7 +33,7 @@ Swal.fire({
 }).then((resp)=>{
     if(resp.isDenied){
         $.ajax({
-            url:\`/${name}/ed/\`+$(\`#_id\`).val(),
+            url:\`/${name}/ed/\`+$(\`#_id\`).val()+'/'+$('[name="csrfToken"]').val(),
             method: \`DELETE\`,
             statusCode:{
                 200: ()=>{
@@ -113,6 +113,7 @@ routers.get('/${name}/novo',checkLogin,async (req,res)=>{
     res.render('${name}/${name}',{
         title:'Novo ${titulo}',
         ${name}:{},
+        csrfToken:req.session.csrf,
     });
 });
 
@@ -121,12 +122,13 @@ routers.get('/${name}/editar/:id',checkLogin,async (req,res)=>{
         res.render('${name}/${name}',{
             title:'Editar ${titulo}',
             ${name}: r,
+            csrfToken:req.session.csrf,
         });
     });
 });
 
-routers.route('/${name}/ed/:id',checkLogin)
-.post(data.upload.none(),(req,res)=>{
+routers.route('/${name}/ed/:id/:csrfToken?')
+.post(checkLogin,data.csrfCheckToken,data.upload.none(),(req,res)=>{
     let db = cMongoDB.db(data.getDb(req)).collection('${name}');
     if(req.params.id == 0){
         db.insertOne(req.body).then((err,result)=>{
@@ -148,7 +150,7 @@ routers.route('/${name}/ed/:id',checkLogin)
         });
     }
 })
-.delete(async(req,res)=>{
+.delete(checkLogin,data.csrfCheckToken,async(req,res)=>{
     let temp;
     try{
         temp = await cMongoDB.db(data.getDb(req)).collection('${name}').findOne({_id:new ObjectId(req.params.id)});
@@ -176,7 +178,7 @@ return routers;
 <input type="hidden" id="_id" value="<%- ${name}['_id'] -%>">
 
 <form id="form_cadastro" method="post" action="/${name}/ed/<%- ${name}['_id'] || 0 -%>">
-
+    <input type="hidden" name="csrfToken" value="<%- csrfToken -%>">
     <div class="card">
         <div class="card-header bg-primary text-light">
             <strong>Dados Gerais</strong>
