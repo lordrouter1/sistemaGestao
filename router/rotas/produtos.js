@@ -33,7 +33,7 @@ module.exports = (checkLogin,routers,con,cMongoDB,data)=>{
         });
     });
 
-    routers.route(`/produtos/ed/:id`)
+    routers.route(`/produtos/ed/:id/:csrfToken?`)
     .post(checkLogin,data.csrfCheckToken,data.upload.none(),(req,res)=>{
         let db = cMongoDB.db(data.getDb(req)).collection(`produtos`);
         if(req.params.id == 0){

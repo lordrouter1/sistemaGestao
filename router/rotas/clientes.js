@@ -30,7 +30,7 @@ module.exports = (checkLogin,routers,con,cMongoDB,data)=>{
     });
 
     // EDITAR
-    routers.route(`/clientes/ed/:id`)
+    routers.route(`/clientes/ed/:id/:csrfToken?`)
     .post(checkLogin,data.csrfCheckToken,(req,res)=>{
         let db = cMongoDB.db(data.getDb(req)).collection(`clientes`);
         if(req.params.id == 0){

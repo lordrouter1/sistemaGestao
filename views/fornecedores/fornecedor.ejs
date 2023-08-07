@@ -15,6 +15,8 @@ if(Object.keys(fornecedor) != 0){
 <input type="hidden" id="_id" value="<%- fornecedor['_id'] -%>">
 
 <form id="form_cadastro" method="post" action="/fornecedores/ed/<%- fornecedor['_id'] || 0 -%>">
+
+    <input type="hidden" name="csrfToken" value="<%- csrfToken -%>">
     <div class="card">
         <div class="card-header bg-primary text-light">
             <strong>Classificação</strong>

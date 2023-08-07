@@ -27,7 +27,7 @@ module.exports = (checkLogin,routers,con,cMongoDB,data)=>{
         });
     });
 
-    routers.route(`/fornecedores/ed/:id`)
+    routers.route(`/fornecedores/ed/:id/:csrfToken?`)
     .post(checkLogin,data.csrfCheckToken,(req,res)=>{
         let db = cMongoDB.db(data.getDb(req)).collection(`fornecedores`);
         if(req.params.id == 0){

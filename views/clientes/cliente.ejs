@@ -19,6 +19,8 @@ if(Object.keys(cliente) != 0){
 <input type="hidden" id="_id" value="<%- cliente['_id'] -%>">
 
 <form id="form_cadastro" method="post" action="/clientes/ed/<%- cliente['_id'] || 0 -%>">
+
+    <input type="hidden" name="csrfToken" value="<%- csrfToken -%>">
     <div class="card">
         <div class="card-header bg-primary text-light">
             <strong>Classificação</strong>

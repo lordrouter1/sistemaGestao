@@ -26,7 +26,7 @@ module.exports = (checkLogin,routers,con,cMongoDB,data)=>{
         });
     });
 
-    routers.route(`/variacoes/ed/:id`)
+    routers.route(`/variacoes/ed/:id/:csrfToken?`)
     .post(checkLogin,data.csrfCheckToken,(req,res)=>{
         let db = cMongoDB.db(data.getDb(req)).collection(`variacoes`)
         for(let i = 0; i < req.body.var.length; i++){

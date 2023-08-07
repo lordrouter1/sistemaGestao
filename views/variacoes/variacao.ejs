@@ -8,7 +8,8 @@
 <input type="hidden" id="_id" value="<%- variacao['_id'] -%>">
 
 <form id="form_cadastro" method="post" action="/variacoes/ed/<%- variacao['_id'] || 0 -%>">
-   
+
+    <input type="hidden" name="csrfToken" value="<%- csrfToken -%>">
     <div class="card">
         <div class="card-header bg-primary text-light">
             <strong>Dados Gerais</strong>
