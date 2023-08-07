@@ -1,8 +1,20 @@
 const ObjectId = require('mongodb').ObjectId;
 const sha256 = require('sha256');
 const web3 = require('web3');
+const nodemailer = require('nodemailer');
 
 module.exports = (checkLogin,routers,con,cMongoDB,data)=>{
+
+    const transporter = nodemailer.createTransport({
+        host: 'smtp.mail.yahoo.com',
+        port: 465,
+        secure: true,
+        auth: {
+            user: 'juliobenin@yahoo.com.br', // Insira aqui o seu endereço de e-mail do Gmail
+            pass: 'Lordrouter1', // Insira aqui a senha do seu e-mail do Gmail
+        },
+    });
+
     routers.get('/login',async (req,res)=>{
         if(req.session.user == undefined){
             req.session.lCode = JSON.stringify({access:sha256(String(Date.now()))});
@@ -13,7 +25,7 @@ module.exports = (checkLogin,routers,con,cMongoDB,data)=>{
     });
 
     routers.post('/login',async (req,res)=>{
-        con.collection('login').findOne({user:req.body.email}).then((resp) => {
+        con.collection('login').findOne({user:req.body.email}).then(async (resp) => {
             if(resp != null &&  Date.now() - resp.bloqueado > 300000){
                 if(resp.bloqueado > 0){
                     resp.bloqueado = 0;

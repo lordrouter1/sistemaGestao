@@ -102,10 +102,12 @@ const ObjectId = require('mongodb').ObjectId;
 
 module.exports = (checkLogin,routers,con,cMongoDB,data)=>{
 
-routers.get('/${name}',checkLogin,async (req,res)=>{
+const dbCollection = cMongoDB.db(data.getDb(req)).collection('${name}');
+
+routers.get('/${name},checkLogin,async (req,res)=>{
     res.render('${name}/index',{
         title:'${titulo}',
-        data: JSON.stringify(await cMongoDB.db(data.getDb(req)).collection('${name}').find({},{projection:{_id:1,nome:1,descricao:1}}).toArray())
+        data: JSON.stringify(await dbCollection.find({},{projection:{_id:1,nome:1,descricao:1}}).toArray())
     });
 });
 
@@ -118,7 +120,7 @@ routers.get('/${name}/novo',checkLogin,async (req,res)=>{
 });
 
 routers.get('/${name}/editar/:id',checkLogin,async (req,res)=>{
-    cMongoDB.db(data.getDb(req)).collection('${name}').findOne({_id:new ObjectId(req.params['id'])}).then(async (r)=>{
+    cMongoDB.db(dbCollection.findOne({_id:new ObjectId(req.params['id'])}).then(async (r)=>{
         res.render('${name}/${name}',{
             title:'Editar ${titulo}',
             ${name}: r,
@@ -129,7 +131,7 @@ routers.get('/${name}/editar/:id',checkLogin,async (req,res)=>{
 
 routers.route('/${name}/ed/:id/:csrfToken?')
 .post(checkLogin,data.csrfCheckToken,data.upload.none(),(req,res)=>{
-    let db = cMongoDB.db(data.getDb(req)).collection('${name}');
+    let db = dbCollection;
     if(req.params.id == 0){
         db.insertOne(req.body).then((err,result)=>{
             if(err){
@@ -153,9 +155,9 @@ routers.route('/${name}/ed/:id/:csrfToken?')
 .delete(checkLogin,data.csrfCheckToken,async(req,res)=>{
     let temp;
     try{
-        temp = await cMongoDB.db(data.getDb(req)).collection('${name}').findOne({_id:new ObjectId(req.params.id)});
+        temp = await dbCollection.findOne({_id:new ObjectId(req.params.id)});
 
-        cMongoDB.db(data.getDb(req)).collection('${name}').deleteOne({_id:new ObjectId(req.params.id)});
+        dbCollection.deleteOne({_id:new ObjectId(req.params.id)});
 
         res.status(200).send(true);
     }catch(e){
