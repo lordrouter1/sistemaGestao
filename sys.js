@@ -102,12 +102,12 @@ const ObjectId = require('mongodb').ObjectId;
 
 module.exports = (checkLogin,routers,con,cMongoDB,data)=>{
 
-const dbCollection = cMongoDB.db(data.getDb(req)).collection('${name}');
+const dbCollection = function(req,collection='${name}'){return cMongoDB.db(data.getDb(req)).collection(collection)};
 
-routers.get('/${name},checkLogin,async (req,res)=>{
+routers.get('/${name}',checkLogin,async (req,res)=>{
     res.render('${name}/index',{
         title:'${titulo}',
-        data: JSON.stringify(await dbCollection.find({},{projection:{_id:1,nome:1,descricao:1}}).toArray())
+        data: JSON.stringify(await dbCollection(req).find({},{projection:{_id:1,nome:1,descricao:1}}).toArray())
     });
 });
 
@@ -120,7 +120,7 @@ routers.get('/${name}/novo',checkLogin,async (req,res)=>{
 });
 
 routers.get('/${name}/editar/:id',checkLogin,async (req,res)=>{
-    cMongoDB.db(dbCollection.findOne({_id:new ObjectId(req.params['id'])}).then(async (r)=>{
+    dbCollection(req).findOne({_id:new ObjectId(req.params['id'])}).then(async (r)=>{
         res.render('${name}/${name}',{
             title:'Editar ${titulo}',
             ${name}: r,
@@ -131,7 +131,7 @@ routers.get('/${name}/editar/:id',checkLogin,async (req,res)=>{
 
 routers.route('/${name}/ed/:id/:csrfToken?')
 .post(checkLogin,data.csrfCheckToken,data.upload.none(),(req,res)=>{
-    let db = dbCollection;
+    let db = dbCollection(req);
     if(req.params.id == 0){
         db.insertOne(req.body).then((err,result)=>{
             if(err){
@@ -155,9 +155,9 @@ routers.route('/${name}/ed/:id/:csrfToken?')
 .delete(checkLogin,data.csrfCheckToken,async(req,res)=>{
     let temp;
     try{
-        temp = await dbCollection.findOne({_id:new ObjectId(req.params.id)});
+        temp = await dbCollection(req).findOne({_id:new ObjectId(req.params.id)});
 
-        dbCollection.deleteOne({_id:new ObjectId(req.params.id)});
+        dbCollection(req).deleteOne({_id:new ObjectId(req.params.id)});
 
         res.status(200).send(true);
     }catch(e){

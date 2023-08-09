@@ -13,7 +13,7 @@
 
 <input type="hidden" id="_id" value="<%- produto[`_id`] -%>">
 
-<form id="form_cadastro" method="post" action="/produtos/ed/<%- produto['_id'] || 0 -%>" enctype="multipart/form-data">
+<form id="form_cadastro" method="post" action="/produtos/ed/<%- produto['_id'] || 0 -%>">
 
     <input type="hidden" name="csrfToken" value="<%- csrfToken -%>">
     <div class="card">
