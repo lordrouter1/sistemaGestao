@@ -29,16 +29,24 @@ Swal.fire({
 });
 
 $(document).ready(function(){
+
     $('#produto').change(function(self){
         $('#variacoesHeader').empty();
         $('#btnAdicionar').hide();
+        $('#nome').val($('#produto option:selected').text());
         if($(this).val() != ''){
             fetch(`/estoque/get/variacoes/${$(this).val()}/${$('[name="csrfToken"]').val()}`).then(r=>r.json()).then(r=>{
                 window.tempVar = r;
+                window.tempVarCont = 0;
                 novaVar();
                 $('#btnAdicionar').show();
             }); 
         }
     });
+
+    $('#btnAdicionar').click(function(){
+        novaVar();
+    });
+
 });
     

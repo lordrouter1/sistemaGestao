@@ -23,9 +23,12 @@ routers.get('/estoque/novo',checkLogin,async (req,res)=>{
 
 routers.get('/estoque/editar/:id',checkLogin,async (req,res)=>{
     dbCollection(req).findOne({_id:new ObjectId(req.params['id'])}).then(async (r)=>{
+        console.log({_id:{$in:r['variacao'][0]['variacoes'].map(i => new ObjectId(i.split(':')[0]))}});
         res.render('estoque/estoque',{
             title:'Editar Estoque',
             estoque: r,
+            produtos: await dbCollection(req,'produtos').find({},{projection:{nome:1,_id:1}}).toArray(),
+            variacoes: await dbCollection(req,'variacoes').find({_id:{$in:r['variacao'][0]['variacoes'].map(i => new ObjectId(i.split(':')[0]))}}).toArray(),
             csrfToken:req.session.csrf,
         });
     });

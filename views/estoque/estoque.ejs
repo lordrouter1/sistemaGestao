@@ -14,30 +14,20 @@
         <div class="card-body">
             <div class="row">
                 <div class="col">
-                    <label for="nome">Nome</label>
-                    <input type="text" name="nome" id="nome" class="form-control" value="<%- estoque['nome'] -%>" required>
-                </div>
-                <div class="col-4">
-                    <label for="ativo">Ativo</label>
-                    <select name="ativo" id="ativo" class="form-control">
-                        <option value="1" <%- (estoque['ativo'] != '0')?'selected':'' -%>>Sim</option>
-                        <option value="0" <%- (estoque['ativo'] == '0')?'selected':'' -%>>Não</option>
-                    </select>
-                </div>
-            </div>
-            <div class="row mt-3">
-                <div class="col">
-                    <label for="descricao">Descrição</label>
+                    <label for="produto">Produto</label>
                     <select name="produto" id="produto" class="form-control" required>
                         <option value=""></option>
                         <%-
-                            produtos.map(r => `<option value="${r._id}">${r.nome}</option>`);
+                            produtos.map(r => `<option value="${r._id}" ${(r._id == estoque['produto'])?'selected':''}>${r.nome}</option>`);
                         -%>
                     </select>
+                    <input type="hidden" name="nome" id="nome" value="<%- estoque['nome'] -%>">
                 </div>
             </div>
         </div>
     </div>
+
+    <%- JSON.stringify(variacoes) -%>
 
     <div class="card mt-3">
         <div class="card-header bg-primary text-light">
