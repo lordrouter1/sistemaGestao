@@ -9,7 +9,7 @@ columns: [
         name:'',
         width: '15%',
         formatter:(cell) => gridjs.html(`
-            <a href="/estoque/editar/${cell}" class="btn btn-primary"><i class="fa-solid fa-pen"></i></a>
+            <a href="/precificacao/editar/${cell}" class="btn btn-primary"><i class="fa-solid fa-pen"></i></a>
             <!--<button cliente="${cell}" class="btn btn-secondary"><i class="fa-solid fa-eye"></i></button>-->
         `),
     },
@@ -26,3 +26,4 @@ pagination: {
     summary: false,
 },
 }).render(document.getElementById("principal"));
+    

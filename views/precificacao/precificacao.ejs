@@ -1,9 +1,9 @@
 
 <%- include("../includes/header.ejs",{title:title});%>
 
-<script src="/public/js/views/estoque/estoque/functions.js"></script>
+<script src="/public/js/views/precificacao/precificacao/functions.js"></script>
 
-<input type="hidden" id="_id" value="<%- estoque['_id'] -%>">
+<input type="hidden" id="_id" value="<%- precificacao['_id'] -%>">
 
 <style>
     .stripedRow:hover {
@@ -11,11 +11,12 @@
     }
 </style>
 
-<%- (estoque['_id'])?`<input type="hidden" id="metaVar" value='${JSON.stringify(variacoes)}'>`:`` -%>
-<%- (estoque['_id'])?`<input type="hidden" id="metaVarCont" value='${estoque["variacao"].length}'>`:`` -%>
+<%- (precificacao['_id'])?`<input type="hidden" id="metaVar" value='${JSON.stringify(variacoes)}'>`:`` -%>
+<%- (precificacao['_id'])?`<input type="hidden" id="metaVarCont" value='${precificacao["variacao"].length}'>`:`` -%>
 
-<form id="form_cadastro" method="post" action="/estoque/ed/<%- estoque['_id'] || 0 -%>">
+<form id="form_cadastro" method="post" action="/precificacao/ed/<%- precificacao['_id'] || 0 -%>">
     <input type="hidden" name="csrfToken" value="<%- csrfToken -%>">
+    
     <div class="card">
         <div class="card-header bg-primary text-light">
             <strong>Dados Gerais</strong>
@@ -24,13 +25,13 @@
             <div class="row">
                 <div class="col">
                     <label for="produto">Produto</label>
-                    <select name="produto" id="produto" class="form-control" <%- (estoque['_id'])?'disabled':'' -%> required>
+                    <select name="produto" id="produto" class="form-control" <%- (precificacao['_id'])?'disabled':'' -%> required>
                         <option value=""></option>
                         <%-
-                            produtos.map(r => `<option value="${r._id}" ${(r._id == estoque['produto'])?'selected':''}>${r.nome}</option>`);
+                            produtos.map(r => `<option value="${r._id}" ${(r._id == precificacao['produto'])?'selected':''}>${r.nome}</option>`);
                         -%>
                     </select>
-                    <input type="hidden" name="nome" id="nome" value="<%- estoque['nome'] -%>">
+                    <input type="hidden" name="nome" id="nome" value="<%- precificacao['nome'] -%>">
                 </div>
             </div>
         </div>
@@ -42,8 +43,8 @@
         </div>
         <div class="card-body">
             <div id="variacoesHeader">
-                <% if(estoque['_id']){ %>
-                    <% estoque['variacao'].forEach((l,i) => { %>
+                <% if(precificacao['_id']){ %>
+                    <% precificacao['variacao'].forEach((l,i) => { %>
                         <div class="row p-2 stripedRow">
                             <% l['variacoes'].forEach(v =>{ %>
                             <%
@@ -58,10 +59,10 @@
                                 </div>
                             <% }); %>
                             <div class="col">
-                                <input type="text" name="variacao[<%- i -%>][estoque]" placeholder="Qtd Estoque" class="form-control" value="<%- l['estoque'] -%>" required>
+                                <input type="text" name="variacao[<%- i -%>][preco]" placeholder="Preço" class="form-control" value="<%- l['preco'] -%>" required>
                             </div>
                             <div class="col">
-                                <input type="text" name="variacao[<%- i -%>][minEstoque]" placeholder="Qtd Min Estoque" class="form-control" value="<%- l['minEstoque'] -%>">
+                                <input type="text" name="variacao[<%- i -%>][minPreco]" placeholder="Preço mínimo" class="form-control" value="<%- l['minPreco'] -%>">
                             </div>
                             <div class="col-1 d-flex">
                                 <button type="button" class="btn btn-danger delButton"><i class="fa-solid fa-trash-can"></i></button>
@@ -71,14 +72,14 @@
                     <% }); %>
                 <% } %>
             </div>
-            <button type="button" class="btn btn-primary mt-3" <%- (estoque['_id'])?'':'style="display:none"' -%> id="btnAdicionar">adicionar</button>
+            <button type="button" class="btn btn-primary mt-3" <%- (precificacao['_id'])?'':'style="display:none"' -%> id="btnAdicionar">adicionar</button>
         </div>
     </div>
 
     <div class="mt-3">
-        <a href="/estoque" class="btn btn-secondary text-light">Voltar</a>
+        <a href="/precificacao" class="btn btn-secondary text-light">Voltar</a>
         <%- 
-            (estoque['_id']!=undefined)?
+            (precificacao['_id']!=undefined)?
             '<div id="btn_excluir" class="btn btn-danger text-light mr-1">Excluir</div><button type="submit" class="btn btn-primary text-light">Editar</button>':
             '<button type="submit" class="btn btn-primary text-light">Salvar</button>' 
         -%>
@@ -86,8 +87,8 @@
 
 </form>
 
-<script src="/public/js/views/estoque/estoque/events.js"></script>
-<script src="/public/js/views/estoque/estoque/sockets.js"></script>
+<script src="/public/js/views/precificacao/precificacao/events.js"></script>
+<script src="/public/js/views/precificacao/precificacao/sockets.js"></script>
 
 <%- include("../includes/footer.ejs"); %>
     

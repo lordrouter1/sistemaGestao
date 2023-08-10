@@ -57,5 +57,5 @@ app.use(confSession);
 app.use(routers);
 //
 server.listen(cfg.port);
-console.log(`Sistema funcionando na porta ${cfg.port}`);
+console.log(`\n\nSistema funcionando na porta ${cfg.port}`);
 

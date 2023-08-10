@@ -14,6 +14,7 @@
 
     <script src="/public/js/jquery.js"></script>
     <script src="/public/js/jquery.mask.min.js"></script>
+    <script src="/public/js/jqueryUi/jquery-ui.min.js"></script>
     <script src="/public/js/socket.js"></script>
     <script src="/public/js/table.js"></script>
     <script src="/public/js/sweetalert2.all.min.js"></script>
@@ -31,22 +32,15 @@
                 </li>
             </ul>
 
-            <span href="#collapseVendas#" data-toggle="collapse" class="collapsed btn btn-block bg-secondary mt-3 disabled"><i class="fa-solid fa-shop"></i><br>Vendas</span>
+            <span href="#collapseVendas" data-toggle="collapse" class="collapsed btn btn-block bg-secondary mt-3"><i class="fa-solid fa-shop"></i><br>Vendas</span>
             <div id="collapseVendas" class="collapse" data-parent="#accordion">
                 
-                <ul class="navbar-nav mt-3">
-                    <!--
-                    <li class="navbar-item mt-2">
-                        <span class="border-bottom disabled">Produtos</span>
-                    </li>
-                    -->
-
+                <ul class="navbar-nav mt-1">
                     <li class="navbar-item">
-                        <a href="#" class="nav-link">Produtos</a>
+                        <a href="/pedidos" class="nav-link">Pedidos</a>
                     </li>
-
                     <li class="navbar-item">
-                        <a href="#" class="nav-link">Tabelas</a>
+                        <a href="#" class="nav-link">Cobranças</a>
                     </li>
                 </ul>
 
