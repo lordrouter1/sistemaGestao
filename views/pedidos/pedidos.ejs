@@ -14,21 +14,71 @@
         <div class="card-body">
             <div class="row">
                 <div class="col">
-                    <label for="nome">Nome</label>
-                    <input type="text" name="nome" id="nome" class="form-control" value="<%- pedidos['nome'] -%>">
-                </div>
-                <div class="col-4">
-                    <label for="ativo">Ativo</label>
-                    <select name="ativo" id="ativo" class="form-control">
-                        <option value="1" <%- (pedidos['ativo'] != '0')?'selected':'' -%>>Sim</option>
-                        <option value="0" <%- (pedidos['ativo'] == '0')?'selected':'' -%>>Não</option>
-                    </select>
-                </div>
-            </div>
-            <div class="row mt-3">
-                <div class="col">
                     <label for="descricao">Descrição</label>
                     <input type="text" name="descricao" id="descricao" class="form-control" value="<%- pedidos['descricao'] -%>">
+                </div>
+                <div class="col-4">
+                    <label for="data">Data</label>
+                    <input type="date" name="data" id="data" class="form-control" value="<%- pedidos['data'] -%>">
+                </div>
+            </div>
+
+            <div class="row mt-3">
+                <div class="col">
+                    <label for="cliente">Cliente</label>
+                    <select name="cliente" id="cliente" class="form-control"></select>
+                </div>
+            </div>
+            
+            <div class="row mt-3">
+                <div class="col d-flex">
+                    <div class="btn-group border rounded m-auto" id="multi-state-toggle" data-toggle="buttons">
+                        <label class="btn btn-light mb-0 active">
+                            <input type="radio" name="estado" id="option1" class="d-none" autocomplete="off" checked> Orçamento
+                        </label>
+                        <label class="btn btn-secondary mb-0">
+                            <input type="radio" name="estado" id="option2" class="d-none" autocomplete="off"> Aguardando
+                        </label>
+                        <label class="btn btn-secondary mb-0">
+                            <input type="radio" name="estado" id="option3" class="d-none" autocomplete="off"> Em produção
+                        </label>
+                        <label class="btn btn-secondary mb-0">
+                            <input type="radio" name="estado" id="option4" class="d-none" autocomplete="off"> Em transporte
+                        </label>
+                        <label class="btn btn-secondary mb-0">
+                            <input type="radio" name="estado" id="option5" class="d-none" autocomplete="off"> Finalizado
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="card mt-3">
+        <div class="card-header bg-primary text-light">
+            <strong>Produtos</strong>
+        </div>
+        <div class="card-body">
+
+        </div>
+    </div>
+
+    <div class="card mt-3">
+        <div class="card-header bg-primary text-light">
+            <strong>Pagamento</strong>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col">
+                    <label for="pagamento">Forma de Pagamento</label>
+                    <select name="pagamento" id="pagamento" class="form-control"></select>
+                </div>
+                <div class="col">
+                    <label for="parcelas">Parcelas</label>
+                    <select name="parcelas" id="parcelas" class="form-control">
+                        <option value="0"></option>                        
+                    </select>
                 </div>
             </div>
         </div>
