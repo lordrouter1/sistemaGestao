@@ -16,6 +16,7 @@ routers.get('/pedidos/novo',checkLogin,async (req,res)=>{
     res.render('pedidos/pedidos',{
         title:'Novo Pedidos',
         pedidos:{},
+        produtos: await cMongoDB.db(data.getDb(req)).collection('produtos').find({},{projection:{_id:1,nome:1}}).toArray(),
         csrfToken:req.session.csrf,
     });
 });

@@ -37,14 +37,16 @@
                             <input type="radio" name="estado" id="option1" class="d-none" autocomplete="off" checked> Orçamento
                         </label>
                         <label class="btn btn-secondary mb-0">
-                            <input type="radio" name="estado" id="option2" class="d-none" autocomplete="off"> Aguardando
+                            <input type="radio" name="estado" id="option2" class="d-none" autocomplete="off"> Processamento
                         </label>
+                    <!--
                         <label class="btn btn-secondary mb-0">
                             <input type="radio" name="estado" id="option3" class="d-none" autocomplete="off"> Em produção
                         </label>
                         <label class="btn btn-secondary mb-0">
                             <input type="radio" name="estado" id="option4" class="d-none" autocomplete="off"> Em transporte
                         </label>
+                    -->
                         <label class="btn btn-secondary mb-0">
                             <input type="radio" name="estado" id="option5" class="d-none" autocomplete="off"> Finalizado
                         </label>
@@ -60,7 +62,33 @@
             <strong>Produtos</strong>
         </div>
         <div class="card-body">
-
+            <div class="row">
+                <div class="col">
+                    <div id="produtosClone" class="d-none">
+                        <div class="row mb-3 produtos">
+                            <div class="col">
+                                <select name="produto[codigo][]" class="form-control produtoNome">
+                                    <%- produtos.map(v => `<option value="${v['_id']}">${v['nome']}</option>`) -%>
+                                </select>
+                            </div>
+                            <div class="col-3">
+                                <input type="number" name="produto[preco]" class="form-control">
+                            </div>
+                            <div class="col-1">
+                                <button type="button" class="btn btn-danger delButton"><i class="fa-solid fa-trash-can"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="listaProdutos">
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col d-flex">
+                    <button class="btn btn-secondary w-25 m-auto" type="button" id="addProduto">+ Produto</button>
+                </div>
+            </div>
         </div>
     </div>
 

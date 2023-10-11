@@ -1,4 +1,3 @@
-
 $("#btn_excluir").click(()=>{
 Swal.fire({
     icon:'warning',
@@ -27,5 +26,15 @@ Swal.fire({
         });
     };
 });
+});
+
+$(document).ready(()=>{
+    $('#addProduto').click(()=>{
+        $('#produtosClone .produtos').clone().appendTo('#listaProdutos');
+    });
+    
+    $(document).on('change','.produtoNome',function(){
+        console.log($(this).find(':selected').val());
+    });
 });
     
