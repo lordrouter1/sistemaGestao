@@ -34,7 +34,13 @@ $(document).ready(()=>{
     });
     
     $(document).on('change','.produtoNome',function(){
-        console.log($(this).find(':selected').val());
+        fetch(`/pedidos/get/${$(this).find(':selected').val()}/`).then(r => r.json()).then(r => {
+            $(this).parent().parent().find('input[preco]').val(parseFloat(r[0]['valVenda']).toFixed(2));
+            $(this).parent().parent().find('input[preco]').attr('title',`Custo R$${parseFloat(r[0]['valCompra']).toFixed(2)}`);
+            calTot(this);
+        });
     });
+    $(document).on('change','[qtd]',function(){calTot(this)});
+    $(document).on('change','[preco]',function(){calTot(this)});
 });
     

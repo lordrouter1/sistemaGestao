@@ -31,6 +31,11 @@ routers.get('/pedidos/editar/:id',checkLogin,async (req,res)=>{
     });
 });
 
+routers.get('/pedidos/get/:id/',checkLogin, async(req,res)=>{
+    let resp = await cMongoDB.db(data.getDb(req)).collection('produtos').find({_id: new ObjectId(req.params['id']),ativo:'1'},{projection:{_id:1,nome:1,valVenda:1,valCompra:1}}).toArray();
+    res.status(200).send(resp);
+});
+
 routers.route('/pedidos/ed/:id/:csrfToken?')
 .post(checkLogin,data.csrfCheckToken,data.upload.none(),(req,res)=>{
     let db = dbCollection(req);
