@@ -2,7 +2,7 @@
 new gridjs.Grid({
 columns: [
     {
-        data: (row) => (row.ativo == 1)?row.nome:gridjs.html(row.nome+' <span class="badge bg-danger text-light">Inativo</span>'),
+        data: (row) => row.descricao,
     },
     {
         id:'_id',

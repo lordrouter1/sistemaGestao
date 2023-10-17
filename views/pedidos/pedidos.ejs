@@ -15,18 +15,24 @@
             <div class="row">
                 <div class="col">
                     <label for="descricao">Descrição</label>
-                    <input type="text" name="descricao" id="descricao" class="form-control" value="<%- pedidos['descricao'] -%>">
+                    <input type="text" name="descricao" id="descricao" class="form-control" value="<%- pedidos['descricao'] -%>" required>
                 </div>
                 <div class="col-4">
                     <label for="data">Data</label>
-                    <input type="date" name="data" id="data" class="form-control" value="<%- pedidos['data'] -%>">
+                    <input type="date" name="data" id="data" class="form-control" value="<%- pedidos['data'] || new Date().toISOString().split('T')[0] -%>">
                 </div>
             </div>
 
             <div class="row mt-3">
                 <div class="col">
                     <label for="cliente">Cliente</label>
-                    <select name="cliente" id="cliente" class="form-control"></select>
+                    <select name="cliente" id="cliente" class="form-control">
+                        <%- clientes.map(v => `<option value="${v['_id']}">${v['nomeFantasia'] || v['razaoSocial']}</option>`) -%>
+                    </select>
+                </div>
+                <div class="col-2">
+                    <label for="" class=""></label>
+                    <a href="/clientes/novo" class="btn btn-primary btn-block mt-2"><i class="fa-solid fa-user-plus"></i></a>
                 </div>
             </div>
             
