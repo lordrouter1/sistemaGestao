@@ -35,7 +35,11 @@ routers.get('/precificacao/editar/:id',checkLogin,async (req,res)=>{
 
 routers.get('/precificacao/get/variacoes/:prod/:csrfToken',checkLogin,data.csrfCheckToken,async (req,res)=>{
     const idVars = (await dbCollection(req,'produtos').find({_id: new ObjectId(req.params['prod'])},{projection:{variacoes:1}}).toArray())[0]['variacoes'];
-    const vars = await dbCollection(req,'variacoes').find({_id:{$in:idVars.map(r => new ObjectId(r))}}).toArray();
+    let vars = undefined;
+    if(idVars){
+        vars = await dbCollection(req,'variacoes').find({_id:{$in:idVars.map(r => new ObjectId(r))}}).toArray();
+    }
+
     res.status(200).send(vars);
 });
 

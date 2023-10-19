@@ -36,6 +36,14 @@ module.exports = (checkLogin,routers,con,cMongoDB,data)=>{
     routers.route(`/produtos/ed/:id/:csrfToken?`)
     .post(checkLogin,data.csrfCheckToken,data.upload.none(),(req,res)=>{
         let db = cMongoDB.db(data.getDb(req)).collection(`produtos`);
+        if(req.body.variacoes){
+            for(let i = 0; i < req.body.variacoes.length; i++){
+                req.body.variacoes[i] = new ObjectId(req.body.variacoes[i]);
+            }
+        }
+        else{
+            req.body.variacoes = null;
+        }
         if(req.params.id == 0){
             db.insertOne(req.body).then((err,result)=>{
                 if(err){

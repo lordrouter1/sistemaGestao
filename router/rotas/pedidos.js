@@ -16,7 +16,22 @@ routers.get('/pedidos/novo',checkLogin,async (req,res)=>{
     res.render('pedidos/pedidos',{
         title:'Novo Pedidos',
         pedidos:{},
-        produtos: await cMongoDB.db(data.getDb(req)).collection('produtos').find({},{projection:{_id:1,nome:1}}).toArray(),
+        produtos: await cMongoDB.db(data.getDb(req)).collection('produtos').aggregate([{$lookup:{from:'variacoes',localField:'variacoes',foreignField:'_id',as:'variacoes'}},{
+            $project:{
+                _id:1,
+                nome:1,
+                valVenda:1,
+                valCompra:1,
+                variacoes:{
+                    nome:1,
+                    cor:1,
+                    var:{
+                        nome:1,
+                        cor:1
+                    }
+                }
+            }
+        }]).toArray(),//.find({},{projection:{_id:1,nome:1}}).toArray(),
         clientes: await cMongoDB.db(data.getDb(req)).collection('clientes').find({},{projection:{_id:1,razaoSocial:1,nomeFantasia:1}}).toArray(),
         csrfToken:req.session.csrf,
     });

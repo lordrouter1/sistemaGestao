@@ -24,14 +24,8 @@
         <div class="card-body">
             <div class="row">
                 <div class="col">
-                    <label for="produto">Produto</label>
-                    <select name="produto" id="produto" class="form-control" <%- (precificacao['_id'])?'disabled':'' -%> required>
-                        <option value=""></option>
-                        <%-
-                            produtos.map(r => `<option value="${r._id}" ${(r._id == precificacao['produto'])?'selected':''}>${r.nome}</option>`);
-                        -%>
-                    </select>
-                    <input type="hidden" name="nome" id="nome" value="<%- precificacao['nome'] -%>">
+                    <label for="descricao">Descrição</label>
+                    <input type="text" class="form-control" name="descricao" id="descricao">
                 </div>
             </div>
         </div>
@@ -39,40 +33,48 @@
 
     <div class="card mt-3">
         <div class="card-header bg-primary text-light">
-            <strong>Variações</strong>
+            <strong>Tabela</strong>
         </div>
         <div class="card-body">
-            <div id="variacoesHeader">
-                <% if(precificacao['_id']){ %>
-                    <% precificacao['variacao'].forEach((l,i) => { %>
-                        <div class="row p-2 stripedRow">
-                            <% l['variacoes'].forEach(v =>{ %>
-                            <%
-                                let options = variacoes.find(obj => obj._id == v.split(':')[0]);
-                                let selected = v.split(':')[1];
-                            %>
-                                <div class="col">
-                                    <select class="form-control" name="variacao[<%- i -%>][variacoes][]" required>
-                                        <option selected disabled><%- options['nome'] -%></option>
-                                        <%- options['var'].map(r => `<option value="${options['_id']}:${r['_id']}" ${(r['_id'] == selected)?'selected':''}>${r['nome']}</option>`) -%>
-                                    </select>
-                                </div>
-                            <% }); %>
-                            <div class="col">
-                                <input type="text" name="variacao[<%- i -%>][preco]" placeholder="Preço" class="form-control" value="<%- l['preco'] -%>" required>
-                            </div>
-                            <div class="col">
-                                <input type="text" name="variacao[<%- i -%>][minPreco]" placeholder="Preço mínimo" class="form-control" value="<%- l['minPreco'] -%>">
-                            </div>
-                            <div class="col-1 d-flex">
-                                <button type="button" class="btn btn-danger delButton"><i class="fa-solid fa-trash-can"></i></button>
-                                <i class=" ml-auto mb-auto mt-auto text-primary fa-solid fa-sort"></i>
+            <div class="d-none" id="prodModel">
+                <div class="dProd border p-2 mt-3">
+                    <div class="row">
+                        <div class="col">
+                            <label >Produto</label>
+                            <select name="produto[]" class="produto form-control" <%- (precificacao['_id'])?'disabled':'' -%> required>
+                                <option value=""></option>
+                                <%-
+                                    produtos.map(r => `<option value="${r._id}" ${(r._id == precificacao['produto'])?'selected':''}>${r.nome}</option>`);
+                                -%>
+                            </select>
+                            <input type="hidden" name="nome[]" class="nome" value="<%- precificacao['nome'] -%>">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="varList">
+    
                             </div>
                         </div>
-                    <% }); %>
-                <% } %>
+                    </div>
+                    <button type="button" class="btn btn-primary mt-3 btnAdicionar" <%- (precificacao['_id'])?'':'style="display:none"' -%>>+ Variação</button>
+                </div>
             </div>
-            <button type="button" class="btn btn-primary mt-3" <%- (precificacao['_id'])?'':'style="display:none"' -%> id="btnAdicionar">adicionar</button>
+
+            <div class="row">
+                <div class="col">
+                    <div id="prodList">
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-3">
+                <div class="col d-flex">
+                    <button type="button" class="btn btn-primary m-auto w-25" id="addProd">+ Produto</button>
+                </div>
+            </div>
+            
         </div>
     </div>
 

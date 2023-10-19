@@ -31,22 +31,24 @@ Swal.fire({
 
 $(document).ready(function(){
 
-    $('#produto').change(function(self){
-        $('#variacoesHeader').empty();
-        $('#btnAdicionar').hide();
-        $('#nome').val($('#produto option:selected').text());
+    $(document).on('change','.produto',function(self){
+        let root = $(this).parent().parent().parent()
+        $(root.find('.varList')).empty();
+        $(root.find('.btnAdicionar')).show();
+        $(root.find('.nome')).val(root.find('.produto option:selected').text());
         if($(this).val() != ''){
             fetch(`/precificacao/get/variacoes/${$(this).val()}/${$('[name="csrfToken"]').val()}`).then(r=>r.json()).then(r=>{
-                window.tempVar = r;
-                window.tempVarCont = 0;
-                novaVar();
+                root.attr('cont',0);
+                console.log(r);
+                root.attr('data',JSON.stringify(r));
+                novaVar(root);
                 $('#btnAdicionar').show();
             }); 
         }
     });
 
-    $('#btnAdicionar').click(function(){
-        novaVar();
+    $('#addProd').click(function(){
+        $('#prodModel .dProd').clone().appendTo('#prodList');
     });
 
 });

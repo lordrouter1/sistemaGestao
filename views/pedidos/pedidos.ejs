@@ -35,6 +35,21 @@
                     <a href="/clientes/novo" class="btn btn-primary btn-block mt-2"><i class="fa-solid fa-user-plus"></i></a>
                 </div>
             </div>
+
+            <div class="row mt-3">
+                <div class="col">
+                    <label for="precificacao">Tabela de Preços</label>
+                    <select name="precificacao" id="precificacao" class="form-control">
+                        <option value=""></option>
+                    </select>
+                </div>
+                <div class="col">
+                    <label for="estoque">Estoque</label>
+                    <select name="estoque" id="estoque" class="form-control">
+                        <option value=""></option>
+                    </select>
+                </div>
+            </div>
             
             <div class="row mt-3">
                 <div class="col d-flex">
@@ -68,6 +83,7 @@
             <strong>Produtos</strong>
         </div>
         <div class="card-body">
+            <%- JSON.stringify(produtos) -%>
             <div class="row">
                 <div class="col">
                     <div id="produtosClone" class="d-none">
