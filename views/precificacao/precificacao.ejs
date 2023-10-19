@@ -40,19 +40,19 @@
                 <div class="dProd border p-2 mt-3">
                     <div class="row">
                         <div class="col">
-                            <label >Produto</label>
-                            <select name="produto[]" class="produto form-control" <%- (precificacao['_id'])?'disabled':'' -%> required>
+                            <label>Produto</label>
+                            <select name="produto[]" class="produto form-control" <%- (precificacao['_id'])?'disabled':'' -%> produto> required>
                                 <option value=""></option>
                                 <%-
                                     produtos.map(r => `<option value="${r._id}" ${(r._id == precificacao['produto'])?'selected':''}>${r.nome}</option>`);
                                 -%>
                             </select>
-                            <input type="hidden" name="nome[]" class="nome" value="<%- precificacao['nome'] -%>">
+                            <input type="hidden" name="nome[]" class="nome" value="<%- precificacao['nome'] -%>" nome>
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row mt-3">
                         <div class="col">
-                            <div class="varList">
+                            <div class="varList container">
     
                             </div>
                         </div>
@@ -63,7 +63,7 @@
 
             <div class="row">
                 <div class="col">
-                    <div id="prodList">
+                    <div id="prodList" cont="0">
 
                     </div>
                 </div>
